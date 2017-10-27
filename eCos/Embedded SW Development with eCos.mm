@@ -1,6 +1,6 @@
 <map version="1.0.1">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
-<node CREATED="1509069479369" ID="ID_1409524591" MODIFIED="1509070694056" TEXT="Embeded SW Dev with eCos">
+<node CREATED="1509069479369" ID="ID_1409524591" MODIFIED="1509072720387" TEXT="Embeded SW Dev with eCos">
 <font NAME="SansSerif" SIZE="20"/>
 <node CREATED="1509069527590" FOLDED="true" ID="ID_232926392" MODIFIED="1509072653520" POSITION="right" TEXT="Introduction">
 <icon BUILTIN="full-1"/>
@@ -84,6 +84,30 @@
 <node CREATED="1509072196281" ID="ID_1963719408" MODIFIED="1509072197518" TEXT="Targets"/>
 <node CREATED="1509072224627" ID="ID_1701851395" LINK="eCos%20Templates.png" MODIFIED="1509072638113" TEXT="Template"/>
 </node>
+</node>
+<node CREATED="1509072723921" ID="ID_656156675" MODIFIED="1509072736966" POSITION="left" TEXT="The Hardware Abstraction Layer">
+<icon BUILTIN="full-2"/>
+</node>
+<node CREATED="1509072760435" ID="ID_1060244642" MODIFIED="1509072909594" POSITION="left" TEXT="Exceptions and interrupts">
+<icon BUILTIN="full-3"/>
+</node>
+<node CREATED="1509072770508" ID="ID_1854929779" MODIFIED="1509072914882" POSITION="left" TEXT="Virtual vectors">
+<icon BUILTIN="full-4"/>
+</node>
+<node CREATED="1509072775628" ID="ID_419955341" MODIFIED="1509072916499" POSITION="left" TEXT="Kernel">
+<icon BUILTIN="full-5"/>
+</node>
+<node CREATED="1509072785190" ID="ID_1065388212" MODIFIED="1509072918387" POSITION="left" TEXT="Threads and Synchronization mechanism">
+<icon BUILTIN="full-6"/>
+</node>
+<node CREATED="1509072798606" ID="ID_1062876758" MODIFIED="1509072920427" POSITION="left" TEXT="Components: counter, timers, libraries, I/O">
+<icon BUILTIN="full-7"/>
+</node>
+<node CREATED="1509072839273" ID="ID_1260063206" MODIFIED="1509072922475" POSITION="left" TEXT="Other functionality and contributions">
+<icon BUILTIN="full-8"/>
+</node>
+<node CREATED="1509072862803" ID="ID_1324641870" MODIFIED="1509072923955" POSITION="left" TEXT="Redboot ROM Monitor">
+<icon BUILTIN="full-9"/>
 </node>
 </node>
 </map>

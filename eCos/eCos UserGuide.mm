@@ -1,6 +1,6 @@
 <map version="1.0.1">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
-<node CREATED="1508983025015" ID="ID_1170566266" MODIFIED="1508996368170">
+<node CREATED="1508983025015" ID="ID_1170566266" MODIFIED="1509083406717">
 <richcontent TYPE="NODE"><html>
   <head>
     
@@ -10,8 +10,7 @@
       <b><font size="6">eCos</font></b>
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <node CREATED="1508983285707" FOLDED="true" ID="ID_166145171" MODIFIED="1509003854915" POSITION="left" TEXT="Installation">
 <icon BUILTIN="full-1"/>
 <node CREATED="1508983279931" ID="ID_1741577587" MODIFIED="1508983280895" TEXT="http://ecos.sourceware.org/getstart.html"/>
