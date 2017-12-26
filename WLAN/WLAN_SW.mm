@@ -3,7 +3,7 @@
 <node COLOR="#000000" CREATED="1513394973085" ID="ID_606059912" MODIFIED="1513653297050" TEXT="WLAN SW">
 <font NAME="Consolas" SIZE="20"/>
 <hook NAME="accessories/plugins/AutomaticLayout.properties"/>
-<node COLOR="#0033ff" CREATED="1513395749018" ID="ID_608291160" MODIFIED="1513653297056" POSITION="left" TEXT="1.Introduction">
+<node COLOR="#0033ff" CREATED="1513395749018" ID="ID_608291160" MODIFIED="1513653297056" POSITION="right" TEXT="1.Introduction">
 <edge STYLE="sharp_bezier" WIDTH="8"/>
 <font NAME="Consolas" SIZE="18"/>
 <node COLOR="#00b439" CREATED="1513395074540" ID="ID_799685257" LINK="WLAN_SW/SW%20Modelpng.png" MODIFIED="1513653297056" TEXT="Layer">
@@ -11,15 +11,15 @@
 <font NAME="Consolas" SIZE="16"/>
 <node COLOR="#990000" CREATED="1513395078477" ID="ID_89266743" MODIFIED="1513653297056" TEXT="Data Link Layer">
 <font NAME="Consolas" SIZE="14"/>
-<node COLOR="#111111" CREATED="1513395492763" ID="ID_789455319" MODIFIED="1513653339227" TEXT="Layer1">
+<node COLOR="#111111" CREATED="1513395492763" ID="ID_789455319" MODIFIED="1513835210428" STYLE="fork" TEXT="Layer1">
 <font NAME="Consolas" SIZE="12"/>
-<node COLOR="#111111" CREATED="1513395396335" ID="ID_568033643" MODIFIED="1513653339227" TEXT="MAC SAP">
-<font NAME="Consolas" SIZE="12"/>
-</node>
-<node COLOR="#111111" CREATED="1513395399900" ID="ID_1379430069" MODIFIED="1513653339231" TEXT="MAC SubLayer">
+<node COLOR="#111111" CREATED="1513395396335" ID="ID_568033643" MODIFIED="1513835210430" TEXT="MAC SAP">
 <font NAME="Consolas" SIZE="12"/>
 </node>
-<node COLOR="#111111" CREATED="1513395455201" ID="ID_35302682" MODIFIED="1513653339236" TEXT="PHY_SAP">
+<node COLOR="#111111" CREATED="1513395399900" ID="ID_1379430069" MODIFIED="1513835210430" TEXT="MAC SubLayer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513395455201" ID="ID_35302682" MODIFIED="1513835210430" TEXT="PHY_SAP">
 <font NAME="Consolas" SIZE="12"/>
 </node>
 </node>
@@ -36,7 +36,7 @@
 <font NAME="Consolas" SIZE="12"/>
 </node>
 </node>
-<node COLOR="#990000" CREATED="1513395207387" ID="ID_1555690010" MODIFIED="1513653297066" TEXT="Physical Link Layer">
+<node COLOR="#990000" CREATED="1513395207387" ID="ID_1555690010" MODIFIED="1513834949417" TEXT="Physical Link Layer">
 <font NAME="Consolas" SIZE="14"/>
 <node COLOR="#111111" CREATED="1513395536674" ID="ID_995342618" MODIFIED="1513653339248" TEXT="Layer1">
 <font NAME="Consolas" SIZE="12"/>
@@ -1115,7 +1115,7 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1513670475545" ID="ID_1858060967" MODIFIED="1513670484735" TEXT="Data Strutures">
+<node COLOR="#00b439" CREATED="1513670475545" FOLDED="true" ID="ID_1858060967" MODIFIED="1513673315372" TEXT="Data Strutures">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="16"/>
 <node COLOR="#990000" CREATED="1513670495723" ID="ID_724701150" MODIFIED="1513670499792" TEXT="Buffer Descriptor">
@@ -1384,7 +1384,849 @@
 <node COLOR="#111111" CREATED="1513671918167" ID="ID_177690648" MODIFIED="1513671933187" TEXT="Maintain all STAs in the network">
 <font NAME="Consolas" SIZE="12"/>
 </node>
+<node COLOR="#111111" CREATED="1513672975165" ID="ID_880928245" MODIFIED="1513672983017" TEXT="Max size, 32, per STA">
+<font NAME="Consolas" SIZE="12"/>
 </node>
+<node COLOR="#111111" CREATED="1513672993875" ID="ID_1117587177" MODIFIED="1513673004359" TEXT="Hash table use MAC address as key">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673013832" ID="ID_4422475" MODIFIED="1513673015701" TEXT="Fields">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513673016232" ID="ID_1406016612" MODIFIED="1513673021533" TEXT="Autorate related counters">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673022696" ID="ID_1353849852" MODIFIED="1513673028547" TEXT="Security related parameters">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673029654" ID="ID_592735832" MODIFIED="1513673032898" TEXT="BA Entity">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673033702" ID="ID_1974466109" MODIFIED="1513673038137" TEXT="HT Entry">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513673043596" ID="ID_107439081" MODIFIED="1513673059455" TEXT="Global table pointers">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513673073496" ID="ID_1997690407" MODIFIED="1513673078460" TEXT="Assocattion Table">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513673082655" ID="ID_1209482694" MODIFIED="1513673103338" TEXT="Maintain information about all associated STAs">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673107845" ID="ID_821332525" MODIFIED="1513673112032" TEXT="Max size 32">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673112571" ID="ID_81630490" MODIFIED="1513673126223" TEXT="hash table use STA MAC address as key">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673128955" ID="ID_212470400" MODIFIED="1513673131279" TEXT="Fields">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513673132130" ID="ID_1248121966" MODIFIED="1513673135710" TEXT="Auto rate counter">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673136921" ID="ID_504412312" MODIFIED="1513673141533" TEXT="Supported rate table">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673142544" ID="ID_1496189584" MODIFIED="1513673147901" TEXT="PS variables">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673148920" ID="ID_1257202662" MODIFIED="1513673152604" TEXT="PS queue pointer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673153711" ID="ID_288204240" MODIFIED="1513673156874" TEXT="Aging counter">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673159686" ID="ID_532215259" MODIFIED="1513673164249" TEXT="Assoication ID">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673165384" ID="ID_1503606002" MODIFIED="1513673167977" TEXT="Ciher text">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673168653" ID="ID_166167528" MODIFIED="1513673171234" TEXT="BA entity">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673172030" ID="ID_1500863307" MODIFIED="1513673175344" TEXT="HT entry">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513673179299" ID="ID_1248753010" MODIFIED="1513673182527" TEXT="Global table pointer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513673184866" ID="ID_590217262" MODIFIED="1513673190644" TEXT="802.1x Security table">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513673204096" ID="ID_71515476" MODIFIED="1513673224643" TEXT="Maintain 802.1x security information about associated STAs">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673229141" ID="ID_343575151" MODIFIED="1513673233130" TEXT="max size 32">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673250174" ID="ID_1026055648" MODIFIED="1513673254010" TEXT="Fields">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513673254951" ID="ID_317200624" MODIFIED="1513673279661" TEXT="Authenticator FSM">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673263607" ID="ID_76100476" MODIFIED="1513673269589" TEXT="Backend Auth FSM">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673269984" ID="ID_1598374263" MODIFIED="1513673283030" TEXT="Re-Auth FSM">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673284761" ID="ID_156424869" MODIFIED="1513673288148" TEXT="Key information">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673289665" ID="ID_741148496" MODIFIED="1513673297264" TEXT="Association ID">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673298314" ID="ID_1634838927" MODIFIED="1513673308071" TEXT="STA Specific info">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513673318899" ID="ID_1683971301" MODIFIED="1513673323864" TEXT="Algorithms">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513673325524" ID="ID_1531332360" MODIFIED="1513838014167" TEXT="Auto Rate(AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513673344735" ID="ID_992968047" MODIFIED="1513673377757" TEXT="adjust rate assoding to the channel conditions to archieve better performance">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673386080" ID="ID_1751767479" MODIFIED="1513673387334" TEXT="Checked">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513673387947" ID="ID_878654711" MODIFIED="1513673395832" TEXT="TX Frames">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673398633" ID="ID_1050361525" MODIFIED="1513673407887" TEXT="number of Retries">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673410842" ID="ID_1106622230" MODIFIED="1513673419023" TEXT="Failure counter at regular intervals">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513673430541" ID="ID_780820777" MODIFIED="1513673434512" TEXT="Both HT and Non-HT">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673472662" ID="ID_1053226467" MODIFIED="1513673487493" TEXT="R(max) - Max supported rate">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673488720" ID="ID_953266235" MODIFIED="1513673496205" TEXT="R(min) - Min supported rate">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673498041" ID="ID_351376534" MODIFIED="1513673504062" TEXT="R(current) - Current rate">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513673520058" ID="ID_880166250" MODIFIED="1513673524511" TEXT="Scenario">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513673524892" ID="ID_1341397492" MODIFIED="1513673536105" TEXT="Do not change or change slowly">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513674213772" ID="ID_316430406" MODIFIED="1513674224200" TEXT="Statstics">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513674226938" ID="ID_604988694" MODIFIED="1513674229678" TEXT="Tx packets">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674230754" ID="ID_1757567819" MODIFIED="1513674234629" TEXT="Retries">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674236473" ID="ID_1439539598" MODIFIED="1513674238637" TEXT="failed">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674239776" ID="ID_1474308016" MODIFIED="1513674242301" TEXT="successes">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674243392" ID="ID_647142510" MODIFIED="1513674250668" TEXT="recoverty status flag">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674350834" ID="ID_1653106418" MODIFIED="1513674355294" TEXT="success threshold">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513674363578" ID="ID_656492101" MODIFIED="1513674376844" TEXT="Initial rate: R(max)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674379583" ID="ID_255294552" MODIFIED="1513674386795" TEXT="Interval of 1 seconds">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513673536314" ID="ID_1592158874" MODIFIED="1513673540425" TEXT="Change quickly">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513674457438" ID="ID_1485138075" MODIFIED="1513838022785" TEXT="Packet classification(AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513674465599" ID="ID_604018134" MODIFIED="1513674992684" TEXT="QOS(Quality of Service)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513674993279" ID="ID_305880803" MODIFIED="1513675012349" TEXT="Based on the TOS(Type of Service) in the header">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675350008" ID="ID_595433624" MODIFIED="1513675355822" TEXT="AC_BK(0x20, 0x40)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675356313" ID="ID_1477064583" MODIFIED="1513675360654" TEXT="AC_BE(Default Value)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675361226" ID="ID_219308851" MODIFIED="1513675366823" TEXT="AC_VI(0xA0, 0x80)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675367082" ID="ID_1191961634" MODIFIED="1513675375664" TEXT="AC_VO(0x88.0xE0,0xC0,0xB8)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513675383067" ID="ID_937892422" MODIFIED="1513838027199" TEXT="Security Verfification and Filtering((AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513675399980" ID="ID_295772544" MODIFIED="1513675420971" TEXT="MAC level MPDUs and MSDUs are checked for security policy">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675432399" ID="ID_1494066506" MODIFIED="1513675437493" TEXT="802.11i">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675449215" ID="ID_489794221" MODIFIED="1513675456613" TEXT="MPDU must valid RSNA ">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675474939" ID="ID_1030760339" MODIFIED="1513675484232" TEXT="MSDUs check Michael MIC">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513675489780" ID="ID_1326826999" MODIFIED="1513838031592" TEXT="BA ACK((AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513675508045" ID="ID_1975035026" MODIFIED="1513675530779" TEXT="MAC transmit a block of MPDUs and get an ACK for the same in BITMAP per MSDU(comparess BITMAP)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675535119" ID="ID_199831398" MODIFIED="1513675561053" TEXT="sent as SIFS response(Immediate Block Ack)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675545479" ID="ID_256632458" MODIFIED="1513675551980" TEXT="802.11e and 802.11n">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675574106" ID="ID_1081291788" MODIFIED="1513675591480" TEXT="per TID basis between 2 stations">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675591778" ID="ID_1097834068" MODIFIED="1513675600057" TEXT="exchange ADDBA MGMT frames">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675605892" ID="ID_737979061" MODIFIED="1513675618010" TEXT="Session parameters are negoriated during setup">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675747942" ID="ID_515250910" MODIFIED="1513675766572" TEXT="RX">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513675637057" ID="ID_809681267" MODIFIED="1513675703408" TEXT="All the fame are buffered in the Recive Reodering queue then send to upper layer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675704579" ID="ID_1739177140" MODIFIED="1513675740882" TEXT="Immediate Block ACK, updateing the bitmap and TX the Block ACK frames is handled by MAC HW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513675755206" ID="ID_1575137343" MODIFIED="1513675768861" TEXT="TX">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513675784929" ID="ID_173035027" MODIFIED="1513675801919" TEXT="TX frames are buffered in a Transmit Pending Queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675825883" ID="ID_373076211" MODIFIED="1513675837473" TEXT="Until receipt of Block ACK from remote STA">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513675877767" ID="ID_827123186" MODIFIED="1513838039882" TEXT="A-MSDU Aggregation(AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513675889816" ID="ID_1843095109" MODIFIED="1513675902670" TEXT="MSDU with same RECV ADDR and TID">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513675918946" ID="ID_1661605379" MODIFIED="1513675933376" TEXT="Connection is setup for receiver/TID pair">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513675983343" ID="ID_1303220550" MODIFIED="1513838041553" TEXT="A-MSDU De-aggregation(AP/STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513676015013" ID="ID_1622753577" MODIFIED="1513676025878" TEXT="Receive AMSDU in multi buffers">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513676038007" ID="ID_1280668139" MODIFIED="1513676049507" TEXT="Mutliple sub-MSDUs may be contained in a single buffer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513676050342" ID="ID_338951269" MODIFIED="1513676095892" TEXT="HW ensure sub-MSDU in conatained within a single buffer with sufficient space for host or wlan header">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513676109439" ID="ID_1951287491" MODIFIED="1513676115426" TEXT="Each buffer is process by SW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513676131772" ID="ID_735553429" MODIFIED="1513826205916" TEXT="Infrastructure PWM(STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513823285078" ID="ID_774544490" MODIFIED="1513823310793" TEXT="STA PWM in infrastructure network">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823317275" ID="ID_1625134758" MODIFIED="1513823327184" TEXT="MID variable dot11PowerManagementMode">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823336356" ID="ID_841744530" MODIFIED="1513823349562" TEXT="Power Save State of STA">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513823349958" ID="ID_1404692040" MODIFIED="1513823434360" TEXT="Always Active">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513823377287" ID="ID_1281152090" MODIFIED="1513823388413" TEXT="always in active">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823388913" ID="ID_1398024134" MODIFIED="1513823401413" TEXT="AP do not store any pkts for the STA">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513823352317" ID="ID_1890432863" MODIFIED="1513823439696" TEXT="Acrive -&gt; Doze">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513823441900" ID="ID_1227816041" MODIFIED="1513823465132" TEXT="detect no activeity for a peroid of time(actitivity timeout)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823470575" ID="ID_1872536783" MODIFIED="1513826604850">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      STA send NULL data frame with power save bit
+    </p>
+    <p>
+      to inform AP it changing to Doze State
+    </p>
+  </body>
+</html></richcontent>
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513823353863" ID="ID_1684658717" MODIFIED="1513823743490" TEXT="Doze -&gt; Active">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513823677453" ID="ID_1452611150" MODIFIED="1513823687523" TEXT="Incoming packet from host to TX">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823706208" ID="ID_1568487230" MODIFIED="1513826616899" TEXT="STA send NULL data frame with power save bit reset &#xa;to inform AP it is changing to Active State">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513823729521" ID="ID_403317532" MODIFIED="1513823735485" TEXT="Doze -&gt; Awake">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513823745115" ID="ID_1964111936" MODIFIED="1513823758001" TEXT="Listen Interval or DTIM period expires">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823764476" ID="ID_1464839571" MODIFIED="1513823775377" TEXT="Power up PHY and MAC to RX beacons">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823784022" ID="ID_1546282580" MODIFIED="1513823799754" TEXT="IN Power save mode, MAC hardware gibe TBTT interrupt">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513823847497" ID="ID_49144173" MODIFIED="1513823860544" TEXT="TBTT INT is slightly before actual TBTT">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513823863691" ID="ID_1512686609" MODIFIED="1513824112842" TEXT="Awake -&gt; Doze">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513824125863" ID="ID_1325925729" MODIFIED="1513824145620" TEXT="TIM/DTIM in beacon indicates that no packets are stored for STA">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513824146960" ID="ID_1399201426" MODIFIED="1513824153606" TEXT="Awake -&gt; Active">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513824158929" ID="ID_8382055" MODIFIED="1513826634381">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      TIM/DTIM indicates that multicast pkts or unicast pkts
+    </p>
+    <p>
+      are stored for the STA
+    </p>
+  </body>
+</html></richcontent>
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513824201940" ID="ID_1953450742" MODIFIED="1513826622594" TEXT="STA send NULL data frame with power save bit sreset &#xa;to inform AP it is changing to Active">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513824238327" ID="ID_1518699155" MODIFIED="1513826187483" TEXT="Link Loss in Infrasture Network(STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513824268929" ID="ID_1668601138" MODIFIED="1513824285183" TEXT="STA needs to mainain link information">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513824300795" ID="ID_1527201040" MODIFIED="1513824323490" TEXT="Rejoin the network">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513824328717" ID="ID_205889305" MODIFIED="1513824351140" TEXT="link loss threshold is maintained as number of beacon period">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513825994224" ID="ID_428423097" MODIFIED="1513826014631" TEXT="if no beacon are RX for the threshold, the link is assumed to be lost">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826028058" ID="ID_1223022381" MODIFIED="1513826043561" TEXT="if link is lost then STA begin rescaning">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826046852" ID="ID_1093973310" MODIFIED="1513826053313" TEXT="Typically value is 10">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513826055980" ID="ID_1407106319" MODIFIED="1513826190635" TEXT="Site Survey(STA)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513826065053" ID="ID_442636438" MODIFIED="1513826087027" TEXT="Collect information about all the available networks in all channels">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826093855" ID="ID_364464857" MODIFIED="1513826105861" TEXT="Use can select desired network to join">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826114561" ID="ID_458184780" MODIFIED="1513826136071" TEXT="STA scan each channel for the max channel time till all channels are scanned">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826139835" ID="ID_262583161" MODIFIED="1513826144696" TEXT="Active or Passive scan">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826161885" ID="ID_1360274982" MODIFIED="1513826174762" TEXT="Send to user as a result of site survey">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513826207903" ID="ID_631041877" MODIFIED="1513837211888" TEXT="Infrastructure PWM(AP)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513826223890" ID="ID_638873751" MODIFIED="1513826228854" TEXT="AP support for PWM">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513826235442" ID="ID_785662680" MODIFIED="1513826240759" TEXT="Receive packet handling">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513826245539" ID="ID_1323006870" MODIFIED="1513826273097" TEXT="Search association table for entry of sending station">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837222164" ID="ID_34285394" MODIFIED="1513837226503" TEXT="update power save status">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837240687" ID="ID_1838766141" MODIFIED="1513837254495" TEXT="buffer packets and send ">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513837281581" ID="ID_720063899" MODIFIED="1513837284027" TEXT="Uniast TX">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513837295566" ID="ID_215667575" MODIFIED="1513837308052" TEXT="pkt arrived from host">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837309511" ID="ID_1041599894" MODIFIED="1513837323436" TEXT="search the assoc table for the packet is directed">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837327988" ID="ID_1833805252" MODIFIED="1513837331701" TEXT="checkpower save status">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837339064" ID="ID_462284002" MODIFIED="1513837371664" TEXT="tx pkt or create descriptor">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513837379989" ID="ID_1520734085" MODIFIED="1513837388473" TEXT="Multicast/Broadcast TX">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837430679" ID="ID_1761778307" MODIFIED="1513837433773" TEXT="Beacon MGMT">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513837438657" ID="ID_313216869" MODIFIED="1513837441644" TEXT="2 beacon buffer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837455697" ID="ID_982722932" MODIFIED="1513837458415" TEXT="HW use one buffer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837463050" ID="ID_1684178350" MODIFIED="1513837465718" TEXT="SW update another">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837475914" ID="ID_778001994" MODIFIED="1513837485689" TEXT="virtual bitmap is updated for power save status">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837495037" ID="ID_1424829929" MODIFIED="1513837504834" TEXT="each TBTT, DTIM count is updated">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513837514166" ID="ID_913497275" MODIFIED="1513837520211" TEXT="DTIM MGMT">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513837609821" ID="ID_244011750" MODIFIED="1513837621386" TEXT="AID">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837632054" ID="ID_769695749" MODIFIED="1513837640739" TEXT="TIM(Traffic Indication Map)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837688418" ID="ID_1256649470" MODIFIED="1513837699767" TEXT="DTIM = TIM + Multicast info">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837714852" ID="ID_1350344401" MODIFIED="1513837724369" TEXT="DTIM count = 0, then TIM is DTIM">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513837782505" ID="ID_730126886" MODIFIED="1513837789238" TEXT="PS buffer MGMT">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513837794778" ID="ID_295889883" MODIFIED="1513837803016" TEXT="limit power save queue size for each entry">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837809667" ID="ID_1121712929" MODIFIED="1513837842426" TEXT="further incoming pkt for sleep STA will be droped if limit reached">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513837849966" ID="ID_1707323591" MODIFIED="1513837857755" TEXT="Aging Function(AP)">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513837861415" ID="ID_691743810" MODIFIED="1513837867892" TEXT="keep track of inactive STAs">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837874904" ID="ID_1922260447" MODIFIED="1513837890206" TEXT="De-auth inactive STA to enable other new STAs to join">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837912595" ID="ID_1578433464" MODIFIED="1513837952154" TEXT="AP maintain AGING TIMER to track STAs">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837966007" ID="ID_975953495" MODIFIED="1513837983756" TEXT="if pkt come, reset counter, other increment it when timer occurs">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513837984904" ID="ID_1502206492" MODIFIED="1513837998790" TEXT="when reach threshold, deauth STA and release resource">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513838047901" ID="ID_1939727185" MODIFIED="1513838051034" TEXT="Utilies">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513838051773" ID="ID_1741401483" MODIFIED="1513838056771" TEXT="Memory Manager">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513838059574" ID="ID_1549540588" MODIFIED="1513838076228" TEXT="Memory Pool">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838076704" ID="ID_252625599" MODIFIED="1513838080228" TEXT="Shared Descriptor Memory Pool">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838080447" ID="ID_247378377" MODIFIED="1513838090317" TEXT="Shared Packet Memory Pool">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838090552" ID="ID_1118759761" MODIFIED="1513838094973" TEXT="Local Memory Pool">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838112914" ID="ID_34384556" MODIFIED="1513838116102" TEXT="Interface">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838116962" ID="ID_559757298" MODIFIED="1513838123327" TEXT="init_memory_pool()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838124754" ID="ID_1485103308" MODIFIED="1513838126904" TEXT="mem_alloc()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838129691" ID="ID_61146437" MODIFIED="1513838131671" TEXT="mem_free()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838132043" ID="ID_402450355" MODIFIED="1513838134824" TEXT="mem_add_users()">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838156277" ID="ID_648883057" MODIFIED="1513838169034" TEXT="regiser users for a allocated buffer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513838262765" ID="ID_263070583" MODIFIED="1513838266025" TEXT="Queue Manager">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513838270821" ID="ID_99213685" MODIFIED="1513838277410" TEXT="TX queue and RX queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838282982" ID="ID_1441531094" MODIFIED="1513838286539" TEXT="Shared by HW and SW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838291431" ID="ID_762583075" MODIFIED="1513838347703" TEXT="TX">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838354743" ID="ID_1599638443" MODIFIED="1513838376010" TEXT="SW create and delete of TX queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838376461" ID="ID_220820549" MODIFIED="1513838411228" TEXT="When receive pkt from host, SW add descriptor to TX queue of required priority">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838411447" ID="ID_818851590" MODIFIED="1513838426637" TEXT="HW traverses the queue and TX it , update the status">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838427585" ID="ID_1392231710" MODIFIED="1513838438974" TEXT="SW remove pkt when get TX complete">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838440202" ID="ID_979000792" MODIFIED="1513838441550" TEXT="RX">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838444826" ID="ID_1965018146" MODIFIED="1513838462865" TEXT="SW init rx queue for different priority">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838467283" ID="ID_844145065" MODIFIED="1513838477818" TEXT="HW and SW traverse each queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838478692" ID="ID_279586412" MODIFIED="1513838502835" TEXT="HW add RX pkts to queue on reception from WLAN">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838503526" ID="ID_583663479" MODIFIED="1513838520300" TEXT="SW remove packet from queue when get RX indication from HW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838526272" ID="ID_308265215" MODIFIED="1513838535750" TEXT="SW replenish queue by add new buffer">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838546610" ID="ID_255006898" MODIFIED="1513838551391" TEXT="Interface">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838560779" ID="ID_983446511" MODIFIED="1513838580497" TEXT="init_mac_qmu()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838569204" ID="ID_1651395779" MODIFIED="1513838576904" TEXT="destroy_mac_qmu()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838584540" ID="ID_1531352214" MODIFIED="1513838588001" TEXT="qmu_add_tx_packet()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838589868" ID="ID_1424259415" MODIFIED="1513838652998" TEXT="qmu_add_tx_packet_list()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838596101" ID="ID_184675386" MODIFIED="1513838651823" TEXT="qmu_sync_tx_packet()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838611270" ID="ID_46964258" MODIFIED="1513838618868" TEXT="qmu_del_tx_packet()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838653674" ID="ID_468071048" MODIFIED="1513838688609" TEXT="qmu_add_rx_buffer()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838662162" ID="ID_793362569" MODIFIED="1513838674440" TEXT="qmu_update_rx_q()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838689380" ID="ID_1988622980" MODIFIED="1513838695386" TEXT="qmu_sync_rx_packet()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838705662" ID="ID_14146607" MODIFIED="1513838713787" TEXT="replenish_rx_queue()">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838774674" ID="ID_1758049437" MODIFIED="1513838778423" TEXT="Non-QOS mapping">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838779924" ID="ID_1827703224" MODIFIED="1513838785520" TEXT="HP(high priority)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838785947" ID="ID_1270385251" MODIFIED="1513838788976" TEXT="Contention">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838789227" ID="ID_342796585" MODIFIED="1513838806386" TEXT="Contention Free(Only valid in AP mode)">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838815766" ID="ID_755105086" MODIFIED="1513838820115" TEXT="Qos mapping">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838821062" ID="ID_289863337" MODIFIED="1513838823195" TEXT="HP">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838823846" ID="ID_1195545183" MODIFIED="1513838825348" TEXT="AC_VO">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838825559" ID="ID_608771466" MODIFIED="1513838829667" TEXT="AC_VI">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838829942" ID="ID_332152919" MODIFIED="1513838832147" TEXT="AC_BE">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838832414" ID="ID_968045411" MODIFIED="1513838834371" TEXT="AC_BK">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513838896300" ID="ID_49297880" MODIFIED="1513838900520" TEXT="Operational Modes">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513838907012" ID="ID_1380355789" MODIFIED="1513839042566" TEXT="HW Unit Test mode">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513838940414" ID="ID_277105533" MODIFIED="1513838943116" TEXT="test MAC HW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838944223" ID="ID_1347734941" MODIFIED="1513838951620" TEXT="Frame injector mode">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513838962254" ID="ID_201739551" MODIFIED="1513838984246" TEXT="all frames passed to device from host are tx to air without any modification">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513838984714" ID="ID_1738801776" MODIFIED="1513838989703" TEXT="only from test">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513838990467" ID="ID_499701329" MODIFIED="1513838995407" TEXT="Frame Sniffer Mode">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513839004699" ID="ID_583707210" MODIFIED="1513839016785" TEXT="All frames rRX by device are forward to host">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513839025036" ID="ID_1132210252" MODIFIED="1513839028386" TEXT="Monitor mode">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#990000" CREATED="1513839031021" ID="ID_665692482" MODIFIED="1513839033603" TEXT="System Test Mode">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513839045919" ID="ID_386880300" MODIFIED="1513839054443" TEXT="Running MAC SW in a complete System">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513839058527" ID="ID_602515534" MODIFIED="1513839063684" TEXT="Compiled as AP or STA">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#0033ff" CREATED="1513839082699" ID="ID_1191373063" MODIFIED="1513839089598" POSITION="right" TEXT="6. Host Interface">
+<edge STYLE="sharp_bezier" WIDTH="8"/>
+<font NAME="Consolas" SIZE="18"/>
+<node COLOR="#00b439" CREATED="1513839105587" ID="ID_281185895" MODIFIED="1513839112960" TEXT="Functions">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513839113723" ID="ID_1212759800" MODIFIED="1513839130930" TEXT="Init/Reset of host">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1513839132399" ID="ID_1138064462" MODIFIED="1513839135466" TEXT="Send Frame to host">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1513839135758" ID="ID_179417842" MODIFIED="1513839146683" TEXT="Parse frames from host">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513839152751" ID="ID_232584312" MODIFIED="1513839154411" TEXT="Interfaces">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513839154982" ID="ID_1610110123" MODIFIED="1513839157555" TEXT="Data Interface">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1513839157775" ID="ID_1766995872" MODIFIED="1513839163172" TEXT="Configuration Interface">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513839176961" ID="ID_51482806" MODIFIED="1513839179284" TEXT="Data Interface">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513839181248" ID="ID_721953479" MODIFIED="1513839191575" TEXT="TX/RX data to/from host">
+<font NAME="Consolas" SIZE="14"/>
+</node>
+<node COLOR="#990000" CREATED="1513839199065" ID="ID_278412898" MODIFIED="1513839200223" TEXT="types">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513839200570" ID="ID_1893338210" MODIFIED="1513839203343" TEXT="Ethernet">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513839204290" ID="ID_740432809" MODIFIED="1513839205247" TEXT="SDIO">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513839205627" ID="ID_1035371711" MODIFIED="1513839206863" TEXT="UART">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+</node>
+<node COLOR="#0033ff" CREATED="1513839586166" ID="ID_131333654" MODIFIED="1513839589019" POSITION="right" TEXT="7. HW interface">
+<edge STYLE="sharp_bezier" WIDTH="8"/>
+<font NAME="Consolas" SIZE="18"/>
+<node COLOR="#00b439" CREATED="1513839594806" ID="ID_1105854630" MODIFIED="1513839596796" TEXT="MAC HW">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+<node COLOR="#990000" CREATED="1513839965901" ID="ID_1856943160" MODIFIED="1513840305350" TEXT="INTR Interface">
+<font NAME="Consolas" SIZE="14"/>
+<node COLOR="#111111" CREATED="1513839979419" ID="ID_255291661" MODIFIED="1513839993585" TEXT="Single INTR line from MAC HW">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513839997421" ID="ID_392996991" MODIFIED="1513840010506" TEXT="Read interrupt status reg to determine the type">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840011509" ID="ID_66777319" MODIFIED="1513840014746" TEXT="TX complete">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513842061301" ID="ID_1936173497" MODIFIED="1513842062690" TEXT="When">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513840068051" ID="ID_585418038" MODIFIED="1513840075031" TEXT="MSDU TX OK">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840077859" ID="ID_1540029750" MODIFIED="1513840097944" TEXT="A-MSDU TX OK">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840099548" ID="ID_1373846170" MODIFIED="1513840111371" TEXT="Retry limit reached for an MSDU">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840114029" ID="ID_1021242260" MODIFIED="1513840126283" TEXT="TX lifetime expiry for MSDU/AMSDU">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513842069021" ID="ID_447714152" MODIFIED="1513842071154" TEXT="What">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513840144303" ID="ID_437192945" MODIFIED="1513842081043" TEXT="reg with the address of first TX desc">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840172641" ID="ID_1981080520" MODIFIED="1513842083812" TEXT="reg with number of TX pkts">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513840200828" ID="ID_996677578" MODIFIED="1513842076827" TEXT="How">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513840210412" ID="ID_943138575" MODIFIED="1513840229978" TEXT="read TX descriptor reg and TX num reg">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840231806" ID="ID_646741041" MODIFIED="1513840244635" TEXT="create WLAN_MISC event of TX Complete">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840245799" ID="ID_1077281539" MODIFIED="1513840254820" TEXT="Add event to MAC controller queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513840263984" ID="ID_788691177" MODIFIED="1513840284006" TEXT="One interrupt generated for entire A-MPDU">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513840015526" ID="ID_644851619" MODIFIED="1513840018083" TEXT="RX Complete">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513842089215" ID="ID_833150838" MODIFIED="1513842090036" TEXT="When">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513840316868" ID="ID_1365445715" MODIFIED="1513840323433" TEXT="Rx a frame complete">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840326094" ID="ID_853200088" MODIFIED="1513840339714" TEXT="RX and Defrag/De-Aggregation is complete">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513842097833" ID="ID_1478473819" MODIFIED="1513842101725" TEXT="What">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513842104536" ID="ID_767748445" MODIFIED="1513842131199" TEXT="reg to indicate first RX Descriptor in which the PKT received">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513842134027" ID="ID_383392639" MODIFIED="1513842156273" TEXT="reg of number of descriptor that PKT spans over">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513842159468" ID="ID_86622121" MODIFIED="1513842160193" TEXT="How">
+<font NAME="Consolas" SIZE="12"/>
+<node COLOR="#111111" CREATED="1513842163317" ID="ID_118634465" MODIFIED="1513842177834" TEXT="Read the address of base RX descriptor and number of desc">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513842180005" ID="ID_324101465" MODIFIED="1513842183066" TEXT="Create WLAN_RX event">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513842184150" ID="ID_1670513793" MODIFIED="1513842189955" TEXT="Add event to MAC controller event queue">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513842214992" ID="ID_855222595" MODIFIED="1513842215805" TEXT="One interrupt generated for entire A-MPDU ">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+<node COLOR="#111111" CREATED="1513840019118" ID="ID_498018030" MODIFIED="1513840020395" TEXT="TBTT">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840024470" ID="ID_1449226195" MODIFIED="1513840034172" TEXT="High Priority queue RX complete">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840036823" ID="ID_509855072" MODIFIED="1513840043188" TEXT="De-Authen">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+<node COLOR="#111111" CREATED="1513840051713" ID="ID_1396650384" MODIFIED="1513840054901" TEXT="Error">
+<font NAME="Consolas" SIZE="12"/>
+</node>
+</node>
+</node>
+<node COLOR="#00b439" CREATED="1513839597159" ID="ID_303608857" MODIFIED="1513839600332" TEXT="PHY Layer">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+</node>
+<node COLOR="#00b439" CREATED="1513839601503" ID="ID_552003581" MODIFIED="1513839602308" TEXT="RF">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
+</node>
+<node COLOR="#00b439" CREATED="1513839602791" ID="ID_976315083" MODIFIED="1513839604924" TEXT="Processor">
+<edge STYLE="bezier" WIDTH="thin"/>
+<font NAME="Consolas" SIZE="16"/>
 </node>
 </node>
 </node>
