@@ -1,4 +1,4 @@
 git add *
-git commit
+git commit -m "more"
 git push
 pause
