@@ -495,8 +495,7 @@
       <font color="#00cccc">// check length of tx queue</font><br />while (wland_pktq_mlen(&amp;bus-&gt;txq,~bus-&gt;flowcontrol))
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -513,8 +512,7 @@
       &#160;&#160;&#160;&#160;wland_sdio_clkctl(bus, CLK_AVAIL);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -531,8 +529,7 @@
       &#160;&#160;&#160;&#160;wland_sdio_sendfromq(bus)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 <node COLOR="#990000" CREATED="1514352685318" ID="ID_1632115596" MODIFIED="1514352699932" TEXT="wland_pktq_mdeq() //load packet from queue">
@@ -616,8 +613,7 @@
       &#160;&#160;&#160;&#160;&#160;if (msg_type == WLAND_WID_MSG_RESP)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355606372" ID="ID_1560612605" MODIFIED="1514355614522" TEXT="        memcpy(bus-&gt;rxctl, skb-&gt;data, rx_len)">
@@ -636,8 +632,7 @@
       &#160;&#160;&#160;<font color="#00cccc">//Firmware Event, wake fweh_event_worker()</font><br />&#160;&#160;&#160;if (msg_type == WLAND_WID_MSG_NETINFO)&#160;
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355729502" ID="ID_433759862" MODIFIED="1514355785990">
@@ -650,8 +645,7 @@
       &#160;&#160;&#160;&#160;&#160;firmweh_push_event(&amp;event_packet, buf);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355806195" ID="ID_796058477" MODIFIED="1514356232492">
@@ -670,8 +664,7 @@
       &#160;&#160;&#160;if (msg_type == WLAND_WID_MSG_EVENT)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355843302" ID="ID_336439434" MODIFIED="1514355899322">
@@ -684,8 +677,7 @@
       &#160;&#160;&#160;&#160;&#160;wland_handle_network_link_event(bus_if-&gt;drvr,&amp;event_packet,buf);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355908196" ID="ID_186700369" MODIFIED="1514356286429">
@@ -704,8 +696,7 @@
       &#160;&#160;&#160;&#160;if (msg_type == WLAND_WID_MSG_MAC_STATUS)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355925757" ID="ID_1510167721" MODIFIED="1514355950468">
@@ -718,8 +709,7 @@
       &#160;&#160;&#160;&#160;&#160;&#160;wland_handle_mac_status(bus_if-&gt;drvr,&amp;event_packet,buf);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514355973640" ID="ID_1685529391" MODIFIED="1514356018145" TEXT="  else">
@@ -738,8 +728,7 @@
       &#160;&#160;&#160;wland_rx_frames(bus-&gt;sdiodev-&gt;dev, skb);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <arrowlink DESTINATION="ID_1426373229" ENDARROW="Default" ENDINCLINATION="650;0;" ID="Arrow_ID_115940235" STARTARROW="None" STARTINCLINATION="650;0;"/>
 <font NAME="Consolas" SIZE="20"/>
 </node>
@@ -783,8 +772,7 @@
       schedule_work(&amp;fweh-&gt;event_work)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <arrowlink DESTINATION="ID_1832416361" ENDARROW="Default" ENDINCLINATION="879;0;" ID="Arrow_ID_1535607970" STARTARROW="None" STARTINCLINATION="879;0;"/>
 <font NAME="Consolas" SIZE="22"/>
@@ -803,8 +791,7 @@
       fweh_event_worker()
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="linear" WIDTH="4"/>
 <linktarget COLOR="#b0b0b0" DESTINATION="ID_1832416361" ENDARROW="Default" ENDINCLINATION="879;0;" ID="Arrow_ID_1535607970" SOURCE="ID_747823546" STARTARROW="None" STARTINCLINATION="879;0;"/>
 <font NAME="Consolas" SIZE="24"/>
@@ -821,8 +808,7 @@
       while ((event = fweh_dequeue_event(fweh)))
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -840,8 +826,7 @@
       &#160;&#160;wland_fws_macdesc_init() if code == WLAND_E_IF_CHANGE
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -863,8 +848,7 @@
       (WLAND_E_ESCAN_RESULT, notify_escan_handler);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -878,8 +862,7 @@
       (WLAND_E_DISCONNECT_IND,notify_connect_status);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -893,8 +876,7 @@
       (WLAND_E_CONNECT_IND, notify_connect_status);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -908,8 +890,7 @@
       (WLAND_E_ROAM, notify_roaming_status);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -923,8 +904,7 @@
       (WLAND_E_PFN_NET_FOUND,notify_sched_scan_results);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -938,8 +918,7 @@
       (WLAND_E_IF_ADD, notify_vif_event);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -953,8 +932,7 @@
       (WLAND_E_IF_DEL, notify_vif_event);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -968,8 +946,7 @@
       (WLAND_E_IF_CHANGE, notify_vif_event);
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
 </node>
@@ -1165,8 +1142,7 @@
       wland_sdio_intr_get(bus-&gt;sdiodev, &amp;intstatus)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514354374650" ID="ID_779810071" MODIFIED="1514354456818">
@@ -1182,8 +1158,7 @@
       pkt=wland_sdio_readframes(bus) if intsttus &amp; I_AHB2SDIO
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514354468553" ID="ID_750709109" MODIFIED="1514354490649">
@@ -1199,8 +1174,7 @@
       wland_prec_enq(bus-&gt;sdiodev-&gt;dev, &amp;bus-&gt;rxq, pkt, prec)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 </node>
 <node COLOR="#990000" CREATED="1514354507460" ID="ID_1174709412" MODIFIED="1514354509376" TEXT="WAKE_RX_WORK(bus)">
@@ -1218,9 +1192,12 @@
 </node>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1514341150222" ID="ID_373039693" MODIFIED="1514353732224" TEXT=".txdata = wland_sdio_bus_txdata()">
+<node COLOR="#00b439" CREATED="1514341150222" ID="ID_373039693" MODIFIED="1515479912696" TEXT=".txdata = wland_sdio_bus_txdata()">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
+<node COLOR="#990000" CREATED="1515480103658" ID="ID_1176176461" MODIFIED="1515480107419" TEXT="Called by wland_bus_txdata()">
+<font BOLD="true" NAME="Consolas" SIZE="20"/>
+</node>
 <node COLOR="#990000" CREATED="1514344527868" ID="ID_1427905011" MODIFIED="1514345101685" TEXT="/* convert priority to preceence level */">
 <font NAME="Consolas" SIZE="20"/>
 </node>
@@ -1261,9 +1238,23 @@
 <font NAME="Consolas" SIZE="20"/>
 </node>
 </node>
-<node COLOR="#00b439" CREATED="1514341150219" ID="ID_763676988" MODIFIED="1514353728479" TEXT=".txctl = wland_sdio_bus_txctl()">
+<node COLOR="#00b439" CREATED="1514341150219" ID="ID_763676988" MODIFIED="1515480080975" TEXT=".txctl = wland_sdio_bus_txctl()">
 <edge STYLE="bezier" WIDTH="thin"/>
 <font NAME="Consolas" SIZE="22"/>
+<node COLOR="#990000" CREATED="1515480089940" ID="ID_1569712919" MODIFIED="1515480200837">
+<richcontent TYPE="NODE"><html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      <font color="#ff6666" size="6">Called by wland_bus_txctl()</font>
+    </p>
+  </body>
+</html>
+</richcontent>
+<font BOLD="true" NAME="Consolas" SIZE="20"/>
+</node>
 <node COLOR="#990000" CREATED="1514353835034" ID="ID_25283963" MODIFIED="1514353838119" TEXT="bus-&gt;ctrl_frame_stat = true">
 <font NAME="Consolas" SIZE="20"/>
 </node>
@@ -1294,8 +1285,7 @@
       dhd_os_ioctl_resp_wait()
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="20"/>
 <node COLOR="#ff3300" CREATED="1514354108910" ID="ID_57976070" MODIFIED="1514354633342" TEXT="add_wait_queue()">
 <linktarget COLOR="#b0b0b0" DESTINATION="ID_57976070" ENDARROW="Default" ENDINCLINATION="525;0;" ID="Arrow_ID_744728476" SOURCE="ID_1844959430" STARTARROW="None" STARTINCLINATION="525;0;"/>
@@ -1314,8 +1304,7 @@
       dhd_os_ioctl_resp_wake()
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <font NAME="Consolas" SIZE="18"/>
 </node>
 </node>
