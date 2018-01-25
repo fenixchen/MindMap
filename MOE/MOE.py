@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import logging
 from enum import Enum
-
+from tkinter import *  # 导入 Tkinter 库
 logging.basicConfig(level=logging.DEBUG, format="%(levelname)s - %(message)s")
 
 
@@ -121,6 +121,11 @@ class OSDData(object):
         for window in self._windows:
             window.dump()
         logging.info("}")
+
+    def draw(self):
+        for frame_no in range(FRAME_COUNT):
+            frame = Frame(osd_data)
+            frame.draw(frame_no)
 
 
 class WindowLineBuf(object):
@@ -242,10 +247,19 @@ HEIGHT = 480
 FRAME_COUNT = 1
 OSD_BIN = "osd.bin"
 
+
+def initGUI():
+    window = Tk()
+    canvas = Canvas(window, width=WIDTH, height=HEIGHT, bg="#000000")
+    canvas.pack()
+    img = PhotoImage(width=WIDTH, height=HEIGHT)
+    canvas.create_image((WIDTH / 2, HEIGHT / 2), image=img, state="normal")
+    canvas.img = img
+    return img
+
 if __name__ == '__main__':
     logging.debug("宽度: %d, 高度: %d, 帧数: %d, 数据文件: %s" % (WIDTH, HEIGHT, FRAME_COUNT, OSD_BIN))
+    initGUI()
     osd_data = OSDData(WIDTH, HEIGHT, "osd.bin")
     osd_data.dump_data()
-    for frame_no in range(FRAME_COUNT):
-        frame = Frame(osd_data)
-        frame.draw(frame_no)
+    osd_data.draw()
