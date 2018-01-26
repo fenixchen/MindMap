@@ -5,6 +5,14 @@ import abc
 
 class Ingridient(object):
     @abc.abstractmethod
+    def name(self):
+        raise Exception("must implemented by child")
+
+    @abc.abstractmethod
+    def height(self):
+        raise Exception("must implemented by child")
+
+    @abc.abstractmethod
     def draw_line(self, window, y, ingredient_x):
         """
         在窗口中绘图

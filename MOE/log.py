@@ -2,7 +2,7 @@
 
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format="%(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.DEBUG, format="[%(filename)s:%(levelno)s] %(name)s - %(levelname)s - %(message)s")
 
 
 class Log(object):

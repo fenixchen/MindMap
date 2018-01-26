@@ -5,6 +5,7 @@ from log import Log
 from font import Font
 from window import *
 from bitmap import Bitmap
+from sketch import *
 
 logger = Log.get_logger("engine")
 
@@ -14,7 +15,6 @@ FONT = Font()
 class OSDEngine(object):
     def __init__(self, width, height, frame_count, binary_filename=None):
         self._windows = []
-        self._sketches = []
         self._ingredient = []
         self._palettes = []
         self._width = width
@@ -52,12 +52,13 @@ class OSDEngine(object):
         self._ingredient.append(pic2)
 
         # 窗口初始化
-        window1 = Window("窗口1", 100, 100, 100, 100)
+        window1 = Window("窗口1", 100, 100, 100, 100, palette1)
         window1.add_ingredient(pic1, 10, 10)
         self._windows.append(window1)
 
-        window2 = Window("窗口2", 400, 200, 100, 100)
+        window2 = Window("窗口2", 400, 200, 200, 200, palette1)
         window2.add_ingredient(pic2, 20, 20)
+        window2.add_ingredient(Border("边框2", 254, 5), 0, 0)
         self._windows.append(window2)
 
         self.dump()
@@ -157,16 +158,6 @@ class LineBuf(object):
 
     def buffer(self):
         return self._lineBuf
-
-
-class Modifier(object):
-    """
-    窗口属性改变工具,用于制作动画
-    """
-
-    def __init__(self):
-        pass
-
 
 class Frame(object):
     def __init__(self, osd):
