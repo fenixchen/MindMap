@@ -1,0 +1,15 @@
+# -*- coding:utf-8 -*-
+
+import abc
+
+
+class Ingridient(object):
+    @abc.abstractmethod
+    def draw_line(self, window, y):
+        """
+        在窗口中绘图
+        :param window:窗口
+        :param y:自己的第几行
+        :return:绘图结果数组
+        """
+        raise Exception("must implemented by child")

@@ -23,5 +23,5 @@ if __name__ == '__main__':
     for y in range(bitmap.rows):
         for x in range(bitmap.width):
             pos = bitmap.pitch * y + x
-            print("%02x " % bitmap.buffer[pos], end='')
+            print("%02x " % bitmap.draw_line[pos], end='')
         print()

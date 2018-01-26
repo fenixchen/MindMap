@@ -9,7 +9,7 @@ class Log(object):
     _LOG_FORMAT = "%(name)s - %(levelname)s - %(message)s"
 
     _logger = {
-        "MOE": [logging.DEBUG, None],
+        "engine": [logging.DEBUG, None],
         "app": [logging.DEBUG, None],
     }
 

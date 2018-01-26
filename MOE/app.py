@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 
+from log import Log
 from tkinter import *
 from engine import *
-from log import Log
 
 """
 Refresh after Tick
