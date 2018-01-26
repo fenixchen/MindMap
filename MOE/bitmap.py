@@ -29,9 +29,10 @@ class Bitmap(Ingridient):
     def height(self):
         return self._height
 
-    def draw_line(self, window, y):
+    def draw_line(self, window, y, ingredient_x):
         assert (0 <= y < self._height)
         buffer = []
+        width = window.width() - ingredient_x
         for x in range(self._width * y, self._width * y + width):
             index = self._data[x]
             buffer.append(self._palette.color(index))

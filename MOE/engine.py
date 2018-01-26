@@ -139,7 +139,7 @@ class LineBuf(object):
         self._width = width
         self._lineBuf = [0] * width
         for wlbuf in wlbufs:
-            self.merge_line(self._lineBuf, wlbuf.draw_line(), wlbuf.start_x())
+            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x())
 
     def merge_line(self, dst_buf, src_buf, src_buf_offset):
         """
@@ -177,7 +177,7 @@ class Frame(object):
 
     @staticmethod
     def draw_line(y, line_buffer, painter):
-        for x, pixel in enumerate(line_buffer.draw_line()):
+        for x, pixel in enumerate(line_buffer.buffer()):
             if pixel != 0:
                 color = "#%06x" % pixel
                 painter.set_pixel(x, y, color)

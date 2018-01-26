@@ -39,7 +39,7 @@ class Window(object):
         window_line_buf = [0] * self._width
         for (x, y, ingredient) in self._ingredients:
             if x <= window_y < y + ingredient.height():
-                window_line_buf[x:] = ingredient.draw_line(self, window_y - y)
+                window_line_buf[x:] = ingredient.draw_line(self, window_y - y, x)
         return WindowLineBuf(self._x, window_line_buf)
 
     def apply_modifier(self, f):
