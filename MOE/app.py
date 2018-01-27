@@ -7,10 +7,10 @@ from engine import *
 """
 Refresh after Tick
 """
-TICK = 1000
+TICK = 10
 WIDTH = 640
 HEIGHT = 480
-FRAME_COUNT = 1
+FRAME_COUNT = 100
 OSD_BIN = "osd.bin"
 
 logger = Log.get_logger("app")

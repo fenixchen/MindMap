@@ -1,25 +1,27 @@
 # -*- coding:utf-8 -*-
 
-from enum import Enum
-from log import Log
-from font import Font
+
+# local import
 from window import *
-from bitmap import Bitmap
+from bitmap import *
 from sketch import *
+from modifier import *
+from glyph import *
 
 logger = Log.get_logger("engine")
 
-FONT = Font()
 
 
 class OSDEngine(object):
     def __init__(self, width, height, frame_count, binary_filename=None):
         self._windows = []
-        self._ingredient = []
+        self._ingredients = []
+        self._glyphs = []
         self._palettes = []
         self._width = width
         self._height = height
         self._frame_count = frame_count
+        self._modifiers = []
         self._binary_filename = binary_filename
         self._frame = Frame(self)
         if binary_filename is not None:
@@ -45,11 +47,18 @@ class OSDEngine(object):
 
         # 图片初始化
         pic1 = Bitmap("图片1", 200, 50, palette2, [0x01] * 10000)
-        self._ingredient.append(pic1)
+        self._ingredients.append(pic1)
 
-        left, top, font_bitmap = FONT.load_char('S', 100)
-        pic2 = Bitmap("文字1", font_bitmap.width, font_bitmap.rows, palette1, font_bitmap.buffer)
-        self._ingredient.append(pic2)
+        # 字符初始化
+        glyph1 = Glyph('字符S', 48, 'O')
+        self._ingredients.append(glyph1)
+
+        glyph2 = Glyph('字符S', 48, 'S')
+        self._ingredients.append(glyph2)
+
+        glyph3 = Glyph('字符S', 48, 'D')
+        self._ingredients.append(glyph3)
+
 
         # 窗口初始化
         window1 = Window("窗口1", 100, 100, 100, 100, palette1)
@@ -57,9 +66,16 @@ class OSDEngine(object):
         self._windows.append(window1)
 
         window2 = Window("窗口2", 400, 200, 200, 200, palette1)
-        window2.add_ingredient(pic2, 20, 20)
-        window2.add_ingredient(Border("边框2", 254, 5), 0, 0)
+        window2.add_ingredient(glyph1, 20, 20)
+        window2.add_ingredient(glyph2, 80, 20)
+        window2.add_ingredient(glyph3, 140, 20)
+        window2.add_ingredient(Rectangle(name="边框", border_color=254, border_width=5), pos_x=0, pos_y=0)
         self._windows.append(window2)
+
+        # Modifier 初始化
+        mover = Mover(MoveDirection.NORTH, 1)
+        mover.link(window2)
+        self._modifiers.append(mover)
 
         self.dump()
 
@@ -75,6 +91,9 @@ class OSDEngine(object):
     def palettes(self):
         return self._palettes
 
+    def modifiers(self):
+        return self._modifiers
+
     def frame_count(self):
         return self._frame_count
 
@@ -85,8 +104,8 @@ class OSDEngine(object):
         for palette in self._palettes:
             palette.dump()
         logger.debug("}")
-        logger.debug("图片[%d] = {" % (len(self._ingredient)))
-        for pic in self._ingredient:
+        logger.debug("[%d] = {" % (len(self._ingredients)))
+        for pic in self._ingredients:
             pic.dump()
             logger.debug("}")
         logger.debug("窗口[%d] = {" % len(self._windows))
@@ -96,20 +115,6 @@ class OSDEngine(object):
 
     def draw(self, frame_index, painter):
         self._frame.draw(frame_index, painter)
-
-
-class PixelFormat(Enum):
-    LUT_1_BIT = 1
-    LUT_2_BIT = 4
-    LUT_4_BIT = 16
-    LUT_8_BIT = 256
-
-    def __int__(self):
-        return self.value
-
-    def bit_count(self):
-        bit_count = (1, 2, 4, 8)
-        return bit_count[self.value]
 
 
 class Palette(object):
@@ -159,6 +164,7 @@ class LineBuf(object):
     def buffer(self):
         return self._lineBuf
 
+
 class Frame(object):
     def __init__(self, osd):
         self._osd = osd
@@ -175,8 +181,8 @@ class Frame(object):
 
     def draw(self, frame_index, painter):
         self._frame_index = frame_index
-        for window in self._osd.windows():
-            window.apply_modifier(frame_index)
+        for modifier in self._osd.modifiers():
+            modifier.action()
         for y in range(0, self._height):
             window_line_buffers = []
             for window in self._osd.windows():

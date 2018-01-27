@@ -5,22 +5,26 @@ import abc
 from ingredient import Ingridient
 
 
-class Border(Ingridient):
+class Rectangle(Ingridient):
 
-    def __init__(self, name, color, width):
-        self._color = color
-        self._width = width
+    def __init__(self, name, border_color = 0, border_width = 0):
+        self._border_color = border_color
+        self._border_width = border_width
         self._name = name
 
     def name(self):
         return self._name
 
-    def draw_line(self, window, y, ingredient_x):
-        color = window.palette().color(self._color)
-        if y < self._width or y >= window.height() - self._width:
-            return [color] * window.width()
+    def draw_line(self, line_buf, window, y, ingredient_x):
+        color = window.palette().color(self._border_color)
+        if y < self._border_width or y >= window.height() - self._border_width:
+            for x in range(ingredient_x, ingredient_x + window.width()):
+                line_buf[x] = color
         else:
-            return [color] * self._width +[0] * (window.width() - self._width * 2) + [color] * self._width
+            for x in range(ingredient_x, ingredient_x + self._border_width):
+                line_buf[x] = color
+            for x in range(window.width() - self._border_width, window.width()):
+                line_buf[x] = color
 
     def height(self, window):
         return window.height()

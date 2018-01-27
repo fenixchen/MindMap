@@ -9,7 +9,7 @@ logger = Log.get_logger("engine")
 
 class Bitmap(Ingridient):
     """
-    位图对象, 可能是字体或者普通图片
+    位图对象
     """
 
     def __init__(self, name, width, height, palette, data):
@@ -29,14 +29,12 @@ class Bitmap(Ingridient):
     def height(self, window):
         return self._height
 
-    def draw_line(self, window, y, ingredient_x):
+    def draw_line(self, line_buf, window, y, ingredient_x):
         assert (0 <= y < self._height)
-        buffer = []
         width = min(self._width, window.width() - ingredient_x)
         for x in range(self._width * y, self._width * y + width):
             index = self._data[x]
-            buffer.append(self._palette.color(index))
-        return buffer
+            line_buf[ingredient_x + x - self._width * y] = self._palette.color(index)
 
     def dump(self):
         logger.debug("  name: %s, palette: %s, %d x %d, size: %d" %

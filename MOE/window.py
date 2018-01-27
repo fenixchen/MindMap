@@ -18,8 +18,14 @@ class Window(object):
     def x(self):
         return self._x
 
+    def x(self, new_x):
+        self._x = new_x
+
     def y(self):
         return self._y
+
+    def set_y(self, new_y):
+        self._y = new_y
 
     def width(self):
         return self._width
@@ -39,19 +45,13 @@ class Window(object):
         window_y = y - self._y
 
         window_line_buf = [0] * self._width
-        for (x, y, ingredient) in self._ingredients:
-            if x <= window_y < y + ingredient.height(self):
-                ingredient_buffer = ingredient.draw_line(self, window_y - y, x)
-                for i in range(x, x+len(ingredient_buffer)):
-                    window_line_buf[i] = window_line_buf[i] +  ingredient_buffer[i - x]
+        for (pos_x, pos_y, ingredient) in self._ingredients:
+            if pos_y <= window_y < pos_y + ingredient.height(self):
+                ingredient.draw_line(window_line_buf, self, window_y - pos_y, pos_x)
         return WindowLineBuf(self._x, window_line_buf)
 
-    def apply_modifier(self, f):
-        # logger.debug("(%s)应用修改" % self._name)
-        pass
-
-    def add_ingredient(self, ingredient, x, y):
-        self._ingredients.append((x, y, ingredient))
+    def add_ingredient(self, ingredient, pos_x, pos_y):
+        self._ingredients.append((pos_x, pos_y, ingredient))
 
     def dump(self):
         logger.debug("  name: %s, (%d, %d), %d x %d" %
