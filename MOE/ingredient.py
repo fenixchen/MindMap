@@ -2,14 +2,29 @@
 
 import abc
 
+class Ingredient(object):
 
-class Ingridient(object):
-    @abc.abstractmethod
+    def __init__(self, name, palette=None):
+        self._name = name
+        self._palette = palette
+
     def name(self):
-        raise Exception("must implemented by child")
+        return self._name
+
+    def palette_name(self):
+        if self._palette is None:
+            return "<Parent>"
+        else:
+            return self._palette.name()
+
+    def color(self, window, color_index):
+        if self._palette is None:
+            return window.palette().color(color_index)
+        else:
+            return self._palette.color(color_index)
 
     @abc.abstractmethod
-    def height(self, window = None):
+    def height(self, window=None):
         raise Exception("must implemented by child")
 
     @abc.abstractmethod

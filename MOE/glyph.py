@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 
-from ingredient import Ingridient
+from ingredient import Ingredient
 from log import Log
 from font import Font
 
@@ -11,7 +11,7 @@ FONT = Font()
 logger = Log.get_logger("engine")
 
 
-class Glyph(Ingridient):
+class Glyph(Ingredient):
     """
     字符位图
     """
@@ -45,5 +45,5 @@ class Glyph(Ingridient):
             line_buf[ingredient_x + x - self._width * y] = window._palette.color(index)
 
     def dump(self):
-        logger.debug("  name: %s, %d x %d, size: %d" %
+        logger.debug("    name: %s, %d x %d, size: %d" %
                      (self._name, self._width, self._height, len(self._data)))

@@ -7,10 +7,9 @@ from bitmap import *
 from sketch import *
 from modifier import *
 from glyph import *
+from palette import *
 
 logger = Log.get_logger("engine")
-
-
 
 class OSDEngine(object):
     def __init__(self, width, height, frame_count, binary_filename=None):
@@ -46,19 +45,18 @@ class OSDEngine(object):
         self._palettes.append(palette2)
 
         # 图片初始化
-        pic1 = Bitmap("图片1", 200, 50, palette2, [0x01] * 10000)
+        pic1 = Bitmap("图片1", 200, 50, [0x01] * 10000, palette2)
         self._ingredients.append(pic1)
 
         # 字符初始化
-        glyph1 = Glyph('字符S', 48, 'O')
+        glyph1 = Glyph('字符O', 48, 'O')
         self._ingredients.append(glyph1)
 
-        glyph2 = Glyph('字符S', 48, 'S')
+        glyph2 = Glyph('字符S', 64, 'S')
         self._ingredients.append(glyph2)
 
-        glyph3 = Glyph('字符S', 48, 'D')
+        glyph3 = Glyph('字符D', 72, 'D')
         self._ingredients.append(glyph3)
-
 
         # 窗口初始化
         window1 = Window("窗口1", 100, 100, 100, 100, palette1)
@@ -73,7 +71,7 @@ class OSDEngine(object):
         self._windows.append(window2)
 
         # Modifier 初始化
-        mover = Mover(MoveDirection.NORTH, 1)
+        mover = Mover("移动1", MoveDirection.NORTH, 1)
         mover.link(window2)
         self._modifiers.append(mover)
 
@@ -100,40 +98,30 @@ class OSDEngine(object):
     def dump(self):
         logger.debug("宽度: %d, 高度: %d, 帧数: %d, 数据文件: %s" %
                      (self.width(), self.height(), self._frame_count, self._binary_filename))
+
         logger.debug("调色板[%d] = {" % len(self._palettes))
         for palette in self._palettes:
             palette.dump()
         logger.debug("}")
-        logger.debug("[%d] = {" % (len(self._ingredients)))
+
+        logger.debug("素材[%d] = {" % (len(self._ingredients)))
         for pic in self._ingredients:
             pic.dump()
-            logger.debug("}")
+        logger.debug("}")
+
         logger.debug("窗口[%d] = {" % len(self._windows))
         for window in self._windows:
             window.dump()
         logger.debug("}")
 
+        logger.debug("修改器[%d] = {" % len(self._modifiers))
+        for modifier in self._modifiers:
+            modifier.dump()
+        logger.debug("}")
+
+
     def draw(self, frame_index, painter):
         self._frame.draw(frame_index, painter)
-
-
-class Palette(object):
-    def __init__(self, name, pixel_format, lut):
-        assert (isinstance(pixel_format, PixelFormat))
-        assert (len(lut) == int(pixel_format))
-        self._pixel_format = pixel_format
-        self._lut = lut
-        self._name = name
-
-    def name(self):
-        return self._name
-
-    def color(self, index):
-        assert index < len(self._lut), "{} should < {}".format(index, len(self._lut))
-        return self._lut[index]
-
-    def dump(self):
-        logger.debug("  name: %s, %s, size:%d" % (self._name, self._pixel_format, len(self._lut)))
 
 
 class LineBuf(object):

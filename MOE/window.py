@@ -15,10 +15,13 @@ class Window(object):
         self._palette = palette
         self._ingredients = []
 
+    def name(self):
+        return self._name
+
     def x(self):
         return self._x
 
-    def x(self, new_x):
+    def set_x(self, new_x):
         self._x = new_x
 
     def y(self):
@@ -54,10 +57,10 @@ class Window(object):
         self._ingredients.append((pos_x, pos_y, ingredient))
 
     def dump(self):
-        logger.debug("  name: %s, (%d, %d), %d x %d" %
+        logger.debug("    name: %s, (%d, %d), %d x %d" %
                      (self._name, self._x, self._y, self._width, self._height))
         for (x, y, ingredient) in self._ingredients:
-            logger.debug("    %s @(%d, %d)" % (ingredient.name(), x, y))
+            logger.debug("        %s @(%d, %d)" % (ingredient.name(), x, y))
 
 
 class WindowLineBuf(object):
