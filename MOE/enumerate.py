@@ -4,6 +4,7 @@ from enum import Enum
 
 
 class PixelFormat(Enum):
+    RGB = 0
     LUT_1_BIT = 1
     LUT_2_BIT = 4
     LUT_4_BIT = 16

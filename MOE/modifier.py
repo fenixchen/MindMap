@@ -60,3 +60,18 @@ class Mover(Modifier):
         logger.debug("    name: %s, direction:%s, step: %d" %
                      (self._name, self._direction, self._step))
         super().dump()
+
+
+class Sizer(Modifier):
+    def __init__(self, name, step = 1):
+        super().__init__(name)
+        self._step = step
+
+    def execute(self, window):
+        if window.width() > self._step and window.height() > self._step:
+            window.set_width(window.width() - self._step)
+            window.set_height(window.height() - self._step)
+
+    def dump(self):
+        logger.debug("    name: %s, step: %d" % (self._name, self._step))
+        super().dump()

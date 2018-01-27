@@ -33,8 +33,14 @@ class Window(object):
     def width(self):
         return self._width
 
+    def set_width(self, width):
+        self._width = width
+
     def height(self):
         return self._height
+
+    def set_height(self, height):
+        self._height = height
 
     def palette(self):
         return self._palette

@@ -8,6 +8,7 @@ from sketch import *
 from modifier import *
 from glyph import *
 from palette import *
+from imageutil import  *
 
 logger = Log.get_logger("engine")
 
@@ -33,6 +34,8 @@ class OSDEngine(object):
     def fill_test_data(self):
 
         # 调色板初始化
+        palette0 = Palette("调色板0", PixelFormat.RGB, [])
+
         gray_scale_data = []
         for i in range(255, -1, -1):
             gray = (i << 16) | (i << 8) | i
@@ -47,6 +50,10 @@ class OSDEngine(object):
         # 图片初始化
         pic1 = Bitmap("图片1", 200, 50, [0x01] * 10000, palette2)
         self._ingredients.append(pic1)
+
+        w, h, data = ImageUtil.load("bird.bmp")
+        pic2 = Bitmap("图片2", w, h, data, palette0)
+        self._ingredients.append(pic2)
 
         # 字符初始化
         glyph1 = Glyph('字符O', 48, 'O')
@@ -63,17 +70,25 @@ class OSDEngine(object):
         window1.add_ingredient(pic1, 10, 10)
         self._windows.append(window1)
 
-        window2 = Window("窗口2", 400, 200, 200, 200, palette1)
+        window2 = Window("窗口2", 200, 200, 200, 200, palette1)
         window2.add_ingredient(glyph1, 20, 20)
         window2.add_ingredient(glyph2, 80, 20)
         window2.add_ingredient(glyph3, 140, 20)
         window2.add_ingredient(Rectangle(name="边框", border_color=254, border_width=5), pos_x=0, pos_y=0)
         self._windows.append(window2)
 
+        window3 = Window("窗口3", 420, 200, 200, 200, palette0)
+        window3.add_ingredient(pic2, 0, 0)
+        self._windows.append(window3)
+
         # Modifier 初始化
         mover = Mover("移动1", MoveDirection.NORTH, 1)
         mover.link(window2)
         self._modifiers.append(mover)
+
+        sizer = Sizer("大小1", 5)
+        sizer.link(window3)
+        self._modifiers.append(sizer)
 
         self.dump()
 
