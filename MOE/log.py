@@ -2,15 +2,15 @@
 
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format="[%(filename)s:%(levelno)s] %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.DEBUG, format="[%(filename)s:%(lineno)s] %(name)s - %(levelname)s - %(message)s")
 
 
 class Log(object):
     _LOG_FORMAT = "%(name)s - %(levelname)s - %(message)s"
 
     _logger = {
-        "engine": [logging.DEBUG, None],
-        "app": [logging.DEBUG, None],
+        "engine": [logging.WARN, None],
+        "app": [logging.WARN, None],
     }
 
     @staticmethod

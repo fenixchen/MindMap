@@ -8,7 +8,6 @@ class ImageUtil(object):
         im = Image.open(image_file)
         width, height = im.size
         pix = im.load()
-        print((width,height))
         data = []
         for y in range(height):
             for x in range(width):
