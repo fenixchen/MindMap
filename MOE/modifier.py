@@ -1,7 +1,10 @@
 # -*- coding:utf-8 -*-
 import abc
 from enumerate import *
-from log import Log
+from window import *
+from plot import *
+import math
+from bitmap import *
 
 logger = Log.get_logger("engine")
 
@@ -16,45 +19,49 @@ class Modifier(object):
         raise Exception("must be implemented by child")
 
     def __init__(self, name):
-        self._windows = set()
+        self._targets = set()
         self._name = name
 
     def name(self):
         return self._name
 
-    def link(self, window):
-        self._windows.add(window)
+    def link(self, target):
+        self._targets.add(target)
 
-    def unlink(self, window):
-        self._windows.remove(window)
+    def unlink(self, target):
+        self._targets.remove(target)
 
     def action(self):
-        for window in self._windows:
-            self.execute(window)
+        for target in self._targets:
+            self.execute(target)
 
     def dump(self):
-        for window in self._windows:
-            logger.debug("         => %s" % window.name())
+        for target in self._targets:
+            logger.debug("         => %s" % target.name())
 
 
-class Mover(Modifier):
+class Move(Modifier):
     def __init__(self, name, direction, step=1):
         super().__init__(name)
         assert (isinstance(direction, MoveDirection))
         self._direction = direction
         self._step = step
 
-    def execute(self, window):
-        if self._direction == MoveDirection.NORTH:
-            window.set_y(window.y() - self._step)
-        elif self._direction == MoveDirection.SOUTH:
-            window.set_y(window.y() + self._step)
-        elif self._direction == MoveDirection.WEST:
-            window.x(window.x() - self._step)
-        elif self._direction == MoveDirection.EAST:
-            window.x(window.x() + self._step)
+    def execute(self, target):
+        if isinstance(target, Window):
+            window = target
+            if self._direction == MoveDirection.NORTH:
+                window.set_y(window.y() - self._step)
+            elif self._direction == MoveDirection.SOUTH:
+                window.set_y(window.y() + self._step)
+            elif self._direction == MoveDirection.WEST:
+                window.x(window.x() - self._step)
+            elif self._direction == MoveDirection.EAST:
+                window.x(window.x() + self._step)
+            else:
+                raise Exception("Unknown direction")
         else:
-            raise Exception("Unknown direction")
+            raise Exception("Unhandled type")
 
     def dump(self):
         logger.debug("    name: %s, direction:%s, step: %d" %
@@ -62,16 +69,48 @@ class Mover(Modifier):
         super().dump()
 
 
-class Sizer(Modifier):
-    def __init__(self, name, step = 1):
+class Resize(Modifier):
+    def __init__(self, name, step=1):
         super().__init__(name)
         self._step = step
 
-    def execute(self, window):
-        if window.width() > self._step and window.height() > self._step:
-            window.set_width(window.width() - self._step)
-            window.set_height(window.height() - self._step)
+    def execute(self, target):
+        if isinstance(target, Window):
+            window = target
+            window.set_width(window.width() + self._step)
+            # window.set_height(window.height() - self._step)
+        else:
+            raise Exception("Unhandled type")
 
     def dump(self):
         logger.debug("    name: %s, step: %d" % (self._name, self._step))
         super().dump()
+
+
+class Rotate(Modifier):
+    def __init__(self, name, step_angle=15):
+        super().__init__(name)
+        self._step_angle = step_angle
+
+    def execute(self, target):
+        if isinstance(target, Block):
+            if isinstance(target.ingredient(), Line):
+                line = target.ingredient()
+                line.rotate(self._step_angle)
+        else:
+            raise Exception("Unhandled type %s" % target.__class__.__name__)
+
+    def dump(self):
+        logger.debug("    name: %s, angle: %d" % (self._name, self._step_angle))
+        super().dump()
+
+class Slide(Modifier):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def execute(self, target):
+        if isinstance(target, Block) and isinstance(target.ingredient(), Bitmap):
+            bitmap = target.ingredient()
+            bitmap.slide()
+        else:
+            raise Exception("Unhandled type %s" % target.__class__.__name__)

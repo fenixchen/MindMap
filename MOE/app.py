@@ -7,7 +7,7 @@ from engine import *
 """
 Refresh after Tick
 """
-TICK = 10
+TICK = 100
 WIDTH = 640
 HEIGHT = 480
 FRAME_COUNT = 100
@@ -27,11 +27,15 @@ class Painter(object):
         self._image.put(color, (x, y))
 
 
+TITLE_STRING = "Monitor OSD Engine Demo"
+
+
 class App(object):
     def __init__(self):
         self._osd = OSDEngine(WIDTH, HEIGHT, FRAME_COUNT, "osd.bin")
-        self._window = Tk()
-        self._canvas = Canvas(self._window, width=WIDTH, height=HEIGHT, bg="#FFFFFF")
+        self._root = Tk()
+        self._root.title(TITLE_STRING)
+        self._canvas = Canvas(self._root, width=WIDTH, height=HEIGHT, bg="#FFFFFF")
         self._canvas.pack()
         self._image_on_canvas = None
         self._frame_index = 0
@@ -39,7 +43,8 @@ class App(object):
     def run(self):
         image = PhotoImage(width=self._osd.width(), height=self._osd.height())
         painter = Painter(image)
-        logger.debug("Draw [%d / %d]" % (self._frame_index, self._osd.frame_count() - 1))
+        # logger.debug("Draw [%d / %d]" % (self._frame_index, self._osd.frame_count() - 1))
+        self._root.title(TITLE_STRING + "[%d/%d]" % (self._frame_index, self._osd.frame_count() - 1))
         self._osd.draw(self._frame_index, painter)
         if self._image_on_canvas is None:
             self._image_on_canvas = self._canvas.create_image(0, 0, anchor=NW, image=image)

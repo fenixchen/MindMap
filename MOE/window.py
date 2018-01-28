@@ -5,6 +5,31 @@ from log import Log
 logger = Log.get_logger("engine")
 
 
+class Block(object):
+    def __init__(self, x, y, ingredient):
+        self._x = x
+        self._y = y
+        self._ingredient = ingredient
+
+    def x(self):
+        return self._x
+
+    def y(self):
+        return self._y
+
+    def start_y(self):
+        return self._ingredient.start_y() + self._y
+
+    def height(self, window):
+        return self._ingredient.height(window)
+
+    def ingredient(self):
+        return self._ingredient
+
+    def name(self):
+        return self._ingredient.name()
+
+
 class Window(object):
     def __init__(self, name, x, y, width, height, palette):
         self._name = name
@@ -13,7 +38,7 @@ class Window(object):
         self._width = width
         self._height = height
         self._palette = palette
-        self._ingredients = []
+        self._blocks = []
 
     def name(self):
         return self._name
@@ -54,19 +79,21 @@ class Window(object):
         window_y = y - self._y
 
         window_line_buf = [0] * self._width
-        for (pos_x, pos_y, ingredient) in self._ingredients:
-            if pos_y <= window_y < pos_y + ingredient.height(self):
-                ingredient.draw_line(window_line_buf, self, window_y - pos_y, pos_x)
+        for block in self._blocks:
+            if block.start_y() <= window_y < block.start_y() + block.height(self):
+                block.ingredient().draw_line(window_line_buf, self, window_y - block.y(), block.x())
         return WindowLineBuf(self._x, window_line_buf)
 
-    def add_ingredient(self, ingredient, pos_x, pos_y):
-        self._ingredients.append((pos_x, pos_y, ingredient))
+    def add_block(self, ingredient, pos_x, pos_y):
+        block = Block(pos_x, pos_y, ingredient)
+        self._blocks.append(block)
+        return block
 
     def dump(self):
         logger.debug("    name: %s, (%d, %d), %d x %d" %
                      (self._name, self._x, self._y, self._width, self._height))
-        for (x, y, ingredient) in self._ingredients:
-            logger.debug("        %s @(%d, %d)" % (ingredient.name(), x, y))
+        for block in self._blocks:
+            logger.debug("        %s @(%d, %d)" % (block.ingredient().name(), block.x(), block.y()))
 
 
 class WindowLineBuf(object):

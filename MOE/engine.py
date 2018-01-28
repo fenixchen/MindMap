@@ -4,13 +4,14 @@
 # local import
 from window import *
 from bitmap import *
-from sketch import *
+from plot import *
 from modifier import *
 from glyph import *
 from palette import *
-from imageutil import  *
+from imageutil import *
 
 logger = Log.get_logger("engine")
+
 
 class OSDEngine(object):
     def __init__(self, width, height, frame_count, binary_filename=None):
@@ -35,6 +36,7 @@ class OSDEngine(object):
 
         # 调色板初始化
         palette0 = Palette("调色板0", PixelFormat.RGB, [])
+        self._palettes.append(palette0)
 
         gray_scale_data = []
         for i in range(255, -1, -1):
@@ -48,7 +50,11 @@ class OSDEngine(object):
         self._palettes.append(palette2)
 
         # 图片初始化
-        pic1 = Bitmap("图片1", 200, 50, [0x01] * 10000, palette2)
+        image_data = []
+        for i in range(1, 7):
+            w, h, data = ImageUtil.load("jpg\%d.bmp" % i)
+            image_data.extend(data)
+        pic1 = Bitmap("图片1", w, h, image_data, palette0, 6)
         self._ingredients.append(pic1)
 
         w, h, data = ImageUtil.load("bird.bmp")
@@ -66,29 +72,42 @@ class OSDEngine(object):
         self._ingredients.append(glyph3)
 
         # 窗口初始化
-        window1 = Window("窗口1", 100, 100, 100, 100, palette1)
-        window1.add_ingredient(pic1, 10, 10)
+        window1 = Window("窗口1", 000, 100, 100, 100, palette0)
+        block_ani = window1.add_block(pic1, 0, 0)
         self._windows.append(window1)
 
         window2 = Window("窗口2", 200, 200, 200, 200, palette1)
-        window2.add_ingredient(glyph1, 20, 20)
-        window2.add_ingredient(glyph2, 80, 20)
-        window2.add_ingredient(glyph3, 140, 20)
-        window2.add_ingredient(Rectangle(name="边框", border_color=254, border_width=5), pos_x=0, pos_y=0)
+        window2.add_block(glyph1, 20, 20)
+        window2.add_block(glyph2, 80, 20)
+        window2.add_block(glyph3, 140, 20)
+        window2.add_block(Rectangle("边框", 254, 5), pos_x=0, pos_y=0)
         self._windows.append(window2)
 
-        window3 = Window("窗口3", 420, 200, 200, 200, palette0)
-        window3.add_ingredient(pic2, 0, 0)
+        window3 = Window("窗口3", 420, 200, 0, 200, palette0)
+        window3.add_block(pic2, 0, 0)
         self._windows.append(window3)
 
-        # Modifier 初始化
-        mover = Mover("移动1", MoveDirection.NORTH, 1)
-        mover.link(window2)
-        self._modifiers.append(mover)
+        window4 = Window("窗口4", 50, 300, 150, 150, palette0)
+        window4.add_block(Circle("圆形1", color=100, weight=1, center_x=70, center_y=70, radius=65), pos_x=0, pos_y=0)
+        block1 = window4.add_block(Line("针", color=200, weight=1, x1=0, y1=70, x2=70, y2=70), 0, 0)
+        self._windows.append(window4)
 
-        sizer = Sizer("大小1", 5)
-        sizer.link(window3)
-        self._modifiers.append(sizer)
+        # Modifier 初始化
+        move = Move("移动1", MoveDirection.NORTH, 5)
+        move.link(window2)
+        self._modifiers.append(move)
+
+        resize = Resize("大小1", 5)
+        resize.link(window3)
+        self._modifiers.append(resize)
+
+        rotate = Rotate("旋转1", 45)
+        rotate.link(block1)
+        self._modifiers.append(rotate)
+
+        slide = Slide("图片更换")
+        slide.link(block_ani)
+        self._modifiers.append(slide)
 
         self.dump()
 
@@ -133,7 +152,6 @@ class OSDEngine(object):
         for modifier in self._modifiers:
             modifier.dump()
         logger.debug("}")
-
 
     def draw(self, frame_index, painter):
         self._frame.draw(frame_index, painter)
@@ -184,8 +202,9 @@ class Frame(object):
 
     def draw(self, frame_index, painter):
         self._frame_index = frame_index
-        for modifier in self._osd.modifiers():
-            modifier.action()
+        if frame_index != 0:
+            for modifier in self._osd.modifiers():
+                modifier.action()
         for y in range(0, self._height):
             window_line_buffers = []
             for window in self._osd.windows():

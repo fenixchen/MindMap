@@ -37,12 +37,12 @@ class Glyph(Ingredient):
     def height(self, window = None):
         return self._height
 
-    def draw_line(self, line_buf, window, y, ingredient_x):
+    def draw_line(self, line_buf, window, y, block_x):
         assert (0 <= y < self._height)
-        width = min(self._width, window.width() - ingredient_x)
+        width = min(self._width, window.width() - block_x)
         for x in range(self._pitch * y, self._pitch * y + width):
             index = self._data[x]
-            line_buf[ingredient_x + x - self._width * y] = window._palette.color(index)
+            line_buf[block_x + x - self._width * y] = window._palette.color(index)
 
     def dump(self):
         logger.debug("    name: %s, %d x %d, size: %d" %
