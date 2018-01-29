@@ -1,8 +1,4 @@
 from cx_Freeze import setup, Executable
-import os
-
-os.environ['TCL_LIBRARY'] = r'D:\Python36\tcl\tcl8.6'
-os.environ['TK_LIBRARY'] = r'D:\Python36\tcl\tk8.6'
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
@@ -15,8 +11,8 @@ executables = [
     Executable('app.py', base=base)
 ]
 
-setup(name='Demo',
+setup(name='OSD Demo',
       version = '1.0',
-      description = '',
+      description = 'Monitor OSD Demo',
       options = dict(build_exe = buildOptions),
       executables = executables)
