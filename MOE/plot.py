@@ -90,15 +90,15 @@ class Line(Plot):
     def rotate(self, angle):
         cos_val = math.cos(angle / 180)
         sin_val = math.sin(angle / 180)
-        xdelta = self._x1 - self._x2
-        ydelta = self._y1 - self._y2
-        self._x1 = self._x2 + int(cos_val * xdelta - sin_val * ydelta + 0.5)
-        self._y1 = self._y2 + int(sin_val * xdelta + cos_val * ydelta + 0.5)
+        x_delta = self._x1 - self._x2
+        y_delta = self._y1 - self._y2
+        self._x1 = self._x2 + int(cos_val * x_delta - sin_val * y_delta + 0.5)
+        self._y1 = self._y2 + int(sin_val * x_delta + cos_val * y_delta + 0.5)
 
     def plot_line(self, window_line_buf, window, y, block_x):
         if self._y2 != self._y1:
             slope = (self._x2 - self._x1) / (self._y2 - self._y1)
-            px = self._x1 + int(slope * (y - self._y1)  + 0.5)
+            px = self._x1 + int(slope * (y - self._y1) + 0.5)
             window_line_buf[px] = self.color(window, self._color)
         else:
             if y == self._y1:

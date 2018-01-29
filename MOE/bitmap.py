@@ -12,7 +12,7 @@ class Bitmap(Ingredient):
     位图对象
     """
 
-    def __init__(self, name, width, height, data, palette, count = 1):
+    def __init__(self, name, width, height, data, palette, count=1):
         super().__init__(name)
         assert (len(data) == width * height * count)
         self._width = width
@@ -25,7 +25,7 @@ class Bitmap(Ingredient):
     def width(self):
         return self._width
 
-    def height(self, window):
+    def height(self, window=None):
         return self._height
 
     def draw_line(self, line_buf, window, y, block_x):

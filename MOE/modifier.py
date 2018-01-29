@@ -5,6 +5,7 @@ from window import *
 from plot import *
 import math
 from bitmap import *
+import app
 
 logger = Log.get_logger("engine")
 
@@ -51,9 +52,17 @@ class Move(Modifier):
         if isinstance(target, Window):
             window = target
             if self._direction == MoveDirection.NORTH:
-                window.set_y(window.y() - self._step)
+                if window.y() - self._step > 0:
+                    window.set_y(window.y() - self._step)
+                else:
+                    self._direction = MoveDirection.SOUTH
+                    self.execute(target)
             elif self._direction == MoveDirection.SOUTH:
-                window.set_y(window.y() + self._step)
+                if window.y() + window.height() + self._step < app.HEIGHT:
+                    window.set_y(window.y() + self._step)
+                else:
+                    self._direction = MoveDirection.NORTH
+                    self.execute(target)
             elif self._direction == MoveDirection.WEST:
                 window.x(window.x() - self._step)
             elif self._direction == MoveDirection.EAST:
@@ -77,8 +86,8 @@ class Resize(Modifier):
     def execute(self, target):
         if isinstance(target, Window):
             window = target
-            window.set_width(window.width() + self._step)
-            # window.set_height(window.height() - self._step)
+            if window.width() + window.x() < app.WIDTH - self._step:
+                window.set_width(window.width() + self._step)
         else:
             raise Exception("Unhandled type")
 
@@ -103,6 +112,7 @@ class Rotate(Modifier):
     def dump(self):
         logger.debug("    name: %s, angle: %d" % (self._name, self._step_angle))
         super().dump()
+
 
 class Slide(Modifier):
     def __init__(self, name):

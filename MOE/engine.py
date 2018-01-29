@@ -34,6 +34,9 @@ class OSDEngine(object):
     def windows(self):
         return self._windows
 
+    def ingredients(self):
+        return self._ingredients
+
     def palettes(self):
         return self._palettes
 
@@ -108,10 +111,14 @@ class Frame(object):
 
     @staticmethod
     def draw_line(y, line_buffer, painter):
+        str_color = '{'
         for x, pixel in enumerate(line_buffer.buffer()):
-            if pixel != 0:
-                color = "#%06x" % pixel
-                painter.set_pixel(x, y, color)
+            if pixel == 0:
+                str_color = str_color + ' #FFFFFF'
+            else:
+                str_color = str_color + (" #%06x" % pixel)
+        str_color = str_color + '}'
+        painter.set_pixel(0, y, str_color)
 
     def draw(self, frame_index, painter):
         self._frame_index = frame_index
