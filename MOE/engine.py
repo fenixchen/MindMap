@@ -17,12 +17,11 @@ class OSDEngine(object):
     def __init__(self, width, height, frame_count):
         self._windows = []
         self._ingredients = []
-        self._glyphs = []
         self._palettes = []
+        self._modifiers = []
         self._width = width
         self._height = height
         self._frame_count = frame_count
-        self._modifiers = []
         self._frame = Frame(self)
 
     def width(self):
@@ -30,6 +29,18 @@ class OSDEngine(object):
 
     def height(self):
         return self._height
+
+    def disable(self):
+        for window in self._windows:
+            window.disable()
+        for modifier in self._modifiers:
+            modifier.disable()
+
+    def enable(self):
+        for window in self._windows:
+            window.enable()
+        for modifier in self._modifiers:
+            modifier.enable()
 
     def windows(self):
         return self._windows
@@ -82,21 +93,30 @@ class LineBuf(object):
         self._width = width
         self._lineBuf = [0] * width
         for wlbuf in wlbufs:
-            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x())
+            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x(), wlbuf.window().alpha())
 
-    def merge_line(self, dst_buf, src_buf, src_buf_offset):
+    def merge_line(self, dst_buf, src_buf, src_buf_offset, src_alpha):
         """
         blending源buffer到目的buffer中
         """
         assert (src_buf_offset + len(src_buf) < self._width)
         for x in range(src_buf_offset, src_buf_offset + len(src_buf)):
-            # TODO 考虑Blending的模式
-            dst_buf[x] = self.blend_pixel(dst_buf[x], src_buf[x - src_buf_offset])
+            dst_buf[x] = self.blend_pixel(dst_buf[x], src_buf[x - src_buf_offset], src_alpha)
 
     @staticmethod
-    def blend_pixel(dst, src):
-        dst = src
-        return dst
+    def blend_pixel(dst, src, src_alpha):
+        if dst == 0:
+            return src
+        else:
+            dst_R = (dst & 0xFF0000) >> 16
+            dst_G = (dst & 0xFF00) >> 8
+            dst_B = (dst & 0xFF)
+            src_R = (src & 0xFF0000) >> 16
+            src_G = (src & 0xFF00) >> 8
+            src_B = (src & 0xFF)
+            return (int(dst_R * (1 - src_alpha) + (src_alpha * src_R)) << 16) + (
+                    int(dst_G * (1 - src_alpha) + (src_alpha * src_G)) << 8) + int(
+                dst_B * (1 - src_alpha) + (src_alpha * src_B))
 
     def buffer(self):
         return self._lineBuf
@@ -124,11 +144,12 @@ class Frame(object):
         self._frame_index = frame_index
         if frame_index != 0:
             for modifier in self._osd.modifiers():
-                modifier.action()
+                if modifier.enabled():
+                    modifier.action()
         for y in range(0, self._height):
             window_line_buffers = []
             for window in self._osd.windows():
-                if window.y() <= y < window.y() + window.height():
+                if window.enabled() and window.y() <= y < window.y() + window.height():
                     window_line_buffers.append(window.draw_line(y))
             line_buffer = LineBuf(window_line_buffers, self._width)
             self.draw_line(y, line_buffer, painter)

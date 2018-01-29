@@ -31,7 +31,7 @@ class Block(object):
 
 
 class Window(object):
-    def __init__(self, name, x, y, width, height, palette):
+    def __init__(self, name, x, y, width, height, palette, alpha=1):
         self._name = name
         self._x = x
         self._y = y
@@ -39,6 +39,23 @@ class Window(object):
         self._height = height
         self._palette = palette
         self._blocks = []
+        self._enabled = True
+        self._alpha = alpha
+
+    def set_alpha(self, alpha):
+        self._alpha = alpha
+
+    def alpha(self):
+        return self._alpha
+
+    def enabled(self):
+        return self._enabled
+
+    def enable(self):
+        self._enabled = True
+
+    def disable(self):
+        self._enabled = False
 
     def name(self):
         return self._name
@@ -82,7 +99,7 @@ class Window(object):
         for block in self._blocks:
             if block.start_y() <= window_y < block.start_y() + block.height(self):
                 block.ingredient().draw_line(window_line_buf, self, window_y - block.y(), block.x())
-        return WindowLineBuf(self._x, window_line_buf)
+        return WindowLineBuf(self, self._x, window_line_buf)
 
     def add_block(self, ingredient, pos_x, pos_y):
         block = Block(pos_x, pos_y, ingredient)
@@ -101,9 +118,13 @@ class WindowLineBuf(object):
     窗口对应的一行buffer数据
     """
 
-    def __init__(self, start_x, buffer):
+    def __init__(self, window, start_x, buffer):
+        self._window = window
         self._start_x = start_x
         self._buffer = buffer
+
+    def window(self):
+        return self._window
 
     def start_x(self):
         return self._start_x

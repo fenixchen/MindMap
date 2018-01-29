@@ -33,40 +33,50 @@ class Plot(Ingredient):
 
 class Rectangle(Plot):
 
-    def __init__(self, name, color, weight, palette=None):
+    def __init__(self, name, border_color, border_weight, palette=None, bgcolor=None):
         super().__init__(name, palette)
-        self._color = color
-        self._weight = weight
+        self._border_color = border_color
+        self._border_weight = border_weight
         self._name = name
+        self._bgcolor = bgcolor
+        self._palette = palette
 
     def plot_line(self, window_line_buf, window, y, block_x):
-        color = window.palette().color(self._color)
-        if y < self._weight or y >= window.height() - self._weight:
+        border_color = self.color(window, self._border_color)
+        if y < self._border_weight or y >= window.height() - self._border_weight:
             for x in range(block_x, block_x + window.width()):
-                window_line_buf[x] = color
+                window_line_buf[x] = border_color
         else:
-            for x in range(block_x, block_x + self._weight):
-                window_line_buf[x] = color
-            for x in range(window.width() - self._weight, window.width()):
-                window_line_buf[x] = color
+            for x in range(block_x, block_x + self._border_weight):
+                window_line_buf[x] = border_color
+            if not self._bgcolor is None:
+                bg_color = self.color(window, self._bgcolor)
+                for x in range(block_x + self._border_weight, window.width() - self._border_weight):
+                    window_line_buf[x] = bg_color
+            for x in range(window.width() - self._border_weight, window.width()):
+                window_line_buf[x] = border_color
 
     def height(self, window):
         return window.height()
 
 
 class Circle(Plot):
-    def __init__(self, name, color, weight, center_x, center_y, radius, palette=None):
+    def __init__(self, name, color, weight, center_x, center_y, radius, palette=None, bgcolor=None):
         super().__init__(name, palette)
         self._color = color
         self._weight = weight
         self._center_x, self._center_y = center_x, center_y
         self._radius = radius
+        self._bgcolor = bgcolor
 
     def height(self, window):
         return self._radius * 2
 
     def plot_line(self, window_line_buf, window, y, block_x):
         rx = int((self._radius * self._radius - (self._radius - y) * (self._radius - y)) ** 0.5)
+        if not self._bgcolor is None:
+            for x in range(self._center_x - rx, self._center_x + rx):
+                window_line_buf[x] = self.color(window, self._bgcolor)
         window_line_buf[self._center_x + rx] = self.color(window, self._color)
         window_line_buf[self._center_x - rx] = self.color(window, self._color)
 

@@ -22,6 +22,16 @@ class Modifier(object):
     def __init__(self, name):
         self._targets = set()
         self._name = name
+        self._enabled = True
+
+    def enabled(self):
+        return self._enabled
+
+    def enable(self):
+        self._enabled = True
+
+    def disable(self):
+        self._enabled = False
 
     def name(self):
         return self._name
