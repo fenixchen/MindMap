@@ -87,44 +87,6 @@ class OSDEngine(object):
         self._frame.draw(frame_index, painter)
 
 
-class LineBuf(object):
-    """
-    整行buffer数据
-    """
-
-    def __init__(self, wlbufs, width):
-        self._width = width
-        self._lineBuf = [0] * width
-        for wlbuf in wlbufs:
-            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x(), wlbuf.window().alpha())
-
-    def merge_line(self, dst_buf, src_buf, src_buf_offset, src_alpha):
-        """
-        blending源buffer到目的buffer中
-        """
-        assert (src_buf_offset + len(src_buf) < self._width)
-        for x in range(src_buf_offset, src_buf_offset + len(src_buf)):
-            dst_buf[x] = self.blend_pixel(dst_buf[x], src_buf[x - src_buf_offset], src_alpha)
-
-    @staticmethod
-    def blend_pixel(dst, src, src_alpha):
-        if dst == 0:
-            return src
-        else:
-            dst_R = (dst & 0xFF0000) >> 16
-            dst_G = (dst & 0xFF00) >> 8
-            dst_B = (dst & 0xFF)
-            src_R = (src & 0xFF0000) >> 16
-            src_G = (src & 0xFF00) >> 8
-            src_B = (src & 0xFF)
-            return (int(dst_R * (1 - src_alpha) + (src_alpha * src_R)) << 16) + (
-                    int(dst_G * (1 - src_alpha) + (src_alpha * src_G)) << 8) + int(
-                dst_B * (1 - src_alpha) + (src_alpha * src_B))
-
-    def buffer(self):
-        return self._lineBuf
-
-
 class Frame(object):
     def __init__(self, osd):
         self._osd = osd

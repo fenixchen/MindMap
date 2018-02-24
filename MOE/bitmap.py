@@ -13,10 +13,11 @@ class Bitmap(Ingredient):
     位图对象
     """
 
-    def __init__(self, id, bitmaps, width=-1, height=-1, palette=None):
+    def __init__(self, scene, id, bitmaps, width=-1, height=-1, palette=None):
         super().__init__(id)
         self._data = []
-        self._palette = palette
+        self._scene = scene
+        self._palette = scene.find_palette(palette)
         if isinstance(bitmaps, str):
             bitmaps = [bitmaps]
         assert (isinstance(bitmaps, list))
@@ -35,11 +36,11 @@ class Bitmap(Ingredient):
 
     def draw_line(self, line_buf, window, y, block_x):
         assert (0 <= y < self._height)
-        width = min(self._width, window.width() - block_x)
+        width = min(self._width, window.width - block_x)
         start = self._current * self._width * self._height + self._width * y
         for x in range(start, start + width):
             index = self._data[x]
-            line_buf[block_x + x - start] = self._palette.color(index)
+            line_buf[block_x + x - start] = self._palette.get_color(index)
 
     def slide(self):
         self._current = (self._current + 1) % self._count

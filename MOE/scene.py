@@ -2,7 +2,7 @@
 
 import yaml
 import os
-import app
+from app import *
 from engine import *
 
 logger = Log.get_logger("engine")
@@ -14,8 +14,8 @@ class Scene(object):
     def __init__(self, yaml_file=None):
         self._yaml_file = None
         self._windows = []
-        self._ingredients = []
-        self._palettes = []
+        self._ingredients = {}
+        self._palettes = {}
         self._modifiers = []
         self._width = -1
         self._height = -1
@@ -28,6 +28,18 @@ class Scene(object):
     @property
     def height(self):
         return self._height
+
+    def find_palette(self, id):
+        if id in self._palettes:
+            return self._palettes[id]
+        else:
+            return None
+
+    def find_ingredient(self, id):
+        if id in self._ingredients:
+            return self._ingredients[id]
+        else:
+            return None
 
     def load(self, yaml_file):
         if not os.path.isfile(yaml_file) or not os.access(yaml_file, os.R_OK):
@@ -48,18 +60,28 @@ class Scene(object):
             raise Exception('cannot load yaml file %s' % self._yaml_file)
 
         config = config['OSD']
-        assert (config is not None and config['width'] is not None and config['height'] is not None)
+        assert (config is not None and
+                config['width'] is not None and
+                config['height'] is not None)
         self._width = config['width']
         self._height = config['height']
         logger.debug('Width:%d, Height:%d' % (self._width, self._height))
 
-        logger.debug('')
         for item in config['Palettes']:
             obj = self._create_object(item)
-            self._palettes.append(obj)
+            self._palettes[obj.id] = obj
+
         for item in config['Ingredients']:
             obj = self._create_object(item)
-            self._ingredients.append(obj)
+            self._ingredients[obj.id] = obj
+
+        for item in config['Windows']:
+            obj = self._create_object(item)
+            self._windows.append(obj)
+
+        for item in config['Modifiers']:
+            obj = self._create_object(item)
+            self._modifiers.append(obj)
 
     def _create_object(self, item):
         assert (len(item.keys()) > 0)
@@ -69,13 +91,38 @@ class Scene(object):
         if cls_name not in globals():
             raise Exception('Undefined class <%s>' % cls_name)
         cls = globals()[cls_name]
-        obj = cls(**values)
+        obj = cls(scene=self, **values)
         logger.debug(obj)
-        logger.debug('Done')
         return obj
 
+    def modify(self):
+        for modifier in self._modifiers:
+            if modifier.active:
+                modifier.run()
+
+    def paint_line(self, y, line_buffer, painter):
+        str_color = '{'
+        for x, pixel in enumerate(line_buffer.buffer()):
+            if pixel == 0:
+                str_color = str_color + ' #FFFFFF'
+            else:
+                str_color = str_color + (" #%06x" % pixel)
+        str_color = str_color + '}'
+        painter.set_pixel(0, y, str_color)
+
+    def draw(self, painter):
+        for y in range(0, self._height):
+            window_line_buffers = []
+            for window in self._windows:
+                if not window.enabled:
+                    continue
+                if window.y <= y < window.y + window.height:
+                    window_line_buffers.append(window.draw_line(y))
+            line_buffer = LineBuf(window_line_buffers, self._width)
+            self.paint_line(y, line_buffer, painter)
+
     def __str__(self):
-        str  = 'Scene(%d x %d, %s)\n' % (self._width, self._height, self._yaml_file)
+        str = 'Scene(%d x %d, %s)\n' % (self._width, self._height, self._yaml_file)
         str += 'Palettes[%d]\n' % len(self._palettes)
         for palette in self._palettes:
             str += '\t%s\n' % palette
@@ -84,6 +131,8 @@ class Scene(object):
             str += '\t%s\n' % ingredient
         return str
 
+
 if __name__ == '__main__':
     scene = Scene('scene1/osd.yaml')
-    app.App(scene).run()
+    app = app.App(scene)
+    app.run()

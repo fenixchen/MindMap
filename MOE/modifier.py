@@ -11,6 +11,8 @@ logger = Log.get_logger("engine")
 
 
 class Modifier(object):
+    __metaclass = abc.ABCMeta
+
     """
     窗口属性改变工具,用于制作动画
     """
@@ -19,43 +21,42 @@ class Modifier(object):
     def execute(self, window):
         raise Exception("must be implemented by child")
 
-    def __init__(self, name):
-        self._targets = set()
-        self._name = name
-        self._enabled = True
+    def __init__(self, scene, id, interval, step, limit, windows, ingredients, active):
+        self._scene = scene
+        self._id = id
+        self._interval = interval
+        self._step = step
+        self._limit = limit
+        self._windows = []
+        self._ingredients = []
+        self._active = active
+                
 
-    def enabled(self):
-        return self._enabled
+    @property
+    def active(self):
+        return self._active
 
-    def enable(self):
-        self._enabled = True
+    @active.setter
+    def set_active(self, active):
+        self._active = active
 
-    def disable(self):
-        self._enabled = False
+    @property
+    def id(self):
+        return self._id
 
-    def name(self):
-        return self._name
-
-    def link(self, target):
-        self._targets.add(target)
-
-    def unlink(self, target):
-        self._targets.remove(target)
-
-    def action(self):
-        for target in self._targets:
-            self.execute(target)
-
-    def dump(self):
-        for target in self._targets:
-            logger.debug("         => %s" % target.name())
+    def run(self):
+        for window in self._windows:
+            self.execute(window)
+        for ingredient in self._ingredients:
+            self.execute(ingredient)
 
 
 class Move(Modifier):
-    def __init__(self, name, direction, step=1):
-        super().__init__(name)
-        assert (isinstance(direction, MoveDirection))
-        self._direction = direction
+    def __init__(self, scene, id, interval, step, limit, direction,
+                 windows=None, ingredients=None, active=True):
+        super().__init__(scene, id, interval, step, limit, windows, ingredients, active)
+
+        self._direction = MoveDirection[direction]
         self._step = step
 
     def execute(self, target):

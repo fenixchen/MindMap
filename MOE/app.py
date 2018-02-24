@@ -9,7 +9,7 @@ Refresh after Tick
 TICK = 10
 WIDTH = 640
 HEIGHT = 480
-FRAME_COUNT = 256
+FRAME_COUNT = 1
 
 logger = Log.get_logger("app")
 
@@ -25,7 +25,46 @@ class Painter(object):
         self._image.put(color, (x, y))
 
 
+class LineBuf(object):
+    """
+    整行buffer数据
+    """
+
+    def __init__(self, wlbufs, width):
+        self._width = width
+        self._lineBuf = [0] * width
+        for wlbuf in wlbufs:
+            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x(), wlbuf.window().alpha)
+
+    def merge_line(self, dst_buf, src_buf, src_buf_offset, src_alpha):
+        """
+        blending源buffer到目的buffer中
+        """
+        assert (src_buf_offset + len(src_buf) < self._width)
+        for x in range(src_buf_offset, src_buf_offset + len(src_buf)):
+            dst_buf[x] = self.blend_pixel(dst_buf[x], src_buf[x - src_buf_offset], src_alpha)
+
+    @staticmethod
+    def blend_pixel(dst, src, src_alpha):
+        if dst == 0:
+            return src
+        else:
+            dst_R = (dst & 0xFF0000) >> 16
+            dst_G = (dst & 0xFF00) >> 8
+            dst_B = (dst & 0xFF)
+            src_R = (src & 0xFF0000) >> 16
+            src_G = (src & 0xFF00) >> 8
+            src_B = (src & 0xFF)
+            return (int(dst_R * (1 - src_alpha) + (src_alpha * src_R)) << 16) + (
+                    int(dst_G * (1 - src_alpha) + (src_alpha * src_G)) << 8) + int(
+                dst_B * (1 - src_alpha) + (src_alpha * src_B))
+
+    def buffer(self):
+        return self._lineBuf
+
+
 TITLE_STRING = "Monitor OSD Engine Demo"
+
 
 class App(object):
     def __init__(self, *scenes):
@@ -47,11 +86,8 @@ class App(object):
         elif event.num == 3:
             self._scene_index = (self._scene_index - 1 + len(self._scenes)) % len(self._scenes)
 
-    def change_scene(self, scene_index):
-        return self._scenes[scene_index]
-
-    def run(self):
-        scene = self.change_scene(self._scene_index)
+    def _paint(self):
+        scene = self._scenes[self._scene_index]
 
         image = PhotoImage(width=scene.width, height=scene.height)
 
@@ -59,7 +95,9 @@ class App(object):
 
         self._root.title(TITLE_STRING + "[%d/%d]" % (self._frame_index, FRAME_COUNT - 1))
 
-        scene.draw(self._frame_index, painter)
+        scene.draw(painter)
+
+        scene.modify()
 
         if self._image_on_canvas is None:
             self._image_on_canvas = self._canvas.create_image(0, 0, anchor=NW, image=image)
@@ -70,6 +108,8 @@ class App(object):
         self._frame_index = self._frame_index + 1
 
         if self._frame_index < FRAME_COUNT:
-            self._canvas.after(TICK, self.run)
+            self._canvas.after(TICK, self._paint)
 
+    def run(self):
+        self._paint()
         mainloop()

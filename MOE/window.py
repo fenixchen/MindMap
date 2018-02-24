@@ -6,84 +6,109 @@ logger = Log.get_logger("engine")
 
 
 class Block(object):
-    def __init__(self, x, y, ingredient):
+    def __init__(self, ingredient, x, y):
         self._x = x
         self._y = y
         self._ingredient = ingredient
 
+    @property
     def x(self):
         return self._x
 
+    @property
     def y(self):
         return self._y
 
+    @property
     def start_y(self):
-        return self._ingredient.start_y() + self._y
+        return self._ingredient.start_y() + self._x
 
     def height(self, window):
         return self._ingredient.height(window)
 
+    @property
     def ingredient(self):
         return self._ingredient
 
-    def name(self):
-        return self._ingredient.name()
+    @property
+    def id(self):
+        return self._ingredient.id
 
 
 class Window(object):
-    def __init__(self, name, x, y, width, height, palette, alpha=1):
-        self._name = name
+    def __init__(self, scene, id, x, y, width, height, palette, blocks,
+                 alpha=1.0):
+        self._scene = scene
+        self._id = id
         self._x = x
         self._y = y
         self._width = width
         self._height = height
-        self._palette = palette
+        self._palette = scene.find_palette(palette)
         self._blocks = []
+        for (id, left, top) in blocks:
+            ingredient = self._scene.find_ingredient(id)
+            if ingredient is not None:
+                block = Block(ingredient, left, top)
+                self._blocks.append(block)
+            else:
+                logger.warn('cannot find ingredient <%s>' % id)
         self._enabled = True
         self._alpha = alpha
 
-    def set_alpha(self, alpha):
-        self._alpha = alpha
+    @property
+    def id(self):
+        return self._id
 
+    @property
     def alpha(self):
         return self._alpha
 
+    @alpha.setter
+    def set_alpha(self, alpha):
+        self._alpha = alpha
+
+    @property
     def enabled(self):
         return self._enabled
 
-    def enable(self):
-        self._enabled = True
+    @enabled.setter
+    def set_enabled(self, enabled):
+        self._enabled = enabled
 
-    def disable(self):
-        self._enabled = False
-
-    def name(self):
-        return self._name
-
+    @property
     def x(self):
         return self._x
 
-    def set_x(self, new_x):
-        self._x = new_x
+    @x.setter
+    def set_x(self, x):
+        self._x = x
 
+    @property
     def y(self):
         return self._y
 
-    def set_y(self, new_y):
-        self._y = new_y
+    @y.setter
+    def set_y(self, y):
+        self._y = y
 
+    @property
     def width(self):
         return self._width
 
+    @width.setter
     def set_width(self, width):
         self._width = width
 
+    @property
     def height(self):
         return self._height
 
+    @height.setter
     def set_height(self, height):
         self._height = height
 
+    @property
     def palette(self):
         return self._palette
 
@@ -93,12 +118,14 @@ class Window(object):
         :param y: 行数
         :return: Window 行数据对象
         """
-        window_y = y - self._y
+        window_y = y - self._x
 
         window_line_buf = [0] * self._width
         for block in self._blocks:
-            if block.start_y() <= window_y < block.start_y() + block.height(self):
-                block.ingredient().draw_line(window_line_buf, self, window_y - block.y(), block.x())
+            if block.start_y <= window_y < block.start_y + block.height(self):
+                block.ingredient.draw_line(window_line_buf,
+                                           self, window_y - block.y,
+                                           block.x)
         return WindowLineBuf(self, self._x, window_line_buf)
 
     def add_block(self, ingredient, pos_x, pos_y):
@@ -106,11 +133,12 @@ class Window(object):
         self._blocks.append(block)
         return block
 
-    def dump(self):
-        logger.debug("    name: %s, (%d, %d), %d x %d" %
-                     (self._name, self._x, self._y, self._width, self._height))
+    def __str__(self):
+        ret = "Window(%s, (%d, %d), %d x %d\n" % \
+              (self._id, self._x, self._y, self._width, self._height)
         for block in self._blocks:
-            logger.debug("        %s @(%d, %d)" % (block.ingredient().name(), block.x(), block.y()))
+            ret += "\t%s @(%d, %d)\n" % (block.ingredient.id, block.x, block.y)
+        return ret
 
 
 class WindowLineBuf(object):

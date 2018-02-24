@@ -7,8 +7,9 @@ logger = Log.get_logger("engine")
 
 
 class Palette(object):
-    def __init__(self, id, colors):
+    def __init__(self, scene, id, colors):
         self._id = id
+        self._scene = scene
         if isinstance(colors, str):
             if colors == 'RGB24':
                 self._pixel_format = PixelFormat.RGB
@@ -32,4 +33,5 @@ class Palette(object):
             return self._lut[index]
 
     def __str__(self):
-        return "Palette(id: %s, %s, size:%d)" % (self._id, self._pixel_format, len(self._lut))
+        return "Palette(id: %s, %s, size:%d)" % \
+               (self._id, self._pixel_format, len(self._lut))
