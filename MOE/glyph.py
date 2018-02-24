@@ -7,7 +7,6 @@ from font import Font
 
 FONT = Font()
 
-
 logger = Log.get_logger("engine")
 
 
@@ -16,25 +15,23 @@ class Glyph(Ingredient):
     字符位图
     """
 
-    def __init__(self, name, width, code):
-        self._left, self._top, bitmap = FONT.load_char(code, width)
+    def __init__(self, id, width, char, height=-1):
+        super().__init__(id)
+        self._left, self._top, bitmap = FONT.load_char(char, width)
         self._height = bitmap.rows
         self._width = bitmap.width
         self._data = bitmap.buffer[:]
         self._pitch = bitmap.pitch
-        self._name = name
-        self._code = code
+        self._char = char
 
-    def code(self):
-        return self._code
-
-    def name(self):
-        return self._name
+    @property
+    def char(self):
+        return self._char
 
     def width(self):
         return self._width
 
-    def height(self, window = None):
+    def height(self, window=None):
         return self._height
 
     def draw_line(self, line_buf, window, y, block_x):
@@ -44,6 +41,5 @@ class Glyph(Ingredient):
             index = self._data[x]
             line_buf[block_x + x - self._width * y] = window._palette.color(index)
 
-    def dump(self):
-        logger.debug("    name: %s, %d x %d, size: %d" %
-                     (self._name, self._width, self._height, len(self._data)))
+    def __str__(self):
+        return "id: %s, %d x %d, size: %d" % (self._id, self._width, self._height, len(self._data))

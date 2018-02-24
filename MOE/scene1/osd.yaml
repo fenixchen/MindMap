@@ -1,0 +1,22 @@
+OSD:
+  width: 640
+  height: 480
+  Palettes:
+    - Palette:
+        id: palette0
+        colors: RGB24
+  Ingredients:
+    - Bitmap:
+        id: bitmap_bird
+        palette: palette0
+        bitmaps: 'images/bird.bmp'
+  Windows:
+    - Window:
+        id: window1
+        left: 20
+        top: 20
+        width: 100
+        height: 100
+        palette: palette0
+        blocks: [(bitmap_bird, 0, 0)]
+  Modifiers:

@@ -3,6 +3,7 @@
 
 from ingredient import Ingredient
 from log import Log
+from imageutil import ImageUtil
 
 logger = Log.get_logger("engine")
 
@@ -12,15 +13,19 @@ class Bitmap(Ingredient):
     位图对象
     """
 
-    def __init__(self, name, width, height, data, palette, count=1):
-        super().__init__(name)
-        assert (len(data) == width * height * count)
-        self._width = width
-        self._height = height
-        self._data = data
+    def __init__(self, id, bitmaps, width=-1, height=-1, palette=None):
+        super().__init__(id)
+        self._data = []
         self._palette = palette
-        self._count = count
+        if isinstance(bitmaps, str):
+            bitmaps = [bitmaps]
+        assert (isinstance(bitmaps, list))
+        self._count = len(bitmaps)
+        for bitmap in bitmaps:
+            self._width, self._height, data = ImageUtil.load(bitmap)
+            self._data.extend(data)
         self._current = 0
+        assert (len(self._data) == self._width * self._height * self._count)
 
     def width(self):
         return self._width
@@ -39,6 +44,6 @@ class Bitmap(Ingredient):
     def slide(self):
         self._current = (self._current + 1) % self._count
 
-    def dump(self):
-        logger.debug("    name: %s, palette: %s, %d x %d, len(data): %d" %
-                     (self._name, self._palette.name(), self._width, self._height, len(self._data)))
+    def __str__(self):
+        return "id: %s, palette: %s, %d x %d, count: %d, len(data): %d" % \
+               (self._id, self._palette, self._width, self._height, self._count, len(self._data))

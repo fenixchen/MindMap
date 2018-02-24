@@ -9,8 +9,8 @@ class Log(object):
     _LOG_FORMAT = "%(name)s - %(levelname)s - %(message)s"
 
     _logger = {
-        "engine": [logging.WARN, None],
-        "app": [logging.WARN, None],
+        "engine": [logging.DEBUG, None],
+        "app": [logging.DEBUG, None],
     }
 
     @staticmethod

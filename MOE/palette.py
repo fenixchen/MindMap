@@ -7,21 +7,29 @@ logger = Log.get_logger("engine")
 
 
 class Palette(object):
-    def __init__(self, name, pixel_format, lut):
-        assert (isinstance(pixel_format, PixelFormat))
-        self._pixel_format = pixel_format
-        self._lut = lut
-        self._name = name
+    def __init__(self, id, colors):
+        self._id = id
+        if isinstance(colors, str):
+            if colors == 'RGB24':
+                self._pixel_format = PixelFormat.RGB
+                self._lut = []
+            elif colors == 'GRAYSCALE':
+                self._pixel_format = PixelFormat.LUT
+                self._lut = [(x, x, x) for x in range(256)]
+        else:
+            self._pixel_format = PixelFormat.LUT
+            self._lut = colors
 
-    def name(self):
-        return self._name
+    @property
+    def id(self):
+        return self._id
 
-    def color(self, index):
+    def get_color(self, index):
         if self._pixel_format == PixelFormat.RGB:
             return index
         else:
             assert index < len(self._lut), "{} should < {}".format(index, len(self._lut))
             return self._lut[index]
 
-    def dump(self):
-        logger.debug("    name: %s, %s, size:%d" % (self._name, self._pixel_format, len(self._lut)))
+    def __str__(self):
+        return "Palette(id: %s, %s, size:%d)" % (self._id, self._pixel_format, len(self._lut))

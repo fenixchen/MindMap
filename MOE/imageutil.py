@@ -2,9 +2,11 @@ from PIL import Image
 
 
 class ImageUtil(object):
+    BASE_DIR = ''
 
     @classmethod
     def load(cls, image_file):
+        image_file = ImageUtil.BASE_DIR + image_file
         im = Image.open(image_file)
         width, height = im.size
         pix = im.load()
@@ -15,6 +17,6 @@ class ImageUtil(object):
                 data.append((r << 16) | (g << 8) | b)
         return width, height, data
 
+
 if __name__ == '__main__':
     ImageUtil.load('bird.bmp')
-

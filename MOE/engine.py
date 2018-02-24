@@ -24,6 +24,9 @@ class OSDEngine(object):
         self._frame_count = frame_count
         self._frame = Frame(self)
 
+    def __str__(self):
+        return "OSDEngine(width: %d, height: %d, frame_count: %d)" % (self.width(), self.height(), self._frame_count)
+
     def width(self):
         return self._width
 

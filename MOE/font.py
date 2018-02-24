@@ -8,9 +8,12 @@ import freetype
 
 class Font(object):
     def __init__(self):
-        self._face = freetype.Face("Vera.ttf")
+        self._face = None
 
     def load_char(self, ch, width=48):
+        if self._face is None:
+            self._face = freetype.Face("Fonts/Vera.ttf")
+        assert(self._face is not None)
         self._face.set_char_size(width * 64)
         self._face.load_char(ch)
         return self._face.glyph.bitmap_left, self._face.glyph.bitmap_top, self._face.glyph.bitmap

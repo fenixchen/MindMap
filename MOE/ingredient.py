@@ -2,13 +2,16 @@
 
 import abc
 
+
 class Ingredient(object):
+    __metaclass__ = abc.ABCMeta
 
-    def __init__(self, name):
-        self._name = name
+    def __init__(self, id):
+        self._id = id
 
-    def name(self):
-        return self._name
+    @property
+    def id(self):
+        return self._id
 
     def start_y(self):
         """

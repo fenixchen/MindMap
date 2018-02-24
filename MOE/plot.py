@@ -33,13 +33,20 @@ class Plot(Ingredient):
 
 class Rectangle(Plot):
 
-    def __init__(self, name, border_color, border_weight, palette=None, bgcolor=None):
-        super().__init__(name, palette)
+    def __init__(self, id, width, height, border_color = 0, border_weight = 1, bgcolor=0, palette=None):
+        super().__init__(id, palette)
+        if width == "parent":
+            self._width = -1
+        else:
+            self._width = width
+        if height == "parent":
+            self._height = -1
+        else:
+            self._height = height
         self._border_color = border_color
         self._border_weight = border_weight
-        self._name = name
-        self._bgcolor = bgcolor
         self._palette = palette
+        self._bgcolor = bgcolor
 
     def plot_line(self, window_line_buf, window, y, block_x):
         border_color = self.color(window, self._border_color)
@@ -59,6 +66,9 @@ class Rectangle(Plot):
     def height(self, window):
         return window.height()
 
+    def __str__(self):
+        return "id:%s, (%d x %d), border(color:%#x,weight:%d), bgcolor:%#x, palette:%s" % \
+               (self._id, self._width, self._height, self._border_color, self._border_weight, self._bgcolor, self._palette)
 
 class Circle(Plot):
     def __init__(self, name, color, weight, center_x, center_y, radius, palette=None, bgcolor=None):
