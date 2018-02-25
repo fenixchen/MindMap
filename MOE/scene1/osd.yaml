@@ -15,14 +15,14 @@ OSD:
 
   Windows:
     - Window:
-        id: window1
+        id: window0
         x: 100
         y: 100
         width: 200
         height: 200
         palette: palette0
         blocks:
-          - [bitmap_bird, 0, 0]
+          - [block0, bitmap_bird, 0, 0]
 
   Modifiers:
     - Move:
@@ -30,6 +30,6 @@ OSD:
         active: true
         interval: 1
         step: 5
-        limit: 5
-        windows: [window1]
+        limit: 0
+        windows: [window0]
         direction: NORTH

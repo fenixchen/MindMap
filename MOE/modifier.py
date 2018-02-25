@@ -1,11 +1,9 @@
 # -*- coding:utf-8 -*-
-import abc
-from enumerate import *
-from window import *
-from plot import *
-import math
-from bitmap import *
 import app
+from bitmap import *
+from enumerate import *
+from plot import *
+from window import *
 
 logger = Log.get_logger("engine")
 
@@ -21,16 +19,27 @@ class Modifier(object):
     def execute(self, window):
         raise Exception("must be implemented by child")
 
-    def __init__(self, scene, id, interval, step, limit, windows, ingredients, active):
+    def __init__(self, scene, id, interval, windows, blocks, active):
         self._scene = scene
         self._id = id
         self._interval = interval
-        self._step = step
-        self._limit = limit
         self._windows = []
-        self._ingredients = []
+        self._blocks = []
         self._active = active
-                
+        if windows is not None:
+            for window in windows:
+                obj = scene.find_window(window)
+                if obj is not None:
+                    self._windows.append(obj)
+                else:
+                    raise Exception('cannot find window <%s>' % window)
+        if blocks is not None:
+            for block in blocks:
+                obj = scene.find_block(block)
+                if obj is not None:
+                    self._blocks.append(obj)
+                else:
+                    raise Exception('cannot find block <%s>' % block)
 
     @property
     def active(self):
@@ -47,46 +56,46 @@ class Modifier(object):
     def run(self):
         for window in self._windows:
             self.execute(window)
-        for ingredient in self._ingredients:
-            self.execute(ingredient)
+        for block in self._blocks:
+            self.execute(block)
+
+    def __str__(self):
+        ret = 'id:%s, interval:%d, active:%d' % (self._id, self._interval, self.active)
+        return ret
 
 
 class Move(Modifier):
     def __init__(self, scene, id, interval, step, limit, direction,
-                 windows=None, ingredients=None, active=True):
-        super().__init__(scene, id, interval, step, limit, windows, ingredients, active)
+                 windows=None, blocks=None, active=True):
+
+        super().__init__(scene, id, interval, windows, blocks, active)
 
         self._direction = MoveDirection[direction]
         self._step = step
+        self._limit = limit
 
     def execute(self, target):
         if isinstance(target, Window):
             window = target
             if self._direction == MoveDirection.NORTH:
-                if window.y() - self._step > 0:
-                    window.set_y(window.y() - self._step)
-                else:
-                    self._direction = MoveDirection.SOUTH
-                    self.execute(target)
+                if window.y - self._step > 0:
+                    window.y = window.y - self._step
             elif self._direction == MoveDirection.SOUTH:
                 if window.y() + window.height() + self._step < app.HEIGHT:
-                    window.set_y(window.y() + self._step)
-                else:
-                    self._direction = MoveDirection.NORTH
-                    self.execute(target)
+                    window.y = window.y + self._step
             elif self._direction == MoveDirection.WEST:
-                window.x(window.x() - self._step)
+                window.x = window.x - self._step
             elif self._direction == MoveDirection.EAST:
-                window.x(window.x() + self._step)
+                window.x = window.x + self._step
             else:
                 raise Exception("Unknown direction")
         else:
-            raise Exception("Unhandled type")
+            raise Exception("Unhandled type <%s>" % type(target))
 
-    def dump(self):
-        logger.debug("    name: %s, direction:%s, step: %d" %
-                     (self._name, self._direction, self._step))
-        super().dump()
+    def __str__(self):
+        ret = 'Move(' + Modifier.__str__(self)
+        ret += ", step:%d, limit:%d, direction:%s)" % (self._step, self._limit, self._direction)
+        return ret
 
 
 class Resize(Modifier):

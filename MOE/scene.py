@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 
-import yaml
 import os
+
+import yaml
+
 from app import *
 from engine import *
 
@@ -40,6 +42,23 @@ class Scene(object):
             return self._ingredients[id]
         else:
             return None
+
+    def find_window(self, id):
+        for window in self._windows:
+            if window.id == id:
+                return window
+        return None
+
+    def find_block(self, id):
+        block = None
+        ids = id.split('.')
+        if len(ids) == 2:
+            window = self.find_window(ids[0])
+            if window is not None:
+                block = window.find_block(ids[1])
+        if block is None:
+            logger.warn('cannot find block <%s>' % id)
+        return block
 
     def load(self, yaml_file):
         if not os.path.isfile(yaml_file) or not os.access(yaml_file, os.R_OK):

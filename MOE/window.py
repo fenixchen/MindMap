@@ -6,10 +6,15 @@ logger = Log.get_logger("engine")
 
 
 class Block(object):
-    def __init__(self, ingredient, x, y):
+    def __init__(self, id, ingredient, x, y):
+        self._id = id
         self._x = x
         self._y = y
         self._ingredient = ingredient
+
+    @property
+    def id(self):
+        return self._id
 
     @property
     def x(self):
@@ -30,11 +35,6 @@ class Block(object):
     def ingredient(self):
         return self._ingredient
 
-    @property
-    def id(self):
-        return self._ingredient.id
-
-
 class Window(object):
     def __init__(self, scene, id, x, y, width, height, palette, blocks,
                  alpha=1.0):
@@ -46,10 +46,10 @@ class Window(object):
         self._height = height
         self._palette = scene.find_palette(palette)
         self._blocks = []
-        for (id, left, top) in blocks:
+        for (block_id, id, left, top) in blocks:
             ingredient = self._scene.find_ingredient(id)
             if ingredient is not None:
-                block = Block(ingredient, left, top)
+                block = Block(block_id, ingredient, left, top)
                 self._blocks.append(block)
             else:
                 logger.warn('cannot find ingredient <%s>' % id)
@@ -65,7 +65,7 @@ class Window(object):
         return self._alpha
 
     @alpha.setter
-    def set_alpha(self, alpha):
+    def alpha(self, alpha):
         self._alpha = alpha
 
     @property
@@ -73,7 +73,7 @@ class Window(object):
         return self._enabled
 
     @enabled.setter
-    def set_enabled(self, enabled):
+    def enabled(self, enabled):
         self._enabled = enabled
 
     @property
@@ -81,7 +81,7 @@ class Window(object):
         return self._x
 
     @x.setter
-    def set_x(self, x):
+    def x(self, x):
         self._x = x
 
     @property
@@ -89,7 +89,7 @@ class Window(object):
         return self._y
 
     @y.setter
-    def set_y(self, y):
+    def y(self, y):
         self._y = y
 
     @property
@@ -97,7 +97,7 @@ class Window(object):
         return self._width
 
     @width.setter
-    def set_width(self, width):
+    def width(self, width):
         self._width = width
 
     @property
@@ -105,12 +105,18 @@ class Window(object):
         return self._height
 
     @height.setter
-    def set_height(self, height):
+    def height(self, height):
         self._height = height
 
     @property
     def palette(self):
         return self._palette
+
+    def find_block(self, id):
+        for block in self._blocks:
+            if block.id == id:
+                return block
+        return None
 
     def draw_line(self, y):
         """
@@ -118,7 +124,7 @@ class Window(object):
         :param y: 行数
         :return: Window 行数据对象
         """
-        window_y = y - self._x
+        window_y = y - self._y
 
         window_line_buf = [0] * self._width
         for block in self._blocks:
@@ -127,11 +133,6 @@ class Window(object):
                                            self, window_y - block.y,
                                            block.x)
         return WindowLineBuf(self, self._x, window_line_buf)
-
-    def add_block(self, ingredient, pos_x, pos_y):
-        block = Block(pos_x, pos_y, ingredient)
-        self._blocks.append(block)
-        return block
 
     def __str__(self):
         ret = "Window(%s, (%d, %d), %d x %d\n" % \

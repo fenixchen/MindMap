@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from tkinter import *
+
 from engine import *
 
 """
@@ -9,7 +10,7 @@ Refresh after Tick
 TICK = 10
 WIDTH = 640
 HEIGHT = 480
-FRAME_COUNT = 1
+FRAME_COUNT = 100
 
 logger = Log.get_logger("app")
 
