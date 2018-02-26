@@ -11,10 +11,6 @@ logger = Log.get_logger("engine")
 class Modifier(object):
     __metaclass = abc.ABCMeta
 
-    """
-    窗口属性改变工具,用于制作动画
-    """
-
     @abc.abstractmethod
     def execute(self, window):
         raise Exception("must be implemented by child")
@@ -27,6 +23,7 @@ class Modifier(object):
         self._blocks = []
         self._active = active
         self._elapsed = 0
+        self._counter = 0
         self._limit = limit
         if windows is not None:
             for window in windows:
@@ -56,6 +53,14 @@ class Modifier(object):
         return self._id
 
     def run(self):
+        if self._limit > 0:
+            if self._counter >= self._limit:
+                return
+        self._elapsed += 1
+        if self._elapsed < self._interval:
+            return
+        self._elapsed = 0
+        self._counter += 1
         for window in self._windows:
             self.execute(window)
         for block in self._blocks:

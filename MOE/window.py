@@ -55,13 +55,14 @@ class Block(object):
 
 class Window(object):
     def __init__(self, scene, id, x, y, width, height, palette, blocks,
-                 alpha=1.0):
+                 alpha=1.0, visible=True):
         self._scene = scene
         self._id = id
         self._x = x
         self._y = y
         self._width = width
         self._height = height
+        self._visible = visible
         self._palette = scene.find_palette(palette)
         self._blocks = []
         for (block_id, id, left, top) in blocks:
@@ -71,12 +72,15 @@ class Window(object):
                 self._blocks.append(block)
             else:
                 logger.warn('cannot find ingredient <%s>' % id)
-        self._enabled = True
         self._alpha = alpha
 
     @property
     def id(self):
         return self._id
+
+    @property
+    def visible(self):
+        return self._visible
 
     @property
     def alpha(self):
@@ -85,14 +89,6 @@ class Window(object):
     @alpha.setter
     def alpha(self, alpha):
         self._alpha = alpha
-
-    @property
-    def enabled(self):
-        return self._enabled
-
-    @enabled.setter
-    def enabled(self, enabled):
-        self._enabled = enabled
 
     @property
     def x(self):

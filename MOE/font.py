@@ -7,12 +7,15 @@ import freetype
 
 
 class Font(object):
+
+    BASE_DIR = ''
+
     def __init__(self):
         self._face = None
 
-    def load_char(self, ch, width=48):
+    def load_char(self, ch, width):
         if self._face is None:
-            self._face = freetype.Face("Fonts/Vera.ttf")
+            self._face = freetype.Face(Font.BASE_DIR + "Fonts/Vera.ttf")
         assert(self._face is not None)
         self._face.set_char_size(width * 64)
         self._face.load_char(ch)

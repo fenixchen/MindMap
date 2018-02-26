@@ -6,6 +6,7 @@ import yaml
 
 from app import *
 from engine import *
+from font import Font
 
 logger = Log.get_logger("engine")
 
@@ -71,9 +72,12 @@ class Scene(object):
         logger.debug('Loading OSD yaml file: <%s>' % self._yaml_file)
 
         Scene._BASE_DIR = os.path.dirname(self._yaml_file) + '/'
+
         logger.debug('BASE_DIR: <%s>' % Scene._BASE_DIR)
 
         ImageUtil.BASE_DIR = Scene._BASE_DIR
+        Font.BASE_DIR = Scene._BASE_DIR
+
         self._yaml_file = yaml_file
         with open(self._yaml_file) as f:
             content = f.read()
@@ -125,10 +129,7 @@ class Scene(object):
     def paint_line(self, y, line_buffer, painter):
         str_color = '{'
         for x, pixel in enumerate(line_buffer.buffer()):
-            if pixel == 0:
-                str_color = str_color + ' #FFFFFF'
-            else:
-                str_color = str_color + (" #%06x" % pixel)
+            str_color = str_color + (" #%06x" % pixel)
         str_color = str_color + '}'
         painter.set_pixel(0, y, str_color)
 
@@ -136,7 +137,7 @@ class Scene(object):
         for y in range(0, self._height):
             window_line_buffers = []
             for window in self._windows:
-                if not window.enabled:
+                if not window.visible:
                     continue
                 if window.y <= y < window.y + window.height:
                     window_line_buffers.append(window.draw_line(y))

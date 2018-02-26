@@ -35,7 +35,8 @@ class LineBuf(object):
         self._width = width
         self._lineBuf = [0] * width
         for wlbuf in wlbufs:
-            self.merge_line(self._lineBuf, wlbuf.buffer(), wlbuf.start_x(), wlbuf.window().alpha)
+            self.merge_line(self._lineBuf, wlbuf.buffer(),
+                            wlbuf.start_x(), wlbuf.window().alpha)
 
     def merge_line(self, dst_buf, src_buf, src_buf_offset, src_alpha):
         """
