@@ -12,7 +12,14 @@ OSD:
         id: bitmap_bird
         palette: palette0
         bitmaps: 'images/bird.bmp'
-
+    - Rectangle:
+        id: border
+        width: parent
+        height: parent
+        border_color: 0x0000FF
+        width: parent
+        height: parent
+        palette: palette0
   Windows:
     - Window:
         id: window0
@@ -23,6 +30,7 @@ OSD:
         palette: palette0
         blocks:
           - [block0, bitmap_bird, 0, 0]
+          - [border0, border, 0, 0]
 
   Modifiers:
     - Move:
@@ -32,4 +40,5 @@ OSD:
         step: 5
         limit: 0
         windows: [window0]
-        direction: NORTH
+        blocks: [window0.block0]
+        direction: EAST

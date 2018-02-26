@@ -6,12 +6,25 @@ import abc
 class Ingredient(object):
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, id):
+    def __init__(self, scene, id, palette):
+        self._scene = scene
         self._id = id
+        if palette is None:
+            self._palette = None
+        else:
+            self._palette = scene.find_palette(palette)
 
     @property
     def id(self):
         return self._id
+
+    @property
+    def scene(self):
+        return self._scene
+
+    @property
+    def palette(self):
+        return self._palette
 
     def start_y(self):
         """
@@ -21,7 +34,7 @@ class Ingredient(object):
         return 0
 
     @abc.abstractmethod
-    def height(self, window=None):
+    def height(self, window):
         raise Exception("must implemented by child")
 
     @abc.abstractmethod
@@ -30,6 +43,6 @@ class Ingredient(object):
         在窗口中绘图
         :param window:窗口
         :param y:自己的第几行
-        :param block_x: 当前绘图单元在window中的x位置
+        :param block_x: 当前Block在window中的x位置
         """
         raise Exception("must implemented by child")

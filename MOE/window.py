@@ -6,7 +6,8 @@ logger = Log.get_logger("engine")
 
 
 class Block(object):
-    def __init__(self, id, ingredient, x, y):
+    def __init__(self, window, id, ingredient, x, y):
+        self._window = window
         self._id = id
         self._x = x
         self._y = y
@@ -17,16 +18,32 @@ class Block(object):
         return self._id
 
     @property
+    def full_id(self):
+        return self.window.id + '.' + self._id
+
+    @property
     def x(self):
         return self._x
+
+    @x.setter
+    def x(self, val):
+        self._x = val
 
     @property
     def y(self):
         return self._y
 
+    @y.setter
+    def y(self, val):
+        self._y = val
+
+    @property
+    def window(self):
+        return self._window
+
     @property
     def start_y(self):
-        return self._ingredient.start_y() + self._x
+        return self._ingredient.start_y() + self._y
 
     def height(self, window):
         return self._ingredient.height(window)
@@ -34,6 +51,7 @@ class Block(object):
     @property
     def ingredient(self):
         return self._ingredient
+
 
 class Window(object):
     def __init__(self, scene, id, x, y, width, height, palette, blocks,
@@ -49,7 +67,7 @@ class Window(object):
         for (block_id, id, left, top) in blocks:
             ingredient = self._scene.find_ingredient(id)
             if ingredient is not None:
-                block = Block(block_id, ingredient, left, top)
+                block = Block(self, block_id, ingredient, left, top)
                 self._blocks.append(block)
             else:
                 logger.warn('cannot find ingredient <%s>' % id)
@@ -135,8 +153,8 @@ class Window(object):
         return WindowLineBuf(self, self._x, window_line_buf)
 
     def __str__(self):
-        ret = "Window(%s, (%d, %d), %d x %d\n" % \
-              (self._id, self._x, self._y, self._width, self._height)
+        ret = "%s(%s, (%d, %d), %d x %d)\n" % \
+              (type(self), self._id, self._x, self._y, self._width, self._height)
         for block in self._blocks:
             ret += "\t%s @(%d, %d)\n" % (block.ingredient.id, block.x, block.y)
         return ret

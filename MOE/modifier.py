@@ -19,13 +19,15 @@ class Modifier(object):
     def execute(self, window):
         raise Exception("must be implemented by child")
 
-    def __init__(self, scene, id, interval, windows, blocks, active):
+    def __init__(self, scene, id, interval, limit, windows, blocks, active):
         self._scene = scene
         self._id = id
         self._interval = interval
         self._windows = []
         self._blocks = []
         self._active = active
+        self._elapsed = 0
+        self._limit = limit
         if windows is not None:
             for window in windows:
                 obj = scene.find_window(window)
@@ -46,7 +48,7 @@ class Modifier(object):
         return self._active
 
     @active.setter
-    def set_active(self, active):
+    def active(self, active):
         self._active = active
 
     @property
@@ -60,41 +62,49 @@ class Modifier(object):
             self.execute(block)
 
     def __str__(self):
-        ret = 'id:%s, interval:%d, active:%d' % (self._id, self._interval, self.active)
+        ret = 'id:%s, interval:%d, limit:%d, active:%d' % (
+            self._id, self._interval, self._limit, self.active)
+        return ret
+
+    def target_desc(self):
+        ret = ''
+        for window in self._windows:
+            ret += '\twindow: <%s>\n' % window.id
+        for block in self._blocks:
+            ret += '\tblock: <%s>\n' % block.full_id
         return ret
 
 
 class Move(Modifier):
-    def __init__(self, scene, id, interval, step, limit, direction,
-                 windows=None, blocks=None, active=True):
+    def __init__(self, scene, id,
+                 step, direction,
+                 windows=None, blocks=None, active=True, interval=1, limit=0):
 
-        super().__init__(scene, id, interval, windows, blocks, active)
+        super().__init__(scene, id, interval, limit, windows, blocks, active)
 
         self._direction = MoveDirection[direction]
         self._step = step
-        self._limit = limit
 
     def execute(self, target):
-        if isinstance(target, Window):
-            window = target
-            if self._direction == MoveDirection.NORTH:
-                if window.y - self._step > 0:
-                    window.y = window.y - self._step
-            elif self._direction == MoveDirection.SOUTH:
-                if window.y() + window.height() + self._step < app.HEIGHT:
-                    window.y = window.y + self._step
-            elif self._direction == MoveDirection.WEST:
-                window.x = window.x - self._step
-            elif self._direction == MoveDirection.EAST:
-                window.x = window.x + self._step
-            else:
-                raise Exception("Unknown direction")
-        else:
+        if not isinstance(target, Window) and not isinstance(target, Block):
             raise Exception("Unhandled type <%s>" % type(target))
+
+        if self._direction == MoveDirection.NORTH:
+            target.y = target.y - self._step
+        elif self._direction == MoveDirection.SOUTH:
+            target.y = target.y + self._step
+        elif self._direction == MoveDirection.WEST:
+            target.x = target.x - self._step
+        elif self._direction == MoveDirection.EAST:
+            target.x = target.x + self._step
+        else:
+            raise Exception("Unknown direction <%s>" % self._direction.name)
 
     def __str__(self):
         ret = 'Move(' + Modifier.__str__(self)
-        ret += ", step:%d, limit:%d, direction:%s)" % (self._step, self._limit, self._direction)
+        ret += ", step:%d, direction:%s)\n" % (
+            self._step, self._direction)
+        ret += self.target_desc()
         return ret
 
 

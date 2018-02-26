@@ -35,18 +35,21 @@ class Scene(object):
         if id in self._palettes:
             return self._palettes[id]
         else:
+            logger.warn('cannot find palette <%s>' % id)
             return None
 
     def find_ingredient(self, id):
         if id in self._ingredients:
             return self._ingredients[id]
         else:
+            logger.warn('cannot find ingredient <%s>' % id)
             return None
 
     def find_window(self, id):
         for window in self._windows:
             if window.id == id:
                 return window
+        logger.warn('cannot find window <%s>' % id)
         return None
 
     def find_block(self, id):

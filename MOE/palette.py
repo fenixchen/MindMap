@@ -25,7 +25,7 @@ class Palette(object):
     def id(self):
         return self._id
 
-    def get_color(self, index):
+    def color(self, index):
         if self._pixel_format == PixelFormat.RGB:
             return index
         else:
@@ -33,5 +33,5 @@ class Palette(object):
             return self._lut[index]
 
     def __str__(self):
-        return "Palette(id: %s, %s, size:%d)" % \
-               (self._id, self._pixel_format, len(self._lut))
+        return "%s(id: %s, %s, size:%d)" % \
+               (type(self), self._id, self._pixel_format, len(self._lut))
