@@ -43,6 +43,7 @@ class Glyph(Ingredient):
                 continue
             color = window._palette.color(index, self._color)
             line_buf[block_x + x - self._width * y] = color
+        pass
 
     def __str__(self):
         ret = "id: %s, %d x %d, size: %d" % (self._id, self._width, self._height, len(self._data))

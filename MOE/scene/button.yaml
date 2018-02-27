@@ -6,44 +6,30 @@ OSD:
     - Palette:
         id: rgb24
         colors: RGB24
+
     - Palette:
         id: grayscale
         colors: GRAYSCALE
 
-    - Palette:
-        id: palette2
-        colors: [0xFF0000, 0x00FF00, 0x0000FF]
-
   Ingredients:
-    - Bitmap:
-        id: bitmap_bird
-        palette: rgb24
-        bitmaps: 'images/bird.bmp'
-
-    - Bitmap:
-        id: bitmap_ani
-        palette: rgb24
-        bitmaps: ['images/1.bmp','images/2.bmp',
-          'images/3.bmp','images/4.bmp','images/5.bmp','images/6.bmp']
-
     - Glyph:
         id: char_P_24
-        font_width: 24
+        font_width: 20
         char: 'P'
 
     - Glyph:
         id: char_U_24
-        font_width: 24
+        font_width: 20
         char: 'U'
 
     - Glyph:
         id: char_S_24
-        font_width: 24
+        font_width: 20
         char: 'S'
 
     - Glyph:
         id: char_H_24
-        font_width: 24
+        font_width: 20
         char: 'H'
 
     - Glyph:
@@ -66,144 +52,17 @@ OSD:
         font_width: 24
         char: 'N'
 
-    - Glyph:
-        id: char_O
-        font_width: 48
-        char: 'O'
-        color: 0xFF0000
-
-    - Glyph:
-        id: char_S
-        font_width: 48
-        char: 'S'
-        color: 0x00FF00
-
-    - Glyph:
-        id: char_D
-        font_width: 48
-        char: 'D'
-        color: 0x0000FF
-
     - Rectangle:
-        id: blue_border
+        id: button_bg
         width: parent
         height: parent
-        border_color: 0x0000FF
-        bgcolor: 0xFFFFFF
-        width: parent
-        height: parent
-        palette: rgb24
-
-    - Rectangle:
-        id: red_border
-        width: parent
-        height: parent
-        border_color: 0xFF0000
-        width: parent
-        height: parent
-        palette: rgb24
-
-    - Line:
-        id: line0
-        palette: palette2
-        weight: 1
-        color: 1
-        x1: 10
-        y1: 10
-        x2: 100
-        y2: 100
-
-    - Line:
-        id: button_horizontal_hl
-        weight: 2
-        color: 250
-        x1: 0
-        y1: 0
-        x2: 85
-        y2: 0
-
-    - Line:
-        id: button_vertical_hl
-        weight: 2
-        color: 250
-        x1: 0
-        y1: 0
-        x2: 0
-        y2: 30
-
-    - Line:
-        id: button_horizontal_ll
-        weight: 2
-        color: 80
-        x1: 0
-        y1: 0
-        x2: 85
-        y2: 0
-
-    - Line:
-        id: button_vertical_ll
-        weight: 2
-        color: 80
-        x1: 0
-        y1: 0
-        x2: 0
-        y2: 28
-
-    - Rectangle:
-        id: rect1
-        width: parent
-        height: parent
-        border_color: [0x0000FF, 0xFF0000, 0x00FF00, 0xFF00FF]
-        border_weight: 4
-        bgcolor: [0x000000,0xFFFFFF]
-        width: parent
-        height: parent
-        palette: rgb24
+        border_weight: 2
+        border_color: [250, 50, 250, 50]
+        bgcolor: [200,100]
+        gradient_mode: TOP_TO_BOTTOM
+        palette: grayscale
 
   Windows:
-    - Window:
-        id: window0
-        x: 0
-        y: 0
-        width: 200
-        height: 200
-        palette: rgb24
-        zorder: 3
-        alpha: 0.5
-        visible: false
-        blocks:
-          - [b0, blue_border, 0, 0]
-          - [bl, bitmap_bird, 50, 50]
-          - [b2, line0, 0, 0]
-
-    - Window:
-        id: window1
-        x: 250
-        y: 250
-        width: 200
-        height: 200
-        palette: grayscale
-        zorder: 1
-        visible: false
-        blocks:
-          - [border0, red_border, 0, 0]
-          - [b0, char_O, 10, 10]
-          - [b1, char_S, 50, 10]
-          - [b2, char_D, 90, 10]
-
-    - Window:
-        id: window2
-        x: 250
-        y: 0
-        width: 100
-        height: 100
-        palette: rgb24
-        zorder: 2
-        alpha: 1
-        visible: false
-        blocks:
-          - [ani, bitmap_ani, 0, 0]
-
     - Window:
         id: button0
         x: 400
@@ -211,63 +70,10 @@ OSD:
         width: 85
         height: 30
         palette: grayscale
-        visible: false
+        visible: true
         blocks:
+          - [b4, button_bg, 0, 0]
           - [b0, char_P_24, 15, 7]
           - [b1, char_U_24, 30, 7]
           - [b2, char_S_24, 45, 7]
           - [b3, char_H_24, 60, 7]
-          - [b4, button_horizontal_hl, 0, 0]
-          - [b5, button_vertical_hl, 0, 0]
-          - [b6, button_horizontal_ll, 0, 28]
-          - [b7, button_vertical_ll, 83, 2]
-
-    - Window:
-        id: window_rect
-        x: 100
-        y: 100
-        width: 300
-        height: 300
-        palette: rgb24
-        blocks:
-          - [b0, rect1, 0, 0]
-
-    - Window:
-        id: button1
-        x: 500
-        y: 300
-        width: 85
-        height: 30
-        palette: grayscale
-        visible: false
-        blocks:
-          - [b0, char_D_24, 15, 7]
-          - [b1, char_O_24, 30, 7]
-          - [b2, char_W_24, 45, 7]
-          - [b3, char_N_24, 60, 7]
-          - [b6, button_horizontal_hl, 0, 28]
-          - [b7, button_vertical_hl, 83, 2]
-          - [b4, button_horizontal_ll, 0, 0]
-          - [b5, button_vertical_ll, 0, 0]
-
-
-  Modifiers:
-    - Move:
-        id: move0
-        active: true
-        interval: 1
-        limit: 20
-        windows: [window0]
-        blocks: [window0.bl]
-        x_delta: 1
-        y_delta: 2
-        w_delta: 5
-        h_delta: 5
-
-    - Flip:
-        id: flip0
-        active: true
-        interval: 1
-        limit: 0
-        loop: false
-        blocks: [window2.ani]

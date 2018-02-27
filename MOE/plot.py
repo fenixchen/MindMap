@@ -78,8 +78,6 @@ class Rectangle(Plot):
             self._bgcolor_start = None
             self._bgcolor_end = None
 
-        if self._gradient_mode is not None:
-            assert self._bgcolor_start is not None and self._bgcolor_end is not None
 
     def _plot_border(self, window_line_buf, window, y, block_x):
 
@@ -140,7 +138,9 @@ class Rectangle(Plot):
         bg_color_start = self.color(window, self._bgcolor_start)
         bg_color_end = self.color(window, self._bgcolor_end)
 
-        if self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
+        if self._gradient_mode == GradientMode.NONE:
+            steps = 1
+        elif self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
             steps = width - self._border_weight * 2
         elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
             steps = height - self._border_weight * 2
@@ -156,11 +156,10 @@ class Rectangle(Plot):
         step = 0
 
         for x in range(block_x + self._border_weight, block_x + width - self._border_weight):
-            if self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
+            if self._gradient_mode == GradientMode.NONE:
+                factor = 0
+            elif self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
                 factor = x - block_x + self._border_weight
-                color = (int((bg_color_start >> 16 & 0xFF) + R_delta * factor) << 16) | \
-                        (int((bg_color_start >> 8 & 0xFF) + G_delta * factor) << 8) | \
-                        (int((bg_color_start >> 0 & 0xFF) + B_delta * factor) << 0)
             elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
                 factor = y
 

@@ -18,7 +18,7 @@ class Font(object):
             self._face = freetype.Face(Font.BASE_DIR + "Fonts/Vera.ttf")
         assert(self._face is not None)
         self._face.set_char_size(width * 64)
-        self._face.load_char(ch)
+        self._face.load_char(ch, 0x4 | 0x100000)
         return self._face.glyph.bitmap_left, self._face.glyph.bitmap_top, self._face.glyph.bitmap
 
 
