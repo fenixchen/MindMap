@@ -140,21 +140,34 @@ class Rectangle(Plot):
         bg_color_start = self.color(window, self._bgcolor_start)
         bg_color_end = self.color(window, self._bgcolor_end)
 
-        x_color_delta = y_color_delta = 0
+        if self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
+            steps = width - self._border_weight * 2
+        elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
+            steps = height - self._border_weight * 2
+        elif self._gradient_mode == GradientMode.TOP_LEFT_TO_BOTTOM_RIGHT or \
+                self._gradient_mode == GradientMode.BOTTOM_LEFT_TO_TOP_RIGHT:
+            steps = (width - self._border_weight * 2) * (height - self._border_weight * 2)
 
-        x_steps = width - self._border_weight * 2
-        R_delta = ((bg_color_end >> 16 & 0xFF) - (bg_color_start >> 16 & 0xFF)) / x_steps
-        G_delta = ((bg_color_end >> 8 & 0xFF) - (bg_color_start >> 8 & 0xFF)) / x_steps
-        B_delta = ((bg_color_end >> 0 & 0xFF) - (bg_color_start >> 0 & 0xFF)) / x_steps
+        R_delta = ((bg_color_end >> 16 & 0xFF) - (bg_color_start >> 16 & 0xFF)) / steps
+        G_delta = ((bg_color_end >> 8 & 0xFF) - (bg_color_start >> 8 & 0xFF)) / steps
+        B_delta = ((bg_color_end >> 0 & 0xFF) - (bg_color_start >> 0 & 0xFF)) / steps
 
         color = bg_color_start
         step = 0
+
         for x in range(block_x + self._border_weight, block_x + width - self._border_weight):
-            color = (int((bg_color_start >> 16 & 0xFF) + R_delta * step) << 16) | \
-                    (int((bg_color_start >> 8 & 0xFF) + G_delta * step) << 8) | \
-                    (int((bg_color_start >> 0 & 0xFF) + B_delta * step) << 0)
+            if self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
+                factor = x - block_x + self._border_weight
+                color = (int((bg_color_start >> 16 & 0xFF) + R_delta * factor) << 16) | \
+                        (int((bg_color_start >> 8 & 0xFF) + G_delta * factor) << 8) | \
+                        (int((bg_color_start >> 0 & 0xFF) + B_delta * factor) << 0)
+            elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
+                factor = y
+
+            color = (int((bg_color_start >> 16 & 0xFF) + R_delta * factor) << 16) | \
+                    (int((bg_color_start >> 8 & 0xFF) + G_delta * factor) << 8) | \
+                    (int((bg_color_start >> 0 & 0xFF) + B_delta * factor) << 0)
             window_line_buf[x] = color
-            step += 1
 
     def plot_line(self, window_line_buf, window, y, block_x):
         is_border = False

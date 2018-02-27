@@ -23,7 +23,7 @@ OSD:
         border_color: [0x0000FF, 0xFF0000, 0x00FF00, 0xFF00FF]
         border_weight: 20
         bgcolor: [0x505050,0xF0F0F0]
-        gradient_mode: LEFT_TO_RIGHT
+        gradient_mode: TOP_TO_BOTTOM
         width: parent
         height: parent
         palette: rgb24
