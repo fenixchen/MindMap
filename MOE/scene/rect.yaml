@@ -1,0 +1,40 @@
+OSD:
+  width: 640
+  height: 480
+
+  Palettes:
+    - Palette:
+        id: rgb24
+        colors: RGB24
+
+    - Palette:
+        id: grayscale
+        colors: GRAYSCALE
+
+    - Palette:
+        id: palette2
+        colors: [0xFF0000, 0x00FF00, 0x0000FF]
+
+  Ingredients:
+    - Rectangle:
+        id: rect1
+        width: parent
+        height: parent
+        border_color: [0x0000FF, 0xFF0000, 0x00FF00, 0xFF00FF]
+        border_weight: 20
+        bgcolor: [0x505050,0xF0F0F0]
+        gradient_mode: LEFT_TO_RIGHT
+        width: parent
+        height: parent
+        palette: rgb24
+
+  Windows:
+    - Window:
+        id: window_rect
+        x: 100
+        y: 100
+        width: 300
+        height: 300
+        palette: rgb24
+        blocks:
+          - [b0, rect1, 0, 0]

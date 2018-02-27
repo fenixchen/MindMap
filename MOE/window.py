@@ -54,8 +54,8 @@ class Block(object):
 
 
 class Window(object):
-    def __init__(self, scene, id, x, y, width, height, zorder, palette, blocks,
-                 alpha=1.0, visible=True):
+    def __init__(self, scene, id, x, y, width, height, palette, blocks,
+                 zorder=0, alpha=1.0, visible=True):
         self._scene = scene
         self._id = id
         self._x = x

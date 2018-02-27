@@ -106,9 +106,10 @@ class Scene(object):
             self._windows.append(obj)
         self.sort_windows()
 
-        for item in config['Modifiers']:
-            obj = self._create_object(item)
-            self._modifiers.append(obj)
+        if 'Modifiers' in config:
+            for item in config['Modifiers']:
+                obj = self._create_object(item)
+                self._modifiers.append(obj)
 
     def sort_windows(self):
         self._windows.sort(key=lambda window: window.zorder, reverse=False)
