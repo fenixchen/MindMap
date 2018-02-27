@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
 
+from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
-from imageutil import ImageUtil
 
 logger = Log.get_logger("engine")
 
@@ -40,7 +40,9 @@ class Bitmap(Ingredient):
                 index = self._data[x]
                 line_buf[block_x + x - start] = self._palette.color(index)
 
-    def slide(self):
+    def flip(self, loop):
+        if not loop and self._current >= self._count - 1:
+            return
         self._current = (self._current + 1) % self._count
 
     def __str__(self):

@@ -1,7 +1,5 @@
 # -*- coding:utf-8 -*-
-import app
 from bitmap import *
-from enumerate import *
 from plot import *
 from window import *
 
@@ -67,7 +65,8 @@ class Modifier(object):
             self.execute(block)
 
     def __str__(self):
-        ret = 'id:%s, interval:%d, limit:%d, active:%d' % (
+        ret = '%s(id:%s, interval:%d, limit:%d, active:%d' % (
+            type(self),
             self._id, self._interval, self._limit, self.active)
         return ret
 
@@ -82,53 +81,53 @@ class Modifier(object):
 
 class Move(Modifier):
     def __init__(self, scene, id,
-                 step, direction,
+                 x_delta=0, y_delta=0, w_delta=0, h_delta=0,
                  windows=None, blocks=None, active=True, interval=1, limit=0):
 
         super().__init__(scene, id, interval, limit, windows, blocks, active)
 
-        self._direction = MoveDirection[direction]
-        self._step = step
+        self._x_delta, self._y_delta = x_delta, y_delta
+        self._w_delta, self._h_delta = w_delta, h_delta
 
     def execute(self, target):
-        if not isinstance(target, Window) and not isinstance(target, Block):
+        if isinstance(target, Window):
+            target.x += self._x_delta
+            target.y += self._y_delta
+            target.width += self._w_delta
+            target.height += self._h_delta
+        elif isinstance(target, Block):
+            target.x += self._x_delta
+            target.y += self._y_delta
+        else:
             raise Exception("Unhandled type <%s>" % type(target))
 
-        if self._direction == MoveDirection.NORTH:
-            target.y = target.y - self._step
-        elif self._direction == MoveDirection.SOUTH:
-            target.y = target.y + self._step
-        elif self._direction == MoveDirection.WEST:
-            target.x = target.x - self._step
-        elif self._direction == MoveDirection.EAST:
-            target.x = target.x + self._step
-        else:
-            raise Exception("Unknown direction <%s>" % self._direction.name)
-
     def __str__(self):
-        ret = 'Move(' + Modifier.__str__(self)
-        ret += ", step:%d, direction:%s)\n" % (
-            self._step, self._direction)
+        ret = Modifier.__str__(self)
+        ret += ", x_delta:%d, y_delta:%d, w_delta:%d, h_delta:%d)\n" % (
+            self._x_delta, self._y_delta, self._w_delta, self._h_delta)
         ret += self.target_desc()
         return ret
 
 
-class Resize(Modifier):
-    def __init__(self, name, step=1):
-        super().__init__(name)
-        self._step = step
+class Flip(Modifier):
+    def __init__(self, scene, id,
+                 loop=True,
+                 windows=None, blocks=None, active=True, interval=1, limit=0):
+        super().__init__(scene, id, interval, limit, windows, blocks, active)
+        self._loop = loop
 
     def execute(self, target):
-        if isinstance(target, Window):
-            window = target
-            if window.width() + window.x() < app.WIDTH - self._step:
-                window.set_width(window.width() + self._step)
+        if isinstance(target, Block) and isinstance(target.ingredient, Bitmap):
+            bitmap = target.ingredient
+            bitmap.flip(self._loop)
         else:
-            raise Exception("Unhandled type")
+            raise Exception("Unhandled type <%s>" % type(target))
 
-    def dump(self):
-        logger.debug("    name: %s, step: %d" % (self._name, self._step))
-        super().dump()
+    def __str__(self):
+        ret = Modifier.__str__(self)
+        ret += ", loop:%d)\n" % (self._loop)
+        ret += self.target_desc()
+        return ret
 
 
 class Rotate(Modifier):
@@ -147,15 +146,3 @@ class Rotate(Modifier):
     def dump(self):
         logger.debug("    name: %s, angle: %d" % (self._name, self._step_angle))
         super().dump()
-
-
-class Slide(Modifier):
-    def __init__(self, name):
-        super().__init__(name)
-
-    def execute(self, target):
-        if isinstance(target, Block) and isinstance(target.ingredient(), Bitmap):
-            bitmap = target.ingredient()
-            bitmap.slide()
-        else:
-            raise Exception("Unhandled type %s" % target.__class__.__name__)

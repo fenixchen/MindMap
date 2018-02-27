@@ -10,13 +10,3 @@ class PixelFormat(Enum):
 
     def __int__(self):
         return self.value
-
-
-class MoveDirection(Enum):
-    NORTH = 0
-    SOUTH = 1
-    WEST = 2
-    EAST = 3
-
-    def __int__(self):
-        return self.value

@@ -3,7 +3,6 @@
 import abc
 
 from ingredient import Ingredient
-import math
 
 
 class Plot(Ingredient):
@@ -12,7 +11,7 @@ class Plot(Ingredient):
 
     def color(self, window, color_index):
         if self._palette is None:
-            return window.palette().color(color_index)
+            return window.palette.color(color_index)
         else:
             return self._palette.color(color_index)
 
@@ -78,6 +77,49 @@ class Rectangle(Plot):
                 self._palette)
 
 
+class Line(Plot):
+    def __init__(self, scene, id, color, weight, x1, y1, x2, y2, palette=None):
+        super().__init__(scene, id, palette)
+        self._color = color
+        self._weight = weight
+        self._x1, self._y1, self._x2, self._y2 = x1, y1, x2, y2
+
+    def height(self, window):
+        if self._y2 > self._y1:
+            return self._y2 - self._y1 + 1
+        else:
+            return self._y1 - self._y2 + 1
+
+    def start_y(self):
+        return min(self._y1, self._y2)
+
+    def plot_line(self, window_line_buf, window, y, block_x):
+        if self._y2 != self._y1:
+            slope = (self._x2 - self._x1) / (self._y2 - self._y1)
+            px = self._x1 + int(slope * (y - self._y1) + 0.5)
+            window_line_buf[px] = self.color(window, self._color)
+        else:
+            if y == self._y1:
+                for x in range(block_x + self._x1, block_x + self._x2):
+                    window_line_buf[x] = self.color(window, self._color)
+
+    def __str__(self):
+        return "%s(id:%s, (%d, %d) - (%d, %x), color:%#x, weight:%d, palette:%s)" % \
+               (type(self), self._id, self._x1, self._y1, self._x2, self._y2,
+                self._color,
+                self._weight,
+                self._palette)
+
+
+'''
+    def rotate(self, angle):
+        cos_val = math.cos(angle / 180)
+        sin_val = math.sin(angle / 180)
+        x_delta = self._x1 - self._x2
+        y_delta = self._y1 - self._y2
+        self._x1 = self._x2 + int(cos_val * x_delta - sin_val * y_delta + 0.5)
+        self._y1 = self._y2 + int(sin_val * x_delta + cos_val * y_delta + 0.5)
+
 class Circle(Plot):
     def __init__(self, name, color, weight, center_x, center_y, radius, palette=None, bgcolor=None):
         super().__init__(name, palette)
@@ -98,37 +140,4 @@ class Circle(Plot):
         window_line_buf[self._center_x + rx] = self.color(window, self._color)
         window_line_buf[self._center_x - rx] = self.color(window, self._color)
 
-
-class Line(Plot):
-    def __init__(self, name, color, weight, x1, y1, x2, y2, palette=None):
-        super().__init__(name, palette)
-        self._color = color
-        self._weight = weight
-        self._x1, self._y1, self._x2, self._y2 = x1, y1, x2, y2
-
-    def height(self, window):
-        if self._y2 > self._y1:
-            return self._y2 - self._y1 + 1
-        else:
-            return self._y1 - self._y2 + 1
-
-    def start_y(self):
-        return min(self._y1, self._y2)
-
-    def rotate(self, angle):
-        cos_val = math.cos(angle / 180)
-        sin_val = math.sin(angle / 180)
-        x_delta = self._x1 - self._x2
-        y_delta = self._y1 - self._y2
-        self._x1 = self._x2 + int(cos_val * x_delta - sin_val * y_delta + 0.5)
-        self._y1 = self._y2 + int(sin_val * x_delta + cos_val * y_delta + 0.5)
-
-    def plot_line(self, window_line_buf, window, y, block_x):
-        if self._y2 != self._y1:
-            slope = (self._x2 - self._x1) / (self._y2 - self._y1)
-            px = self._x1 + int(slope * (y - self._y1) + 0.5)
-            window_line_buf[px] = self.color(window, self._color)
-        else:
-            if y == self._y1:
-                for x in range(block_x + self._x1, block_x + self._x2):
-                    window_line_buf[x] = self.color(window, self._color)
+'''

@@ -54,7 +54,7 @@ class Block(object):
 
 
 class Window(object):
-    def __init__(self, scene, id, x, y, width, height, palette, blocks,
+    def __init__(self, scene, id, x, y, width, height, zorder, palette, blocks,
                  alpha=1.0, visible=True):
         self._scene = scene
         self._id = id
@@ -62,6 +62,7 @@ class Window(object):
         self._y = y
         self._width = width
         self._height = height
+        self._zorder = zorder
         self._visible = visible
         self._palette = scene.find_palette(palette)
         self._blocks = []
@@ -78,6 +79,10 @@ class Window(object):
     def id(self):
         return self._id
 
+    @property
+    def zorder(self):
+        return self._zorder
+    
     @property
     def visible(self):
         return self._visible
@@ -149,8 +154,8 @@ class Window(object):
         return WindowLineBuf(self, self._x, window_line_buf)
 
     def __str__(self):
-        ret = "%s(%s, (%d, %d), %d x %d)\n" % \
-              (type(self), self._id, self._x, self._y, self._width, self._height)
+        ret = "%s(%s, (%d, %d), %d x %d, zorder:%d)\n" % \
+              (type(self), self._id, self._x, self._y, self._width, self._height, self._zorder)
         for block in self._blocks:
             ret += "\t%s @(%d, %d)\n" % (block.ingredient.id, block.x, block.y)
         return ret

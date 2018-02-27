@@ -10,7 +10,7 @@ Refresh after Tick
 TICK = 10
 WIDTH = 640
 HEIGHT = 480
-FRAME_COUNT = 100
+FRAME_COUNT = 9999
 
 logger = Log.get_logger("app")
 

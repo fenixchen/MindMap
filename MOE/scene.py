@@ -104,10 +104,14 @@ class Scene(object):
         for item in config['Windows']:
             obj = self._create_object(item)
             self._windows.append(obj)
+        self.sort_windows()
 
         for item in config['Modifiers']:
             obj = self._create_object(item)
             self._modifiers.append(obj)
+
+    def sort_windows(self):
+        self._windows.sort(key=lambda window: window.zorder, reverse=False)
 
     def _create_object(self, item):
         assert (len(item.keys()) > 0)
@@ -154,8 +158,3 @@ class Scene(object):
             str += '\t%s\n' % ingredient
         return str
 
-
-if __name__ == '__main__':
-    scene = Scene('scene1/osd.yaml')
-    app = app.App(scene)
-    app.run()
