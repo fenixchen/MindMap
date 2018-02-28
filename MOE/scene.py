@@ -22,7 +22,13 @@ class Scene(object):
         self._modifiers = []
         self._width = -1
         self._height = -1
+        self._frames = 1
+        self._ticks = 20
         self.load(yaml_file)
+
+    @property
+    def filename(self):
+        return self._yaml_file
 
     @property
     def width(self):
@@ -31,6 +37,14 @@ class Scene(object):
     @property
     def height(self):
         return self._height
+
+    @property
+    def frames(self):
+        return self._frames
+
+    @property
+    def ticks(self):
+        return self._ticks
 
     def find_palette(self, id):
         if id in self._palettes:
@@ -91,6 +105,8 @@ class Scene(object):
                 config['height'] is not None)
         self._width = config['width']
         self._height = config['height']
+        self._frames = 1 if 'frames' not in config else int(config['frames'])
+
         logger.debug('Width:%d, Height:%d' % (self._width, self._height))
 
         for item in config['Palettes']:
@@ -158,4 +174,3 @@ class Scene(object):
         for ingredient in self._ingredients:
             str += '\t%s\n' % ingredient
         return str
-

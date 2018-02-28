@@ -55,6 +55,11 @@ class Rectangle(Plot):
                 self._border_color_right = border_color[3]
             else:
                 raise Exception('Unknown border color value <%s>' % border_color)
+        else:
+            self._border_color_top = 0
+            self._border_color_bottom = 0
+            self._border_color_left = 0
+            self._border_color_right = 0
 
         if gradient_mode is not None:
             self._gradient_mode = GradientMode[gradient_mode]

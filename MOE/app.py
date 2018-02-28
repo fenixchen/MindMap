@@ -4,14 +4,6 @@ from tkinter import *
 
 from engine import *
 
-"""
-Refresh after Tick
-"""
-TICK = 10
-WIDTH = 640
-HEIGHT = 480
-FRAME_COUNT = 9999
-
 logger = Log.get_logger("app")
 
 
@@ -57,10 +49,7 @@ class App(object):
     def __init__(self, *scenes):
         self._root = Tk()
         self._root.title(TITLE_STRING)
-        self._canvas = Canvas(self._root, width=WIDTH, height=HEIGHT, bg="#FFFFFF")
-        self._canvas.bind('<Button-1>', self.mouse_click)
-        self._canvas.bind('<Button-3>', self.mouse_click)
-        self._canvas.pack()
+        self._canvas = None
         self._image_on_canvas = None
 
         self._frame_index = 0
@@ -75,12 +64,21 @@ class App(object):
 
     def _paint(self):
         scene = self._scenes[self._scene_index]
-
+        if self._canvas is None:
+            self._canvas = Canvas(self._root,
+                                  width=scene.width,
+                                  height=scene.height)
+            self._canvas.bind('<Button-1>', self.mouse_click)
+            self._canvas.bind('<Button-3>', self.mouse_click)
+            self._canvas.pack()
         image = PhotoImage(width=scene.width, height=scene.height)
 
         painter = Painter(image)
 
-        self._root.title(TITLE_STRING + "[%d/%d]" % (self._frame_index, FRAME_COUNT - 1))
+        self._root.title(TITLE_STRING + "[%d/%d] - %s" % (
+            self._frame_index + 1,
+            scene.frames,
+            scene.filename))
 
         scene.draw(painter)
 
@@ -94,8 +92,8 @@ class App(object):
         self._canvas.img = image
         self._frame_index = self._frame_index + 1
 
-        if self._frame_index < FRAME_COUNT:
-            self._canvas.after(TICK, self._paint)
+        if self._frame_index < scene.frames:
+            self._canvas.after(scene.ticks, self._paint)
 
     def run(self):
         self._paint()

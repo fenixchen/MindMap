@@ -1,14 +1,12 @@
 OSD:
   width: 640
   height: 480
-
+  ticks: 20
+  frames: 255
   Palettes:
     - Palette:
         id: rgb24
         colors: RGB24
-    - Palette:
-        id: grayscale
-        colors: GRAYSCALE
 
     - Palette:
         id: palette2
@@ -89,7 +87,7 @@ OSD:
         width: parent
         height: parent
         border_color: 0x0000FF
-        bgcolor: 0xFFFFFF
+        bgcolor: 0x808080
         width: parent
         height: parent
         palette: rgb24
@@ -113,42 +111,6 @@ OSD:
         x2: 100
         y2: 100
 
-    - Line:
-        id: button_horizontal_hl
-        weight: 2
-        color: 250
-        x1: 0
-        y1: 0
-        x2: 85
-        y2: 0
-
-    - Line:
-        id: button_vertical_hl
-        weight: 2
-        color: 250
-        x1: 0
-        y1: 0
-        x2: 0
-        y2: 30
-
-    - Line:
-        id: button_horizontal_ll
-        weight: 2
-        color: 80
-        x1: 0
-        y1: 0
-        x2: 85
-        y2: 0
-
-    - Line:
-        id: button_vertical_ll
-        weight: 2
-        color: 80
-        x1: 0
-        y1: 0
-        x2: 0
-        y2: 28
-
     - Rectangle:
         id: rect1
         width: parent
@@ -170,11 +132,12 @@ OSD:
         palette: rgb24
         zorder: 3
         alpha: 0.5
-        visible: false
+        visible: true
         blocks:
           - [b0, blue_border, 0, 0]
           - [bl, bitmap_bird, 50, 50]
           - [b2, line0, 0, 0]
+
 
     - Window:
         id: window1
@@ -182,9 +145,9 @@ OSD:
         y: 250
         width: 200
         height: 200
-        palette: grayscale
+        palette: rgb24
         zorder: 1
-        visible: false
+        visible: true
         blocks:
           - [border0, red_border, 0, 0]
           - [b0, char_O, 10, 10]
@@ -200,55 +163,9 @@ OSD:
         palette: rgb24
         zorder: 2
         alpha: 1
-        visible: false
+        visible: true
         blocks:
           - [ani, bitmap_ani, 0, 0]
-
-    - Window:
-        id: button0
-        x: 400
-        y: 300
-        width: 85
-        height: 30
-        palette: grayscale
-        visible: false
-        blocks:
-          - [b0, char_P_24, 15, 7]
-          - [b1, char_U_24, 30, 7]
-          - [b2, char_S_24, 45, 7]
-          - [b3, char_H_24, 60, 7]
-          - [b4, button_horizontal_hl, 0, 0]
-          - [b5, button_vertical_hl, 0, 0]
-          - [b6, button_horizontal_ll, 0, 28]
-          - [b7, button_vertical_ll, 83, 2]
-
-    - Window:
-        id: window_rect
-        x: 100
-        y: 100
-        width: 300
-        height: 300
-        palette: rgb24
-        blocks:
-          - [b0, rect1, 0, 0]
-
-    - Window:
-        id: button1
-        x: 500
-        y: 300
-        width: 85
-        height: 30
-        palette: grayscale
-        visible: false
-        blocks:
-          - [b0, char_D_24, 15, 7]
-          - [b1, char_O_24, 30, 7]
-          - [b2, char_W_24, 45, 7]
-          - [b3, char_N_24, 60, 7]
-          - [b6, button_horizontal_hl, 0, 28]
-          - [b7, button_vertical_hl, 83, 2]
-          - [b4, button_horizontal_ll, 0, 0]
-          - [b5, button_vertical_ll, 0, 0]
 
 
   Modifiers:

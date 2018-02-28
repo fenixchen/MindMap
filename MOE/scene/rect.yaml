@@ -8,10 +8,6 @@ OSD:
         colors: RGB24
 
     - Palette:
-        id: grayscale
-        colors: GRAYSCALE
-
-    - Palette:
         id: palette2
         colors: [0xFF0000, 0x00FF00, 0x0000FF]
 

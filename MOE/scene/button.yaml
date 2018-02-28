@@ -1,7 +1,8 @@
 OSD:
   width: 640
   height: 480
-
+  frames: 1
+  ticks: 20
   Palettes:
     - Palette:
         id: rgb24
