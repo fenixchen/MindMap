@@ -1,9 +1,10 @@
 # -*- coding:utf-8 -*-
 
 
+from font import Font
+from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
-from font import Font
 
 FONT = Font()
 
@@ -36,14 +37,14 @@ class Glyph(Ingredient):
 
     def draw_line(self, line_buf, window, y, block_x):
         assert (0 <= y < self._height)
+        color = self.color(window, self._color)
         width = min(self._width, window.width - block_x)
         for x in range(self._pitch * y, self._pitch * y + width):
             index = self._data[x]
             if index == 0:
                 continue
-            color = window._palette.color(index, self._color)
-            line_buf[block_x + x - self._width * y] = color
-        pass
+            col = block_x + x - self._width * y
+            line_buf[col] = ImageUtil.blend_pixel(line_buf[col], color, index / 255)
 
     def __str__(self):
         ret = "id: %s, %d x %d, size: %d" % (self._id, self._width, self._height, len(self._data))

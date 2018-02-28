@@ -26,6 +26,12 @@ class Ingredient(object):
     def palette(self):
         return self._palette
 
+    def color(self, window, color_index):
+        if self._palette is None:
+            return window.palette.color(color_index)
+        else:
+            return self._palette.color(color_index)
+
     def start_y(self):
         """
         返回需要画的起始行

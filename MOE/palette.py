@@ -14,8 +14,6 @@ class Palette(object):
         if isinstance(colors, str):
             if colors == 'RGB24':
                 self._pixel_format = PixelFormat.RGB
-            elif colors == 'GRAYSCALE':
-                self._pixel_format = PixelFormat.GRAY_SCALE
             else:
                 raise Exception('Unknown colors %s' % colors)
         else:

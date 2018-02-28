@@ -3,18 +3,13 @@
 import abc
 
 from enumerate import GradientMode
+from imageutil import ImageUtil
 from ingredient import Ingredient
 
 
 class Plot(Ingredient):
     def __init__(self, scene, id, palette):
         super().__init__(scene, id, palette)
-
-    def color(self, window, color_index):
-        if self._palette is None:
-            return window.palette.color(color_index)
-        else:
-            return self._palette.color(color_index)
 
     def palette_name(self):
         if self._palette is None:
@@ -77,7 +72,6 @@ class Rectangle(Plot):
         else:
             self._bgcolor_start = None
             self._bgcolor_end = None
-
 
     def _plot_border(self, window_line_buf, window, y, block_x):
 
@@ -155,17 +149,25 @@ class Rectangle(Plot):
         color = bg_color_start
         step = 0
 
-        for x in range(block_x + self._border_weight, block_x + width - self._border_weight):
+        for x in range(block_x + self._border_weight,
+                       block_x + width - self._border_weight):
             if self._gradient_mode == GradientMode.NONE:
                 factor = 0
             elif self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
                 factor = x - block_x + self._border_weight
             elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
                 factor = y
+            elif self._gradient_mode == GradientMode.TOP_LEFT_TO_BOTTOM_RIGHT:
+                factor = (x - block_x + self._border_weight) * y
+            elif self._gradient_mode == GradientMode.BOTTOM_LEFT_TO_TOP_RIGHT:
+                factor = (x - block_x + self._border_weight) * (height - self._border_weight - y)
+            else:
+                raise Exception('Unknown gradient mode <%s>' % self._gradient_mode.name)
+            color = ImageUtil.color_add(bg_color_start,
+                                        R_delta * factor,
+                                        G_delta * factor,
+                                        B_delta * factor)
 
-            color = (int((bg_color_start >> 16 & 0xFF) + R_delta * factor) << 16) | \
-                    (int((bg_color_start >> 8 & 0xFF) + G_delta * factor) << 8) | \
-                    (int((bg_color_start >> 0 & 0xFF) + B_delta * factor) << 0)
             window_line_buf[x] = color
 
     def plot_line(self, window_line_buf, window, y, block_x):
@@ -192,7 +194,7 @@ class Rectangle(Plot):
                    self._border_weight,
                    -1 if self._bgcolor_start is None else self._bgcolor_start,
                    -1 if self._bgcolor_end is None else self._bgcolor_end,
-                   self._palette.id)
+                   self._palette.id if self._palette is not None else 'None')
 
 
 class Line(Plot):
