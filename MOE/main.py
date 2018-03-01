@@ -1,11 +1,15 @@
 # -*- coding:utf-8 -*-
 
 import app
-import scene
+from scene import Scene
 
 if __name__ == '__main__':
-    # scene = scene.Scene('scene/button.yaml')
-    # scene = scene.Scene('scene/rect.yaml')
-    scene = scene.Scene('scene/window.yaml')
-    app = app.App(scene)
+    app = app.App(
+        Scene('scene/line.yaml'),
+        Scene('scene/rect.yaml'),
+        Scene('scene/progressbar.yaml'),
+        Scene('scene/menu.yaml'),
+        Scene('scene/button.yaml'),
+        Scene('scene/window.yaml')
+    )
     app.run()

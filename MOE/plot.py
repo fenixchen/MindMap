@@ -5,9 +5,12 @@ import abc
 from enumerate import GradientMode
 from imageutil import ImageUtil
 from ingredient import Ingredient
+from enumerate import *
 
 
 class Plot(Ingredient):
+    DASH_WIDTH = 10
+
     def __init__(self, scene, id, palette):
         super().__init__(scene, id, palette)
 
@@ -27,10 +30,14 @@ class Plot(Ingredient):
 
 class Rectangle(Plot):
     def __init__(self, scene, id, width, height, border_color=0,
-                 border_weight=0, bgcolor=None, gradient_mode=None, palette=None):
+                 border_weight=0, bgcolor=None,
+                 gradient_mode=GradientMode.NONE.name,
+                 border_style=LineStyle.SOLID.name,
+                 palette=None):
         super().__init__(scene, id, palette)
         self._width = width
         self._height = height
+        self._border_style = LineStyle[border_style]
         if width == "parent":
             self._width = -1
         else:
@@ -78,6 +85,28 @@ class Rectangle(Plot):
             self._bgcolor_start = None
             self._bgcolor_end = None
 
+    def _check_border_style(self, x):
+        if self._border_style == LineStyle.SOLID:
+            return True
+        elif self._border_style == LineStyle.DASH:
+            return (x % (Plot.DASH_WIDTH + 1)) < Plot.DASH_WIDTH - 1
+        elif self._border_style == LineStyle.DOT1:
+            return (x % 2) == 0
+        elif self._border_style == LineStyle.DOT2:
+            return (x % 3) == 0
+        elif self._border_style == LineStyle.DOT3:
+            return (x % 4) == 0
+        elif self._border_style == LineStyle.DASH_DOT:
+            index = x % (Plot.DASH_WIDTH + 3)
+            return index < Plot.DASH_WIDTH or index == Plot.DASH_WIDTH + 1
+        elif self._border_style == LineStyle.DASH_DOT_DOT:
+            index = x % (Plot.DASH_WIDTH + 5)
+            return index < Plot.DASH_WIDTH or \
+                   index == Plot.DASH_WIDTH + 1 or \
+                   index == Plot.DASH_WIDTH + 3
+        else:
+            raise Exception('Unknown border_style <%s>' % self._border_style)
+
     def _plot_border(self, window_line_buf, window, y, block_x):
 
         width = window.width if self._width == -1 else self._width
@@ -88,46 +117,54 @@ class Rectangle(Plot):
             color = self.color(window, self._border_color_top)
             margin = self._border_weight - (self._border_weight - y)
             for x in range(block_x + margin, block_x + width - margin):
-                window_line_buf[x] = color
+                if self._check_border_style(x):
+                    window_line_buf[x] = color
 
             # draw left border  + top border
             color = self.color(window, self._border_color_left)
             for x in range(block_x, block_x + y):
-                window_line_buf[x] = color
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
 
             # draw right border  + top border
             color = self.color(window, self._border_color_right)
             for x in range(block_x + width - y, block_x + width):
-                window_line_buf[x] = color
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
             return True
 
-        elif y >= window.height - self._border_weight:
+        elif y >= height - self._border_weight:
             # draw bottom border
             color = self.color(window, self._border_color_bottom)
-            margin = (window.height - y)
+            margin = (height - y)
             for x in range(block_x + margin, block_x + width - margin):
-                window_line_buf[x] = color
+                if self._check_border_style(x):
+                    window_line_buf[x] = color
 
             # draw left border  + bottom border
             color = self.color(window, self._border_color_left)
             for x in range(block_x, block_x + height - y):
-                window_line_buf[x] = color
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
 
             # draw right border  + bottom border
             color = self.color(window, self._border_color_right)
             for x in range(block_x + width - (height - y), block_x + width):
-                window_line_buf[x] = color
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
 
             return True
 
         else:
             color = self.color(window, self._border_color_left)
             for x in range(block_x, block_x + self._border_weight):
-                window_line_buf[x] = color
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
 
             color = self.color(window, self._border_color_right)
-            for x in range(window.width - self._border_weight, window.width):
-                window_line_buf[x] = color
+            for x in range(block_x + width - self._border_weight, block_x + width):
+                if self._check_border_style(y):
+                    window_line_buf[x] = color
             return False
 
     def _fill_rect(self, window_line_buf, window, y, block_x):
@@ -203,34 +240,66 @@ class Rectangle(Plot):
 
 
 class Line(Plot):
-    def __init__(self, scene, id, color, weight, x1, y1, x2, y2, palette=None):
+    def __init__(self, scene, id, color, weight, x1, y1, x2, y2,
+                 style=LineStyle.SOLID.name,
+                 palette=None):
         super().__init__(scene, id, palette)
         self._color = color
         self._weight = weight
         self._x1, self._y1, self._x2, self._y2 = x1, y1, x2, y2
+        self._style = LineStyle[style]
 
     def height(self, window):
-        if self._y2 > self._y1:
+        if self._y2 == self._y1:
             return self._y2 - self._y1 + 1 + self._weight
+        elif self._y2 > self._y1:
+            return self._y2 - self._y1 + 1
         else:
-            return self._y1 - self._y2 + 1 + self._weight
+            return self._y1 - self._y2 + 1
 
     def start_y(self):
         return min(self._y1, self._y2)
+
+    def _check_style(self, x):
+        if self._style == LineStyle.SOLID:
+            return True
+        elif self._style == LineStyle.DASH:
+            return (x % (Plot.DASH_WIDTH + 1)) < Plot.DASH_WIDTH - 1
+        elif self._style == LineStyle.DOT1:
+            return (x % 2) == 0
+        elif self._style == LineStyle.DOT2:
+            return (x % 3) == 0
+        elif self._style == LineStyle.DOT3:
+            return (x % 4) == 0
+        elif self._style == LineStyle.DASH_DOT:
+            index = x % (Plot.DASH_WIDTH + 3)
+            return index < Plot.DASH_WIDTH or index == Plot.DASH_WIDTH + 1
+        elif self._style == LineStyle.DASH_DOT_DOT:
+            index = x % (Plot.DASH_WIDTH + 5)
+            return index < Plot.DASH_WIDTH or \
+                   index == Plot.DASH_WIDTH + 1 or \
+                   index == Plot.DASH_WIDTH + 3
+        else:
+            raise Exception('Unknown style <%s>' % self._style)
 
     def plot_line(self, window_line_buf, window, y, block_x):
         color = self.color(window, self._color)
         if self._y2 == self._y1:
             if self._y1 <= y < self._y1 + self._weight:
                 for x in range(block_x + self._x1, block_x + self._x2):
-                    window_line_buf[x] = color
+                    if self._check_style(x):
+                        window_line_buf[x] = color
         elif self._x1 == self._x2:
             for i in range(self._weight):
-                window_line_buf[block_x + self._x1 + i] = color
+                index = block_x + self._x1 + i
+                if self._check_style(y):
+                    window_line_buf[index] = color
         else:
             slope = (self._x2 - self._x1) / (self._y2 - self._y1)
             px = self._x1 + int(slope * (y - self._y1) + 0.5)
-            window_line_buf[block_x + px] = color
+            for i in range(self._weight):
+                if self._check_style(y):
+                    window_line_buf[block_x + px + i] = color
 
     def __str__(self):
         return "%s(id:%s, (%d, %d) - (%d, %x), color:%#x, weight:%d, palette:%s)" % \

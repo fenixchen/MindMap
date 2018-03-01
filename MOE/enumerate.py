@@ -20,3 +20,16 @@ class GradientMode(Enum):
 
     def __int__(self):
         return self.value
+
+
+class LineStyle(Enum):
+    SOLID = 0
+    DASH = 1
+    DOT1 = 2
+    DOT2 = 3
+    DOT3 = 4
+    DASH_DOT = 5
+    DASH_DOT_DOT = 6
+
+    def __int__(self):
+        return self.value

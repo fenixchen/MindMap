@@ -61,6 +61,8 @@ class App(object):
             self._scene_index = (self._scene_index + 1) % len(self._scenes)
         elif event.num == 3:
             self._scene_index = (self._scene_index - 1 + len(self._scenes)) % len(self._scenes)
+        self._frame_index = 0
+        self._canvas.after(0, self._paint)
 
     def _paint(self):
         scene = self._scenes[self._scene_index]
