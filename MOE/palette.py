@@ -2,6 +2,9 @@
 
 from enumerate import *
 from log import Log
+import struct
+import hexdump
+from collections import namedtuple
 
 logger = Log.get_logger("engine")
 
@@ -24,7 +27,7 @@ class Palette(object):
     def id(self):
         return self._id
 
-    def color(self, index, based_color = None):
+    def color(self, index, based_color=None):
         if self._pixel_format == PixelFormat.RGB:
             return index
         else:
@@ -34,3 +37,8 @@ class Palette(object):
     def __str__(self):
         return "%s(id: %s, %s, size:%d)" % \
                (type(self), self._id, self._pixel_format, len(self._lut))
+
+    def generate(self):
+        b = struct.pack('<HH', self._pixel_format.value, len(self._lut))
+        b += struct.pack('%sI' % len(self._lut), *self._lut)
+        return b

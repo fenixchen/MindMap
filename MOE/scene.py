@@ -3,10 +3,12 @@
 import os
 
 import yaml
-
+import hexdump
 from app import *
 from engine import *
 from font import Font
+import shutil
+from enumerate import *
 
 logger = Log.get_logger("engine")
 
@@ -174,3 +176,43 @@ class Scene(object):
         for ingredient in self._ingredients:
             str += '\t%s\n' % ingredient
         return str
+
+    def generate_binary(self, target_folder=None):
+        assert self._yaml_file is not None
+        if target_folder is None:
+            path = os.path.splitext(self._yaml_file)
+            target_folder = path[0] + '.generated'
+        logger.debug('Target folder:%s' % target_folder)
+        if os.path.exists(target_folder):
+            shutil.rmtree(target_folder, ignore_errors=True)
+        os.mkdir(target_folder)
+
+        file_offset = 0
+        global_data = dict()
+        global_data['palettes'] = []
+        object_index = 0
+
+        bin_filename = target_folder + "/osd.bin"
+        bin_file = open(bin_filename, "wb+")
+
+        for (id, palette) in self._palettes.items():
+            bins = palette.generate()
+            object_id = make_object_id(OSDObjectType.PALETTE, object_index)
+            bytes = struct.pack('<II', object_id, len(bins))
+            bytes += bins
+            global_data['palettes'].append(dict(
+                object_id=object_id,
+                id=palette.id,
+                offset=file_offset))
+            file_offset += len(bytes)
+            bin_file.write(bytes)
+
+        with open(target_folder + '/global.yaml', 'w') as meta_file:
+            yaml.dump(global_data,
+                      meta_file,
+                      default_flow_style=False,
+                      indent=4)
+        bin_file.close()
+
+        with open(bin_filename, 'rb') as f:
+            hexdump.hexdump(f.read())
