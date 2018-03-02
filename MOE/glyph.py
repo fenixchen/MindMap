@@ -5,6 +5,7 @@ from font import Font
 from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
+from osdobject import OSDObjectType
 
 FONT = Font()
 
@@ -49,3 +50,9 @@ class Glyph(Ingredient):
     def __str__(self):
         ret = "id: %s, %d x %d, size: %d" % (self._id, self._width, self._height, len(self._data))
         return ret
+
+    def type(self):
+        return OSDObjectType.GLYPH
+
+    def to_binary(self):
+        return b'\x00'

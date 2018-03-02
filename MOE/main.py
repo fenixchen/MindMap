@@ -4,7 +4,6 @@ import app
 from scene import Scene
 
 if __name__ == '__main__':
-    '''
     app = app.App(
         Scene('scene/line.yaml'),
         Scene('scene/rect.yaml'),
@@ -14,7 +13,8 @@ if __name__ == '__main__':
         Scene('scene/window.yaml')
     )
     app.run()
+
     '''
     scene = Scene('Scene/hello.yaml')
     scene.generate_binary()
-    #app.App(scene).run()
+    '''

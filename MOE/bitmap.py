@@ -4,6 +4,7 @@
 from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
+from osdobject import OSDObjectType
 
 logger = Log.get_logger("engine")
 
@@ -49,3 +50,9 @@ class Bitmap(Ingredient):
         return "%s(id: %s, palette: %s, %d x %d, count: %d, len: %d)" % \
                (type(self), self._id, self._palette, self._width, self._height,
                 self._count, len(self._data))
+
+    def type(self):
+        return OSDObjectType.BITMAP
+
+    def to_binary(self):
+        return b'\x00'

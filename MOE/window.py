@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from log import Log
+from osdobject import *
 
 logger = Log.get_logger("engine")
 
@@ -53,7 +54,7 @@ class Block(object):
         return self._ingredient
 
 
-class Window(object):
+class Window(OSDObject):
     def __init__(self, scene, id, x, y, width, height, palette, blocks,
                  zorder=0, alpha=1.0, visible=True):
         self._scene = scene
@@ -82,7 +83,7 @@ class Window(object):
     @property
     def zorder(self):
         return self._zorder
-    
+
     @property
     def visible(self):
         return self._visible
@@ -159,6 +160,12 @@ class Window(object):
         for block in self._blocks:
             ret += "\t%s @(%d, %d)\n" % (block.ingredient.id, block.x, block.y)
         return ret
+
+    def type(self):
+        return OSDObjectType.RECTANGLE
+
+    def to_binary(self):
+        return b'\x00'
 
 
 class WindowLineBuf(object):

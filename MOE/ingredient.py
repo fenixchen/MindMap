@@ -2,9 +2,10 @@
 
 import abc
 
+from osdobject import OSDObject
 
-class Ingredient(object):
-    __metaclass__ = abc.ABCMeta
+
+class Ingredient(OSDObject):
 
     def __init__(self, scene, id, palette):
         self._scene = scene

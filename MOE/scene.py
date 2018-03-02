@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 
 import os
+import shutil
 
-import yaml
 import hexdump
+import yaml
+
 from app import *
 from engine import *
 from font import Font
-import shutil
-from enumerate import *
 
 logger = Log.get_logger("engine")
 
@@ -188,24 +188,26 @@ class Scene(object):
         os.mkdir(target_folder)
 
         file_offset = 0
-        global_data = dict()
-        global_data['palettes'] = []
+        global_data = []
         object_index = 0
 
         bin_filename = target_folder + "/osd.bin"
         bin_file = open(bin_filename, "wb+")
-
-        for (id, palette) in self._palettes.items():
-            bins = palette.generate()
-            object_id = make_object_id(OSDObjectType.PALETTE, object_index)
-            bytes = struct.pack('<II', object_id, len(bins))
-            bytes += bins
-            global_data['palettes'].append(dict(
-                object_id=object_id,
-                id=palette.id,
-                offset=file_offset))
-            file_offset += len(bytes)
-            bin_file.write(bytes)
+        objects_list = (self._palettes, self._ingredients)  # , self._windows, self._modifiers)
+        for objects in objects_list:
+            items = objects if isinstance(objects, list) else objects.values()
+            for item in items:
+                bins = item.to_binary()
+                object_id = OSDObject.make_object_id(item.type(), object_index)
+                bytes = struct.pack('<II', object_id, len(bins))
+                bytes += bins
+                global_data.append(dict(
+                    object_id=object_id,
+                    id=item.id,
+                    offset=file_offset,
+                    size=len(bytes)))
+                file_offset += len(bytes)
+                bin_file.write(bytes)
 
         with open(target_folder + '/global.yaml', 'w') as meta_file:
             yaml.dump(global_data,

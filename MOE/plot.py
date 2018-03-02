@@ -2,10 +2,10 @@
 
 import abc
 
-from enumerate import GradientMode
+from enumerate import *
 from imageutil import ImageUtil
 from ingredient import Ingredient
-from enumerate import *
+from osdobject import OSDObjectType
 
 
 class Plot(Ingredient):
@@ -174,9 +174,8 @@ class Rectangle(Plot):
         bg_color_start = self.color(window, self._bgcolor_start)
         bg_color_end = self.color(window, self._bgcolor_end)
 
-        if self._gradient_mode == GradientMode.NONE:
-            steps = 1
-        elif self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
+        steps = 1
+        if self._gradient_mode == GradientMode.LEFT_TO_RIGHT:
             steps = width - self._border_weight * 2
         elif self._gradient_mode == GradientMode.TOP_TO_BOTTOM:
             steps = height - self._border_weight * 2
@@ -237,6 +236,12 @@ class Rectangle(Plot):
                    -1 if self._bgcolor_start is None else self._bgcolor_start,
                    -1 if self._bgcolor_end is None else self._bgcolor_end,
                    self._palette.id if self._palette is not None else 'None')
+
+    def type(self):
+        return OSDObjectType.RECTANGLE
+
+    def to_binary(self):
+        return b'\x00'
 
 
 class Line(Plot):
@@ -308,6 +313,11 @@ class Line(Plot):
                 self._weight,
                 self._palette)
 
+    def type(self):
+        return OSDObjectType.LINE
+
+    def to_binary(self):
+        return b'\x00'
 
 '''
     def rotate(self, angle):

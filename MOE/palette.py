@@ -1,15 +1,15 @@
 # -*- coding:utf-8 -*-
 
+import struct
+
 from enumerate import *
 from log import Log
-import struct
-import hexdump
-from collections import namedtuple
+from osdobject import OSDObject, OSDObjectType
 
 logger = Log.get_logger("engine")
 
 
-class Palette(object):
+class Palette(OSDObject):
     def __init__(self, scene, id, colors):
         self._id = id
         self._scene = scene
@@ -22,6 +22,9 @@ class Palette(object):
         else:
             self._pixel_format = PixelFormat.LUT
             self._lut = colors
+
+    def type(self):
+        return OSDObjectType.PALETTE
 
     @property
     def id(self):
@@ -38,7 +41,7 @@ class Palette(object):
         return "%s(id: %s, %s, size:%d)" % \
                (type(self), self._id, self._pixel_format, len(self._lut))
 
-    def generate(self):
+    def to_binary(self):
         b = struct.pack('<HH', self._pixel_format.value, len(self._lut))
         b += struct.pack('%sI' % len(self._lut), *self._lut)
         return b
