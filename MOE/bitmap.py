@@ -5,6 +5,7 @@ from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
 from osdobject import OSDObjectType
+import struct
 
 logger = Log.get_logger("engine")
 
@@ -14,7 +15,10 @@ class Bitmap(Ingredient):
     位图对象
     """
 
-    def __init__(self, scene, id, bitmaps, width=-1, height=-1, palette=None):
+    def width(self):
+        return self._width
+
+    def __init__(self, scene, id, bitmaps, palette=None):
         super().__init__(scene, id, palette)
         self._data = []
         if isinstance(bitmaps, str):
@@ -27,9 +31,6 @@ class Bitmap(Ingredient):
         self._current = 0
         assert (len(self._data) == self._width * self._height * self._count)
 
-    def width(self):
-        return self._width
-
     def height(self, window=None):
         return self._height
 
@@ -39,7 +40,7 @@ class Bitmap(Ingredient):
             start = self._current * self._width * self._height + self._width * y
             for x in range(start, start + width):
                 index = self._data[x]
-                line_buf[block_x + x - start] = self._palette.color(index)
+                line_buf[block_x + x - start] = self.color(window, index)
 
     def flip(self, loop):
         if not loop and self._current >= self._count - 1:
@@ -55,4 +56,17 @@ class Bitmap(Ingredient):
         return OSDObjectType.BITMAP
 
     def to_binary(self):
-        return b'\x00'
+        """
+        struct bitmap_binary{
+            u16 width;
+            u16 height;
+            u8 count;
+            u8 size_hi;
+            u16 size_lo;
+            u8 data[(size_hi << 16) + size_lo]
+        }
+        """
+        bins = struct.pack('<HH', self._width, self._height)
+        size = len(self._data)
+        bins += struct.pack('<BBH', self._count, (size >> 16 & 0xFF), (size & 0xFFFF))
+        return bins
