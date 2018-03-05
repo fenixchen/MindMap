@@ -5,6 +5,7 @@ import struct
 from enumerate import *
 from log import Log
 from osdobject import OSDObject, OSDObjectType
+from imageutil import ImageUtil
 
 logger = Log.get_logger("engine")
 
@@ -37,11 +38,36 @@ class Palette(OSDObject):
             assert index < len(self._lut), "{} should < {}".format(index, len(self._lut))
             return self._lut[index]
 
+    @property
+    def entry_bits(self):
+        lut_len = len(self._lut)
+        b = 1
+        while (1 << b) < lut_len:
+            b += 1
+        return b
+
     def __str__(self):
         return "%s(id: %s, %s, size:%d)" % \
                (type(self), self._id, self._pixel_format, len(self._lut))
 
     def to_binary(self):
-        b = struct.pack('<HH', self._pixel_format.value, len(self._lut))
-        b += struct.pack('%sI' % len(self._lut), *self._lut)
-        return b
+        """
+        struct rgb {
+            u8 r, g, b;
+        }
+        struct data {
+            u8 pixel_format;
+            u8 entry_bits;
+            u16 lut_entry_count;
+            rgb lut[lut_entry_count]
+        };
+        :return: binary
+        """
+        bins = struct.pack('<BBH', self._pixel_format.value,
+                           self.entry_bits, len(self._lut))
+        for i in range(len(self._lut)):
+            r, g, b = ImageUtil.rgb(self._lut[i])
+            bins += struct.pack('<BBB', r, g, b)
+        while len(bins) % 4 != 0:
+            bins += b'\x00'
+        return bins

@@ -20,6 +20,9 @@ class OSDObjectType(Enum):
 
 class OSDObject(metaclass=abc.ABCMeta):
 
+    def __init__(self):
+        self._object_id = None
+
     @abc.abstractmethod
     def type(self):
         pass
@@ -27,6 +30,15 @@ class OSDObject(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def to_binary(self):
         pass
+
+    @property
+    def object_id(self):
+        assert self._object_id is not None
+        return self._object_id
+
+    @object_id.setter
+    def object_id(self, object_id):
+        self._object_id = object_id
 
     @staticmethod
     def make_object_id(type, index):

@@ -2,6 +2,7 @@
 
 from log import Log
 from osdobject import *
+import struct
 
 logger = Log.get_logger("engine")
 
@@ -56,7 +57,7 @@ class Block(object):
 
 class Window(OSDObject):
     def __init__(self, scene, id, x, y, width, height, palette, blocks,
-                 zorder=0, alpha=1.0, visible=True):
+                 zorder=0, alpha=0xFF, visible=True):
         self._scene = scene
         self._id = id
         self._x = x
@@ -159,13 +160,48 @@ class Window(OSDObject):
               (type(self), self._id, self._x, self._y, self._width, self._height, self._zorder)
         for block in self._blocks:
             ret += "\t%s @(%d, %d)\n" % (block.ingredient.id, block.x, block.y)
-        return ret
+        return ret.rstrip('\n')
 
     def type(self):
-        return OSDObjectType.RECTANGLE
+        return OSDObjectType.WINDOW
 
     def to_binary(self):
-        return b'\x00'
+        """
+        struct block_binary {
+            u32 ingredient_id;
+            u16 x;
+            u16 y
+        };
+
+        struct window_binary {
+            u16 x;
+            u16 y;
+
+            u16 width;
+            u16 height;
+
+            u32 palette_id;
+
+            u8 z_order;
+            u8 visible;
+            u8 alpha;
+            u8 block_count;
+
+            block_binary blocks[block_count];
+        }
+        """
+        bins  = struct.pack('<HH', self._x, self._y)
+        bins += struct.pack('<HH', self._width, self._height)
+        bins += struct.pack('<I', self._palette.object_id)
+        bins += struct.pack('<BBBB', self._zorder,
+                            1 if self._visible else 0,
+                            self._alpha,
+                            len(self._blocks))
+
+        for block in self._blocks:
+            bins += struct.pack('<I', block.ingredient.object_id)
+            bins += struct.pack('<HH', block.x, block.y)
+        return bins
 
 
 class WindowLineBuf(object):
@@ -178,11 +214,14 @@ class WindowLineBuf(object):
         self._start_x = start_x
         self._buffer = buffer
 
+    @property
     def window(self):
         return self._window
 
+    @property
     def start_x(self):
         return self._start_x
 
+    @property
     def buffer(self):
         return self._buffer

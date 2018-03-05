@@ -6,6 +6,7 @@ from imageutil import ImageUtil
 from ingredient import Ingredient
 from log import Log
 from osdobject import OSDObjectType
+import struct
 
 FONT = Font()
 
@@ -16,7 +17,7 @@ class Glyph(Ingredient):
 
     def __init__(self, scene, id, font_width, char, height=-1, palette=None, color=None):
         super().__init__(scene, id, palette)
-        self._left, self._top, bitmap = FONT.load_char(char, font_width)
+        self._bitmap_left, self._bitmap_top, bitmap = FONT.load_char(char, font_width)
         self._height = bitmap.rows
         self._width = bitmap.width
         self._data = bitmap.buffer[:]
@@ -55,4 +56,26 @@ class Glyph(Ingredient):
         return OSDObjectType.GLYPH
 
     def to_binary(self):
-        return b'\x00'
+        """
+        struct glyph_binary{
+            u8 bitmap_left;
+            u8 bitmap_top;
+            u8 bitmap_width;
+            u8 bitmap_height;
+
+            u8 pitch;
+            u8 font_width;
+            u16 char;
+
+            u32 palette_id;
+
+            u8 color;
+            u8 reserved[3];
+        }
+        """
+        bins = struct.pack('<BBBB', self._bitmap_left, self._bitmap_top,
+                           self._width, self._height)
+        bins += struct.pack('<BBH', self._pitch, self._font_width, ord(self._char))
+        bins += struct.pack('<I', 0 if self._palette is None else self._palette.object_id)
+        bins += struct.pack('<Bxxx', self._color)
+        return bins

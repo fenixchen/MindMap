@@ -79,6 +79,37 @@ OSD:
         border_style: DASH_DOT_DOT
         palette: rgb24
 
+    - Rectangle:
+        id: rect21
+        width: 150
+        height: 150
+        border_weight: 1
+        border_color: 0x00FFFF
+        border_style: DOT1
+        gradient_mode: NONE
+        palette: rgb24
+
+    - Rectangle:
+        id: rect31
+        width: 130
+        height: 130
+        border_weight: 1
+        border_color: 0x00FFDF
+        border_style: DOT2
+        gradient_mode: NONE
+        palette: rgb24
+
+    - Rectangle:
+        id: rect41
+        width: 110
+        height: 110
+        border_weight: 1
+        border_color: 0x00FFBF
+        border_style: DOT3
+        gradient_mode: NONE
+        palette: rgb24
+
+
   Windows:
     - Window:
         id: window_rect
@@ -95,3 +126,6 @@ OSD:
           - [b1, rect5, 160, 160]
           - [b1, rect6, 320, 160]
           - [b1, rect7, 0, 320]
+          - [b1, rect21, 160, 320]
+          - [b1, rect31, 170, 330]
+          - [b1, rect41, 180, 340]

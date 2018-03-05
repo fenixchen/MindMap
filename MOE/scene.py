@@ -2,13 +2,21 @@
 
 import os
 import shutil
-
 import hexdump
 import yaml
+import struct
 
-from app import *
-from engine import *
+from log import Log
+from imageutil import ImageUtil
 from font import Font
+from rectangle import Rectangle
+from palette import Palette
+from line import Line
+from window import Window
+from bitmap import Bitmap
+from glyph import Glyph
+from modifier import *
+from osdobject import OSDObjectType, OSDObject
 
 logger = Log.get_logger("engine")
 
@@ -151,10 +159,28 @@ class Scene(object):
 
     def paint_line(self, y, line_buffer, painter):
         str_color = '{'
-        for x, pixel in enumerate(line_buffer.buffer()):
+        for pixel in line_buffer:
             str_color = str_color + (" #%06x" % pixel)
         str_color = str_color + '}'
         painter.set_pixel(0, y, str_color)
+
+    def merge_line(self, dst_buf, src_buf, src_buf_offset, src_alpha):
+        """
+        blending源buffer到目的buffer中
+        """
+        assert (src_buf_offset + len(src_buf) < self._width)
+        for x in range(src_buf_offset, src_buf_offset + len(src_buf)):
+            dst_buf[x] = ImageUtil.blend_pixel(dst_buf[x], src_buf[x - src_buf_offset], src_alpha)
+
+    def _merge_line_buffers(self, window_line_buffers, width):
+        line_buffer = [0] * width
+        for window_line_buf in window_line_buffers:
+            self.merge_line(line_buffer,
+                            window_line_buf.buffer,
+                            window_line_buf.start_x,
+                            window_line_buf.window.alpha)
+
+        return line_buffer
 
     def draw(self, painter):
         for y in range(0, self._height):
@@ -164,7 +190,7 @@ class Scene(object):
                     continue
                 if window.y <= y < window.y + window.height:
                     window_line_buffers.append(window.draw_line(y))
-            line_buffer = LineBuf(window_line_buffers, self._width)
+            line_buffer = self._merge_line_buffers(window_line_buffers, self._width)
             self.paint_line(y, line_buffer, painter)
 
     def __str__(self):
@@ -178,6 +204,14 @@ class Scene(object):
         return str
 
     def generate_binary(self, target_folder=None):
+        """
+        struct object_binary{
+            u16 object_type;
+            u16 object_index;
+            u32 object_size;
+            u8 object_data[object_size];
+        }
+        """
         assert self._yaml_file is not None
         if target_folder is None:
             path = os.path.splitext(self._yaml_file)
@@ -193,22 +227,29 @@ class Scene(object):
 
         bin_filename = target_folder + "/osd.bin"
         bin_file = open(bin_filename, "wb+")
-        objects_list = (self._palettes, self._ingredients)  # , self._windows, self._modifiers)
+        objects_list = (self._palettes, self._ingredients, self._windows, self._modifiers)
         for objects in objects_list:
             items = objects if isinstance(objects, list) else objects.values()
             for item in items:
+                item.object_id = OSDObject.make_object_id(item.type(), object_index)
                 bins = item.to_binary()
-                object_id = OSDObject.make_object_id(item.type(), object_index)
-                bytes = struct.pack('<II', object_id, len(bins))
-                bytes += bins
+                if len(bins) % 4 != 0:
+                    raise Exception('binary length of <%s> should 4 bytes align: %d' % (item.id, len(bins)))
+                gen_bytes = struct.pack('<II', item.object_id, len(bins))
+                gen_bytes += bins
                 global_data.append(dict(
-                    object_id=object_id,
+                    object_id=item.object_id,
                     id=item.id,
                     offset=file_offset,
-                    size=len(bytes)))
-                file_offset += len(bytes)
-                bin_file.write(bytes)
-
+                    size=len(gen_bytes)))
+                bin_file.write(gen_bytes)
+                logger.debug('To_binary object<%s> id<0x%x> type<%s> '
+                             'bytes<0x%x> offset<0x%x>' % (
+                                 item.id, item.object_id, item.type().name,
+                                 len(gen_bytes), file_offset))
+                logger.debug('\n' + hexdump.hexdump(gen_bytes, result='return'))
+                file_offset += len(gen_bytes)
+        logger.debug('To_binary, TOTAL LENGTH <0x%x>', file_offset)
         with open(target_folder + '/global.yaml', 'w') as meta_file:
             yaml.dump(global_data,
                       meta_file,
@@ -217,4 +258,4 @@ class Scene(object):
         bin_file.close()
 
         with open(bin_filename, 'rb') as f:
-            hexdump.hexdump(f.read())
+            logger.debug('\n' + hexdump.hexdump(f.read(), result='return'))

@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 from bitmap import *
-from plot import *
 from window import *
+from osdobject import OSDObject, OSDObjectType
+import struct
 
 logger = Log.get_logger("engine")
 
 
-class Modifier(object):
+class Modifier(OSDObject):
     __metaclass = abc.ABCMeta
 
     @abc.abstractmethod
@@ -76,7 +77,7 @@ class Modifier(object):
             ret += '\twindow: <%s>\n' % window.id
         for block in self._blocks:
             ret += '\tblock: <%s>\n' % block.full_id
-        return ret
+        return ret.rstrip('\n')
 
 
 class Move(Modifier):
@@ -108,6 +109,39 @@ class Move(Modifier):
         ret += self.target_desc()
         return ret
 
+    def type(self):
+        return OSDObjectType.MOVE
+
+    def to_binary(self):
+        """
+        struct move_data{
+            u8 x_delta;
+            u8 y_delta;
+            u8 w_delta;
+            u8 h_delta;
+
+            u8 active;
+            u8 interval;
+            u16 limit;
+
+            u16 window_count;
+            u16 block_count;
+
+            u32 windows[window_count]
+            u32 blocks[block_count]
+        }
+        """
+        bins = struct.pack('<BBBB', self._x_delta, self._y_delta, self._w_delta, self._h_delta)
+        bins += struct.pack('<BBH', self._active, self._interval, self._limit)
+        bins += struct.pack('<HH', len(self._windows), len(self._blocks))
+        for window in self._windows:
+            bins += struct.pack('<I', window.object_id)
+
+        for block in self._blocks:
+            bins += struct.pack('<I', block.object_id)
+
+        return bins
+
 
 class Flip(Modifier):
     def __init__(self, scene, id,
@@ -129,7 +163,14 @@ class Flip(Modifier):
         ret += self.target_desc()
         return ret
 
+    def type(self):
+        return OSDObjectType.FLIP
 
+    def to_binary(self):
+        return b'\x00' * 4
+
+
+'''
 class Rotate(Modifier):
     def __init__(self, name, step_angle=15):
         super().__init__(name)
@@ -146,3 +187,4 @@ class Rotate(Modifier):
     def dump(self):
         logger.debug("    name: %s, angle: %d" % (self._name, self._step_angle))
         super().dump()
+'''

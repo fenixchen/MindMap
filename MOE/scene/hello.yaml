@@ -1,29 +1,62 @@
 OSD:
-  width: 500
-  height: 500
+  width: 800
+  height: 600
+  ticks: 5
+  frames: 255
 
   Palettes:
     - Palette:
         id: palette0
         colors: [0x0000FF, 0xFF0000, 0x00FF00, 0xFF00FF, 0x505050,0xF0F0F0]
+    - Palette:
+        id: rgb24
+        colors: RGB24
 
   Ingredients:
     - Rectangle:
         id: rect1
-        width: 150
-        height: 150
+        width: parent
+        height: parent
         border_color: [0, 1, 2, 3]
         border_weight: 20
         bgcolor: [4, 5]
         gradient_mode: TOP_TO_BOTTOM
+
+    - Glyph:
+        id: char_P
+        font_width: 20
+        palette: palette0
+        color: 1
+        char: 'P'
+
+    - Bitmap:
+        id: bitmap_ani
+        palette: rgb24
+        bitmaps: ['images/1.bmp','images/2.bmp',
+          'images/3.bmp','images/4.bmp','images/5.bmp','images/6.bmp']
 
   Windows:
     - Window:
         id: window_rect
         x: 100
         y: 100
-        width: 200
-        height: 200
+        width: 300
+        height: 300
         palette: palette0
         blocks:
           - [b0, rect1, 0, 0]
+          - [b1, char_P, 100, 100]
+          - [b2, bitmap_ani, 150, 150]
+
+  Modifiers:
+    - Move:
+        id: move0
+        active: true
+        interval: 1
+        limit: 5
+        windows: [window_rect]
+        blocks: []
+        x_delta: 10
+        y_delta: 0
+        w_delta: 10
+        h_delta: 10
